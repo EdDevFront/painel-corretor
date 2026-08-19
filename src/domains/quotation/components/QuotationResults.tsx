@@ -21,7 +21,7 @@ export function QuotationResults({ quotation, onRestart, onBack }: ResultsProps)
 
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", width: "100%" }}>
-      <div style={{ display: "flex", justifyBetween: "space-between", alignItems: "center", marginBottom: "2rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
         <h2>Resultados da Cotação</h2>
         <button className="btn-secondary" onClick={onRestart}>Nova Cotação</button>
       </div>
