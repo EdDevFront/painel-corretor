@@ -334,21 +334,24 @@ export function QuotationResults({
             <div className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs print:border-none print:shadow-none text-left">
               <h3 className="font-bold text-slate-900 text-base mb-1">{selectedPlan.operatorName}</h3>
               
-              <div className="flex gap-2 mt-2 mb-4 no-print items-center w-full">
+              <div className="mt-2 mb-4 no-print space-y-2 text-left">
                 <input 
                   type="text" 
                   placeholder="Adicione um comentário..." 
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  className="flex-1 p-2 text-sm border border-slate-200 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50"
+                  className="w-full p-2 text-sm border border-slate-200 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50"
                 />
-                <button 
-                  type="button"
-                  onClick={handleSaveComment}
-                  className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3 py-2.5 rounded-md transition-colors shrink-0 uppercase cursor-pointer"
-                >
-                  Salvar
-                </button>
+                <div className="flex justify-end">
+                  <button 
+                    type="button"
+                    disabled={!comment.trim()}
+                    onClick={handleSaveComment}
+                    className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-white text-xs font-bold px-4 py-2 rounded-md transition-colors uppercase"
+                  >
+                    Salvar
+                  </button>
+                </div>
               </div>
 
               {comment && (
@@ -369,11 +372,10 @@ export function QuotationResults({
               </div>
 
               <div className="border-t border-slate-100 pt-4 flex flex-col gap-1 mb-5 text-left">
-                <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Total Mensal</span>
+                <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Mensalidade</span>
                 <div className="text-3xl font-black text-slate-900 whitespace-nowrap flex items-baseline gap-1">
                   <span className="text-sm font-normal text-slate-400">R$</span>
                   <span>{selectedPlan.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span>
-                  <span className="text-sm font-normal text-slate-400">/mês</span>
                 </div>
               </div>
 
