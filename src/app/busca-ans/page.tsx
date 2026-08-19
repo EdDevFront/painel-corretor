@@ -5,7 +5,6 @@ import { DashboardLayout } from "../../domains/shared/components/DashboardLayout
 import { FiSearch, FiExternalLink } from "react-icons/fi";
 
 export default function BuscaANSPage() {
-  const router = useRouter();
   return (
     <DashboardLayout activeTab="busca">
       <div className="w-full">

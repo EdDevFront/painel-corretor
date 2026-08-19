@@ -33,15 +33,24 @@ function CriarCotacaoContent() {
     setCurrentStep,
   } = useQuotation(quotationId);
 
+  const [showSuccess, setShowSuccess] = useState(false);
   const [viewingPlanName, setViewingPlanName] = useState<string | null>(null);
 
   const handleBackToDashboard = () => {
     router.push("/cotacoes");
   };
 
+  const handleFinalize = async (prefs: Parameters<typeof updatePreferences>[0]) => {
+    await updatePreferences(prefs);
+    await finalizeQuotation();
+    setShowSuccess(true);
+  };
+
   const handleBackClick = () => {
     if (viewingPlanName) {
       setViewingPlanName(null);
+    } else if (currentStep > 1 && currentStep < 5) {
+      prevStep();
     } else {
       handleBackToDashboard();
     }
@@ -57,31 +66,43 @@ function CriarCotacaoContent() {
   };
 
   const isDetailMode = !!quotationId && quotation?.status === "completed" && currentStep === 5;
-  const pageTitle = isDetailMode 
-    ? (viewingPlanName ? `${quotation?.title} — ${viewingPlanName}` : (quotation?.title || "Detalhes da Cotação")) 
+  const pageTitle = isDetailMode
+    ? (viewingPlanName ? `${quotation?.title} — ${viewingPlanName}` : (quotation?.title || "Detalhes da Cotação"))
     : (quotationId ? "Editar Cotação" : "Nova Cotação");
 
   return (
     <div className="w-full relative z-10 text-left">
-      <div className="flex items-center gap-4 mb-8 no-print justify-start text-left">
-        <IconButton 
-          type="button" 
-          onClick={handleBackClick}
-          className="h-10 w-10 border-slate-200"
-          title="Voltar"
-        >
-          <FiArrowLeft className="text-slate-600 text-lg" />
-        </IconButton>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight text-left">
-          {pageTitle}
-        </h1>
-      </div>
-      
+      {/* Top back button — hidden on step 1 */}
+      {currentStep !== 1 && (
+        <div className="flex items-center gap-4 mb-8 no-print justify-start text-left">
+          <IconButton
+            type="button"
+            onClick={handleBackClick}
+            className="h-10 w-10 border-slate-200"
+            title="Voltar"
+          >
+            <FiArrowLeft className="text-slate-600 text-lg" />
+          </IconButton>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight text-left">
+            {pageTitle}
+          </h1>
+        </div>
+      )}
+
+      {/* Title only (no back button) on step 1 */}
+      {currentStep === 1 && (
+        <div className="mb-8">
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight text-left">
+            {pageTitle}
+          </h1>
+        </div>
+      )}
+
       <div className="max-w-[800px] mx-auto w-full">
-        {!isDetailMode && (
+        {!isDetailMode && !showSuccess && (
           <div className="no-print">
-            <QuotationStepper 
-              currentStep={currentStep} 
+            <QuotationStepper
+              currentStep={currentStep}
               isStepClickable={isStepClickable}
               onStepClick={setCurrentStep}
             />
@@ -127,7 +148,7 @@ function CriarCotacaoContent() {
 
             {currentStep === 2 && (
               <QuotationProfile
-                onBack={handleBackToDashboard}
+                onBack={prevStep}
                 onSubmit={() => nextStep()}
                 isLoading={isLoading}
               />
@@ -147,15 +168,45 @@ function CriarCotacaoContent() {
               <QuotationPreferences
                 initialPreferences={quotation.preferences}
                 onBack={prevStep}
-                onSubmit={async (prefs) => {
-                  await updatePreferences(prefs);
-                  await finalizeQuotation();
-                }}
+                onSubmit={handleFinalize}
                 isLoading={isLoading}
               />
             )}
 
-            {currentStep === 5 && quotation && (
+            {/* Success screen shown right after finalization */}
+            {showSuccess && quotation && (
+              <div className="flex flex-col items-center justify-center py-16 text-center animate-fadeIn">
+                <div className="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mb-6">
+                  <svg className="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Cotação criada com sucesso!</h2>
+                <p className="text-slate-400 text-sm max-w-[400px] mb-2">
+                  A cotação <strong className="text-slate-700">{quotation.title}</strong> foi gerada para{" "}
+                  <strong className="text-slate-700">{quotation.clientName}</strong>.
+                </p>
+                <p className="text-slate-400 text-xs mb-8">
+                  {quotation.lives?.length ?? 0} vidas incluídas • Gerada em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleBackToDashboard}
+                    className="px-5 py-2.5 text-sm font-semibold border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer bg-white"
+                  >
+                    Ir para Cotações
+                  </button>
+                  <button
+                    onClick={() => router.push(`/cotacoes/${quotation.id}`)}
+                    className="px-5 py-2.5 text-sm font-bold bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+                  >
+                    Ver comparativo →
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {currentStep === 5 && !showSuccess && quotation && (
               <QuotationResults
                 quotation={quotation}
                 onRestart={handleBackToDashboard}

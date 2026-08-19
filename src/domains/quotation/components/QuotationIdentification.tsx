@@ -106,10 +106,7 @@ export function QuotationIdentification({
       </div>
 
       <div className="flex gap-4 mt-6">
-        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack} disabled={isLoading}>
-          Voltar
-        </Button>
-        <Button type="submit" size="lg" className="flex-1 flex items-center justify-center gap-2" disabled={isLoading}>
+        <Button type="submit" size="lg" className="w-full flex items-center justify-center gap-2" disabled={isLoading}>
           {isLoading && (
             <div className="animate-spin-custom rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
           )}
