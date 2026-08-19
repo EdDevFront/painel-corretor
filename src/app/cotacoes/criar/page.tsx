@@ -33,11 +33,19 @@ function CriarCotacaoContent() {
     setCurrentStep,
   } = useQuotation(quotationId);
 
+  const [viewingPlanName, setViewingPlanName] = useState<string | null>(null);
+
   const handleBackToDashboard = () => {
     router.push("/cotacoes");
   };
 
-
+  const handleBackClick = () => {
+    if (viewingPlanName) {
+      setViewingPlanName(null);
+    } else {
+      handleBackToDashboard();
+    }
+  };
 
   const isStepClickable = (stepNum: number): boolean => {
     if (stepNum === 1) return true;
@@ -49,20 +57,22 @@ function CriarCotacaoContent() {
   };
 
   const isDetailMode = !!quotationId && quotation?.status === "completed" && currentStep === 5;
-  const pageTitle = isDetailMode ? "Detalhes da Cotação" : (quotationId ? "Editar Cotação" : "Nova Cotação");
+  const pageTitle = isDetailMode 
+    ? (viewingPlanName ? `${quotation?.title} — ${viewingPlanName}` : (quotation?.title || "Detalhes da Cotação")) 
+    : (quotationId ? "Editar Cotação" : "Nova Cotação");
 
   return (
-    <div className="w-full relative z-10">
-      <div className="flex items-center gap-4 mb-8 no-print">
+    <div className="w-full relative z-10 text-left">
+      <div className="flex items-center gap-4 mb-8 no-print justify-start text-left">
         <IconButton 
           type="button" 
-          onClick={handleBackToDashboard}
+          onClick={handleBackClick}
           className="h-10 w-10 border-slate-200"
-          title="Voltar para Cotações"
+          title="Voltar"
         >
           <FiArrowLeft className="text-slate-600 text-lg" />
         </IconButton>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight text-left">
           {pageTitle}
         </h1>
       </div>
@@ -158,6 +168,8 @@ function CriarCotacaoContent() {
                   }
                 }}
                 isDetailView={isDetailMode}
+                selectedPlanName={viewingPlanName}
+                onSelectPlanName={setViewingPlanName}
               />
             )}
           </>

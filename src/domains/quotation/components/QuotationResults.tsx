@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Quotation, OperatorResult } from "../types";
 import { Button } from "../../../components/ui/Button";
 import { IconButton } from "../../../components/ui/IconButton";
@@ -16,14 +16,54 @@ interface ResultsProps {
   onEdit?: () => void;
   onDelete?: () => void;
   isDetailView?: boolean;
+  selectedPlanName?: string | null;
+  onSelectPlanName?: (planName: string | null) => void;
 }
 
-export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelete, isDetailView }: ResultsProps) {
+export function QuotationResults({ 
+  quotation, 
+  onRestart, 
+  onBack, 
+  onEdit, 
+  onDelete, 
+  isDetailView,
+  selectedPlanName,
+  onSelectPlanName
+}: ResultsProps) {
   const results = quotation.results;
   const preferredOp = quotation.preferences.operatorId;
 
-  // Plan Detail Sub-view State
-  const [selectedPlan, setSelectedPlan] = useState<OperatorResult | null>(null);
+  // Plan Detail Sub-view State (Lifting capability support)
+  const [localSelectedPlan, setLocalSelectedPlan] = useState<OperatorResult | null>(null);
+
+  const selectedPlan = selectedPlanName !== undefined
+    ? results?.operatorResults.find(r => r.operatorName === selectedPlanName) || null
+    : localSelectedPlan;
+
+  const setSelectedPlan = (plan: OperatorResult | null) => {
+    if (onSelectPlanName) {
+      onSelectPlanName(plan ? plan.operatorName : null);
+    } else {
+      setLocalSelectedPlan(plan);
+    }
+  };
+
+  // Comments State persisting to localStorage
+  const [comment, setComment] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && selectedPlan) {
+      const saved = localStorage.getItem(`comment_${quotation.id}_${selectedPlan.operatorId}`) || "";
+      setComment(saved);
+    }
+  }, [selectedPlan, quotation.id]);
+
+  const handleSaveComment = () => {
+    if (selectedPlan) {
+      localStorage.setItem(`comment_${quotation.id}_${selectedPlan.operatorId}`, comment);
+      alert("Comentário salvo com sucesso!");
+    }
+  };
   
   // Custom Modals & Menu States
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -132,6 +172,20 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
     const ageGroups = getAgeGroups(selectedPlan);
     return (
       <div className="w-full relative z-10 animate-fadeIn text-left">
+        {/* Breadcrumbs Navigation */}
+        <nav className="flex items-center gap-2 text-xs text-slate-400 mb-6 no-print font-medium justify-start text-left">
+          <a href="/cotacoes" className="hover:text-slate-600 transition-colors">Cotações</a>
+          <span>/</span>
+          <button 
+            onClick={() => setSelectedPlan(null)}
+            className="hover:text-slate-600 transition-colors border-none bg-transparent cursor-pointer font-medium p-0"
+          >
+            {quotation.title || "Comparativo"}
+          </button>
+          <span>/</span>
+          <span className="text-slate-700 font-semibold">{selectedPlan.operatorName}</span>
+        </nav>
+
         {/* Print Identification Header */}
         {renderPrintHeader()}
 
@@ -212,17 +266,34 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
           <div className="flex-1 min-w-[280px] space-y-4 print:w-full print:order-1 text-left">
             <div className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs print:border-none print:shadow-none text-left">
               <h3 className="font-bold text-slate-900 text-base mb-1">{selectedPlan.operatorName}</h3>
-              <input 
-                type="text" 
-                placeholder="Adicione um comentário..." 
-                className="w-full mt-2 mb-4 p-2 text-sm border border-slate-200 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50 no-print"
-              />
+              
+              <div className="flex gap-2 mt-2 mb-4 no-print">
+                <input 
+                  type="text" 
+                  placeholder="Adicione um comentário..." 
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  className="flex-1 p-2 text-sm border border-slate-200 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50"
+                />
+                <Button 
+                  onClick={handleSaveComment}
+                  className="text-xs px-3"
+                >
+                  Salvar
+                </Button>
+              </div>
+
+              {comment && (
+                <div className="hidden print:block bg-slate-50 p-3 rounded-lg border border-slate-100 mb-4 text-xs text-slate-600">
+                  <strong>Observação:</strong> {comment}
+                </div>
+              )}
 
               <div className="space-y-3 mb-6">
                 {ageGroups.map((g) => (
                   <div key={g.bracket} className="flex justify-between text-sm text-slate-600">
                     <span>{g.bracket}</span>
-                    <strong className="font-semibold text-slate-900">
+                    <strong className="font-semibold text-slate-900 whitespace-nowrap">
                       {g.count} x R$ {g.unitPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                     </strong>
                   </div>
@@ -231,7 +302,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
 
               <div className="border-t border-slate-100 pt-4 flex justify-between items-baseline mb-5">
                 <span className="text-sm text-slate-400">Total Mensal</span>
-                <div className="text-3xl font-black text-slate-900">
+                <div className="text-3xl font-black text-slate-900 whitespace-nowrap">
                   R$ {selectedPlan.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}<span className="text-sm font-normal text-slate-400">/mês</span>
                 </div>
               </div>
@@ -277,84 +348,24 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
     );
   }
 
-  // Hospitals Accreditations list modal layout renderer
-  function renderHospitalsModal() {
-    if (!isHospitalsOpen) return null;
-    return (
-      <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fadeIn no-print text-left">
-        <div className="bg-white rounded-2xl p-6 w-full max-w-[650px] shadow-2xl relative border border-slate-100 flex flex-col max-h-[80vh]">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <button 
-              onClick={() => setIsHospitalsOpen(false)}
-              className="flex items-center gap-2 text-slate-700 hover:text-slate-950 font-bold text-sm bg-transparent border-none cursor-pointer"
-            >
-              <FiArrowLeft className="text-base" />
-              <span>Rede credenciada</span>
-            </button>
-            
-            <div className="w-[180px]">
-              <input 
-                type="text"
-                placeholder="Procurar..."
-                value={hospitalsSearch}
-                onChange={(e) => setHospitalsSearch(e.target.value)}
-                className="w-full py-1 px-3 text-xs border border-slate-200 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50"
-              />
-            </div>
-          </div>
-
-          {/* Selected Plan Details */}
-          <div className="flex flex-col items-center justify-center py-4 border-b border-slate-100 mb-4">
-            <div className="h-14 w-14 bg-amber-500/10 text-amber-600 rounded-xl flex items-center justify-center font-extrabold text-xl border border-amber-500/20 shadow-xs mb-2">
-              {selectedPlan ? selectedPlan.operatorName.substring(0, 2).toUpperCase() : "OP"}
-            </div>
-            <h4 className="font-extrabold text-slate-950 text-base">{selectedPlan ? selectedPlan.operatorName : "Plano Selecionado"}</h4>
-            <span className="text-xs uppercase font-bold tracking-wider text-slate-400">Enfermaria</span>
-          </div>
-
-          {/* Scrollable Accreditations List */}
-          <div className="overflow-y-auto flex-1 space-y-6 pr-2">
-            {filteredHospitals.length === 0 ? (
-              <div className="text-center py-8 text-xs text-slate-400">Nenhum hospital encontrado para a sua busca.</div>
-            ) : (
-              filteredHospitals.map(group => (
-                <div key={group.region}>
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-3 uppercase tracking-wider">
-                    <FiMapPin className="text-teal-600 text-base" />
-                    <span>{group.region}</span>
-                  </div>
-                  <div className="space-y-2">
-                    {group.items.map(item => (
-                      <div key={item.name} className="bg-slate-50/50 border border-slate-100 rounded-lg p-3 flex justify-between items-center text-sm">
-                        <div>
-                          <div className="font-bold text-slate-800">{item.name}</div>
-                          <div className="text-slate-400 mt-0.5">{item.sub}</div>
-                        </div>
-                        <span className="bg-white border border-slate-100 text-xs font-bold text-slate-500 px-2 py-0.5 rounded-sm">{item.type}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   // --- 2. RENDER MAIN RESULTS COMPARATIVE GRID ---
   return (
     <div className="w-full relative z-10 animate-fadeIn text-left">
+      {/* Breadcrumbs Navigation */}
+      <nav className="flex items-center gap-2 text-xs text-slate-400 mb-6 no-print font-medium justify-start text-left">
+        <a href="/cotacoes" className="hover:text-slate-600 transition-colors">Cotações</a>
+        <span>/</span>
+        <span className="text-slate-700 font-semibold">{quotation.title || "Comparativo"}</span>
+      </nav>
+
       {/* Print Identification Header */}
       {renderPrintHeader()}
 
       {/* Dynamic Actions Bar at the top */}
       <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4 text-left">
         <div>
-          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">{quotation.title || "Resultado Comparativo"}</h2>
-          <p className="text-slate-400 text-sm mt-1">Cotação gerada em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}</p>
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">{quotation.title || "Resultado Comparativo"}</h2>
+          <p className="text-slate-400 text-sm mt-1">Comparativo de planos de saúde • Gerado em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}</p>
         </div>
         
         <div className="flex items-center gap-2">
@@ -447,23 +458,23 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
       {/* Grid Comparison Layout */}
       <div className="flex gap-6 items-start flex-wrap print:flex-col print:w-full print:gap-6 text-left">
         {/* Left column: Plan Cards Grid */}
-        <div className="flex-3 min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-4 print:w-full print:grid-cols-1 text-left">
+        <div className="flex-3 min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5 print:w-full print:grid-cols-1 text-left">
           {displayedResults.map((opResult: OperatorResult) => (
-            <div key={opResult.operatorId} className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs flex flex-col justify-between hover:border-slate-200 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-none print:p-0 print:mb-6 text-left">
+            <div key={opResult.operatorId} className="bg-white border border-slate-100 rounded-xl p-6 md:p-7 shadow-xs flex flex-col justify-between hover:border-slate-200 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-none print:p-0 print:mb-6 text-left">
               <div className="flex justify-between items-start mb-4">
                 <div className="h-10 w-10 bg-amber-500/10 text-amber-600 rounded-lg flex items-center justify-center font-extrabold text-sm border border-amber-500/20 shadow-xs">
                   {opResult.operatorName.substring(0, 2).toUpperCase()}
                 </div>
                 <div className="text-right">
                   <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block">Mensalidade</span>
-                  <div className="text-3xl font-black text-slate-900">
+                  <div className="text-3xl font-black text-slate-900 whitespace-nowrap">
                     R$ {opResult.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </div>
                 </div>
               </div>
 
               <div className="space-y-1 mb-5 text-left">
-                <h3 className="font-bold text-slate-900 text-base">{opResult.operatorName}</h3>
+                <h3 className="font-bold text-slate-950 text-base">{opResult.operatorName}</h3>
                 <p className="text-xs text-slate-500">Saúde {quotation.mode} • {quotation.preferences.hospitalNetwork === "premium" ? "Rede Premium" : "Rede Básica"}</p>
                 <div className="flex items-center gap-2 mt-2 flex-wrap text-xs text-slate-400">
                   <span className="bg-slate-50 px-2 py-0.5 rounded-sm">40 Hospitais</span>
@@ -474,7 +485,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               <Button 
                 type="button" 
                 variant="secondary" 
-                className="w-full text-sm py-2 normal-case font-bold no-print"
+                className="w-full text-sm py-2.5 normal-case font-bold no-print"
                 onClick={() => setSelectedPlan(opResult)}
               >
                 Ver detalhes
@@ -484,21 +495,21 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
         </div>
 
         {/* Right column: Technical Summary Sidebar */}
-        <div className="flex-1 min-w-[280px] bg-white border border-slate-100 rounded-lg p-5 shadow-xs space-y-4 print:w-full print:border-none print:shadow-none print:p-0 text-left">
+        <div className="flex-1 min-w-[280px] bg-slate-50 border border-slate-200/60 rounded-xl p-6 shadow-xs space-y-4 print:w-full print:border-none print:shadow-none print:p-0 text-left">
           <div>
             <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">Distribuição</span>
             <div className="text-lg font-bold text-slate-800 mt-1">Geral</div>
             <div className="text-sm text-slate-500 mt-0.5">{results.totalLives} {results.totalLives === 1 ? "vida" : "vidas"} cadastrada(s)</div>
           </div>
 
-          <div className="border-t border-slate-50 pt-4 print:border-none">
+          <div className="border-t border-slate-200/60 pt-4 print:border-none">
             <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">CNPJ / CPF</span>
             <div className="text-base font-semibold text-slate-800 mt-1">
               {quotation.mode === "PME" ? "Informado (PME)" : "Não informado"}
             </div>
           </div>
 
-          <div className="border-t border-slate-50 pt-4 flex items-center gap-2.5 text-sm text-slate-500 print:hidden">
+          <div className="border-t border-slate-200/60 pt-4 flex items-center gap-2.5 text-sm text-slate-500 print:hidden">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
             <div>
               <span>Criada por <strong className="font-semibold text-slate-700">{quotation.brokerName}</strong></span>

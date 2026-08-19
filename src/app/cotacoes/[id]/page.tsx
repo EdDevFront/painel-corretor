@@ -32,8 +32,18 @@ function EditarCotacaoContent() {
     setCurrentStep,
   } = useQuotation(quotationId);
 
+  const [viewingPlanName, setViewingPlanName] = useState<string | null>(null);
+
   const handleBackToDashboard = () => {
     router.push("/cotacoes");
+  };
+
+  const handleBackClick = () => {
+    if (viewingPlanName) {
+      setViewingPlanName(null);
+    } else {
+      handleBackToDashboard();
+    }
   };
 
   const isStepClickable = (stepNum: number): boolean => {
@@ -46,7 +56,9 @@ function EditarCotacaoContent() {
   };
 
   const isDetailMode = !!quotationId && quotation?.status === "completed" && currentStep === 5;
-  const pageTitle = isDetailMode ? (quotation?.title || "Detalhes da Cotação") : "Editar Cotação";
+  const pageTitle = isDetailMode 
+    ? (viewingPlanName ? `${quotation?.title} — ${viewingPlanName}` : (quotation?.title || "Detalhes da Cotação")) 
+    : "Editar Cotação";
 
   const handleEditWizard = () => {
     setCurrentStep(1);
@@ -57,9 +69,9 @@ function EditarCotacaoContent() {
       <div className="flex items-center gap-4 mb-8 no-print justify-start text-left">
         <IconButton 
           type="button" 
-          onClick={handleBackToDashboard}
+          onClick={handleBackClick}
           className="h-10 w-10 border-slate-200"
-          title="Voltar para Cotações"
+          title="Voltar"
         >
           <FiArrowLeft className="text-slate-600 text-lg" />
         </IconButton>
@@ -136,10 +148,12 @@ function EditarCotacaoContent() {
 
             {currentStep === 4 && quotation && (
               <QuotationPreferences
-                preferences={quotation.preferences}
-                onUpdatePreferences={updatePreferences}
+                initialPreferences={quotation.preferences}
                 onBack={prevStep}
-                onSubmit={finalizeQuotation}
+                onSubmit={async (prefs) => {
+                  await updatePreferences(prefs);
+                  await finalizeQuotation();
+                }}
                 isLoading={isLoading}
               />
             )}
@@ -151,6 +165,8 @@ function EditarCotacaoContent() {
                 onBack={prevStep}
                 onEdit={handleEditWizard}
                 onDelete={handleBackToDashboard}
+                selectedPlanName={viewingPlanName}
+                onSelectPlanName={setViewingPlanName}
               />
             )}
           </>
