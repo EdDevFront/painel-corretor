@@ -33,21 +33,23 @@ export function QuotationProfile({
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs max-w-[500px] mx-auto">
-      <h2 className="text-lg font-bold text-slate-900 mb-6">Configurações do Plano</h2>
+    <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
+      <h2 className="text-xl font-bold text-slate-900 mb-6">Configurações do Plano</h2>
 
-      <div className="mb-5">
-        <Select label="Acomodação" {...register("accommodation")}>
-          <option value="enfermaria">Enfermaria (Coletiva)</option>
-          <option value="apartamento">Apartamento (Individual)</option>
-        </Select>
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-4">
+        <div>
+          <Select label="Acomodação" {...register("accommodation")}>
+            <option value="enfermaria">Enfermaria (Coletiva)</option>
+            <option value="apartamento">Apartamento (Individual)</option>
+          </Select>
+        </div>
 
-      <div className="mb-6">
-        <Select label="Abrangência Geográfica" {...register("region")}>
-          <option value="nacional">Nacional</option>
-          <option value="regional">Regional</option>
-        </Select>
+        <div>
+          <Select label="Abrangência Geográfica" {...register("region")}>
+            <option value="nacional">Nacional</option>
+            <option value="regional">Regional</option>
+          </Select>
+        </div>
       </div>
 
       <div className="flex gap-4 mt-6">

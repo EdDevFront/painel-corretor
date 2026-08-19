@@ -37,31 +37,33 @@ export function QuotationIdentification({
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs max-w-[500px] mx-auto">
-      <h2 className="text-lg font-bold text-slate-900 mb-6">Identificação da Cotação</h2>
+    <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
+      <h2 className="text-xl font-bold text-slate-900 mb-6">Identificação da Cotação</h2>
       
-      <div className="mb-5">
-        <Input
-          label="Nome do Cliente"
-          placeholder="Ex: João Silva ou Empresa XYZ"
-          error={errors.clientName?.message}
-          {...register("clientName", { 
-            required: "Nome do cliente é obrigatório", 
-            minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
-          })}
-        />
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-2">
+        <div>
+          <Input
+            label="Nome do Cliente"
+            placeholder="Ex: João Silva ou Empresa XYZ"
+            error={errors.clientName?.message}
+            {...register("clientName", { 
+              required: "Nome do cliente é obrigatório", 
+              minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
+            })}
+          />
+        </div>
 
-      <div className="mb-5">
-        <Input
-          label="Nome do Corretor"
-          placeholder="Seu Nome completo"
-          error={errors.brokerName?.message}
-          {...register("brokerName", { 
-            required: "Nome do corretor é obrigatório", 
-            minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
-          })}
-        />
+        <div>
+          <Input
+            label="Nome do Corretor"
+            placeholder="Seu Nome completo"
+            error={errors.brokerName?.message}
+            {...register("brokerName", { 
+              required: "Nome do corretor é obrigatório", 
+              minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
+            })}
+          />
+        </div>
       </div>
 
       <div className="mb-6">

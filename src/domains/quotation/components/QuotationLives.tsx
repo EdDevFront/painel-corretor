@@ -37,11 +37,11 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs max-w-[600px] mx-auto">
-      <h2 className="text-lg font-bold text-slate-900 mb-6">Gerenciamento de Vidas</h2>
+    <div className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
+      <h2 className="text-xl font-bold text-slate-900 mb-6">Gerenciamento de Vidas</h2>
       
-      <form onSubmit={handleSubmit(onAddLife)} className="flex gap-4 mb-8 items-end flex-wrap">
-        <div className="flex-2 min-w-[150px]">
+      <form onSubmit={handleSubmit(onAddLife)} className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-1 mb-8 items-end">
+        <div className="md:col-span-2">
           <Input
             label="Nome"
             placeholder="Nome da pessoa"
@@ -49,7 +49,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
             {...register("name", { required: "Nome é obrigatório", minLength: { value: 3, message: "Mínimo 3 letras" } })}
           />
         </div>
-        <div className="flex-1 min-w-[120px]">
+        <div>
           <Input
             label="Nascimento"
             type="date"
@@ -57,7 +57,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
             {...register("birthDate", { required: "Obrigatório" })}
           />
         </div>
-        <Button type="submit" className="h-[40px]">
+        <Button type="submit" className="h-[40px] mb-5 md:mb-0">
           Adicionar
         </Button>
       </form>

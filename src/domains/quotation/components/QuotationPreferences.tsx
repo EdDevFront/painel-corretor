@@ -31,25 +31,27 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack }: P
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs max-w-[500px] mx-auto">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
       <h2 className="text-lg font-bold text-slate-900 mb-6">Preferências e Filtros</h2>
 
-      <div className="mb-5">
-        <Select label="Filtrar Operadora Preferencial" {...register("operatorId")}>
-          <option value="">Todas as Operadoras (Comparativo)</option>
-          {operators.map((op) => (
-            <option key={op.id} value={op.id}>
-              {op.name}
-            </option>
-          ))}
-        </Select>
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-4">
+        <div>
+          <Select label="Filtrar Operadora Preferencial" {...register("operatorId")}>
+            <option value="">Todas as Operadoras (Comparativo)</option>
+            {operators.map((op) => (
+              <option key={op.id} value={op.id}>
+                {op.name}
+              </option>
+            ))}
+          </Select>
+        </div>
 
-      <div className="mb-5">
-        <Select label="Rede Hospitalar" {...register("hospitalNetwork")}>
-          <option value="standard">Padrão (Rede Básica + Média)</option>
-          <option value="premium">Premium (Rede Ampla + Hospitais de Referência)</option>
-        </Select>
+        <div>
+          <Select label="Rede Hospitalar" {...register("hospitalNetwork")}>
+            <option value="standard">Padrão (Rede Básica + Média)</option>
+            <option value="premium">Premium (Rede Ampla + Hospitais de Referência)</option>
+          </Select>
+        </div>
       </div>
 
       <div className="flex items-center gap-3 my-6">
