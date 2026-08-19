@@ -43,6 +43,7 @@ export interface Quotation {
   brokerName: string;
   mode: QuotationMode;
   status: QuotationStatus;
+  viewed?: boolean;
   lives: Life[];
   preferences: QuotationPreferences;
   results?: QuotationResult;

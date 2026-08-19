@@ -20,6 +20,10 @@ export function useQuotation(initialId?: string) {
     try {
       const q = await getQuotationById(id);
       if (q) {
+        if (q.status === "completed" && !q.viewed) {
+          q.viewed = true;
+          await calculateAndSaveQuotation(q);
+        }
         setQuotation(q);
       } else {
         setError("Cotação não encontrada.");
