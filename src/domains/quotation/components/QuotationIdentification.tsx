@@ -7,6 +7,7 @@ import { Button } from "../../shared/components/ui/Button";
 
 interface IdentificationProps {
   onSubmit: (clientName: string, brokerName: string, mode: QuotationMode) => void;
+  onBack: () => void;
   initialClient?: string;
   initialBroker?: string;
   initialMode?: QuotationMode;
@@ -20,6 +21,7 @@ interface FormInputs {
 
 export function QuotationIdentification({
   onSubmit,
+  onBack,
   initialClient = "",
   initialBroker = "",
   initialMode = "PF",
@@ -77,9 +79,14 @@ export function QuotationIdentification({
         </Select>
       </div>
 
-      <Button type="submit" size="lg" className="w-full">
-        Prosseguir
-      </Button>
+      <div className="flex gap-4 mt-6">
+        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack}>
+          Voltar
+        </Button>
+        <Button type="submit" size="lg" className="flex-1">
+          Prosseguir
+        </Button>
+      </div>
     </form>
   );
 }

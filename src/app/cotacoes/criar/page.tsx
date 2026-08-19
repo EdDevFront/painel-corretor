@@ -63,6 +63,7 @@ function CriarCotacaoContent() {
           initialBroker={quotation?.brokerName}
           initialMode={quotation?.mode}
           onSubmit={startNewQuotation}
+          onBack={handleBackToDashboard}
         />
       )}
 
