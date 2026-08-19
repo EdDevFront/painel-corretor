@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Quotation } from "../types";
 import { FiPlus, FiSearch, FiSliders, FiTrash2, FiFolder } from "react-icons/fi";
 import { TableSkeleton } from "../../shared/components/ui/TableSkeleton";
+import { Button } from "../../shared/components/ui/Button";
+import { IconButton } from "../../shared/components/ui/IconButton";
+import { Input } from "../../shared/components/ui/Input";
 
 interface ListProps {
   quotations: Quotation[];
@@ -41,23 +44,21 @@ export function QuotationList({
       <div className="flex gap-8 items-start flex-wrap">
         <div className="flex-3 min-w-[300px]">
           {/* Controls Bar */}
-          <div className="flex justify-between gap-4 mb-6">
-            <div className="flex items-center border border-slate-200 rounded-lg px-3 py-1.5 bg-white flex-1 max-w-[300px]">
-              <FiSearch className="text-slate-400 mr-2" />
-              <input
-                type="text"
-                placeholder="Procurar..."
+          <div className="flex justify-between gap-4 mb-6 items-start">
+            <div className="flex-1 max-w-[300px]">
+              <Input
+                placeholder="Procurar cotação..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="border-none outline-none text-sm w-full h-[28px] focus:ring-0"
+                className="h-[38px] py-1 px-3"
               />
             </div>
-            <button className="flex items-center justify-center p-2.5 bg-white border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-50 cursor-pointer">
+            <IconButton type="button">
               <FiSliders />
-            </button>
-            <button onClick={onNewQuotation} className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200">
-              <FiPlus /> Nova
-            </button>
+            </IconButton>
+            <Button onClick={onNewQuotation} className="h-[38px]">
+              <FiPlus className="text-base" /> Nova
+            </Button>
           </div>
 
           {/* Table Area */}
@@ -69,7 +70,7 @@ export function QuotationList({
                 <FiFolder className="text-5xl" />
               </div>
               <h3 className="text-lg font-bold text-slate-700 mt-4">Nenhuma cotação finalizada</h3>
-              <p className="text-slate-400 text-sm mt-2">Clique em "+ Nova" no topo para criar a sua primeira cotação de plano de saúde.</p>
+              <p className="text-slate-400 text-sm mt-2">Clique em "Nova" no topo para criar a sua primeira cotação de plano de saúde.</p>
             </div>
           ) : (
             <div className="bg-white border border-slate-100 rounded-lg shadow-xs overflow-x-auto">
@@ -96,12 +97,12 @@ export function QuotationList({
                         </div>
                       </td>
                       <td className="p-4 text-right">
-                        <button
+                        <IconButton
                           onClick={(e) => handleDelete(q.id, e)}
-                          className="p-2 text-slate-400 hover:text-red-500 rounded-md hover:bg-slate-50 cursor-pointer transition-all inline-flex items-center justify-center"
+                          className="border-none bg-transparent hover:bg-slate-50 p-2"
                         >
-                          <FiTrash2 className="text-base" />
-                        </button>
+                          <FiTrash2 className="text-base text-slate-400 hover:text-red-500" />
+                        </IconButton>
                       </td>
                     </tr>
                   ))}

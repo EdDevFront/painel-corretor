@@ -86,13 +86,14 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
                   </td>
                   <td className="p-3 font-semibold text-slate-900">{life.age} anos</td>
                   <td className="p-3 text-right">
-                    <button
+                    <Button
                       type="button"
+                      variant="secondary"
                       onClick={() => handleRemoveLife(life.id)}
-                      className="background-none border-none text-slate-400 hover:text-red-500 cursor-pointer text-xs"
+                      className="border-none bg-transparent hover:bg-red-50 text-slate-400 hover:text-red-600 !py-1 !px-2.5 normal-case"
                     >
                       Remover
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}

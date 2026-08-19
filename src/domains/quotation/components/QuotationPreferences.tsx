@@ -5,6 +5,7 @@ import { Operator } from "../../operator/types";
 import { getOperators } from "../../operator/service";
 import { Select } from "../../shared/components/ui/Select";
 import { Button } from "../../shared/components/ui/Button";
+import { Checkbox } from "../../shared/components/ui/Checkbox";
 
 interface PreferencesProps {
   initialPreferences: Prefs;
@@ -54,18 +55,12 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack }: P
         </div>
       </div>
 
-      <div className="flex items-center gap-3 my-6">
-        <div className="relative flex items-center">
-          <input
-            type="checkbox"
-            id="coparticipation"
-            {...register("coparticipation")}
-            className="w-5 h-5 cursor-pointer accent-teal-600 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
-          />
-        </div>
-        <label htmlFor="coparticipation" className="text-sm font-semibold text-slate-700 cursor-pointer select-none">
-          Plano com Coparticipação (mensalidade reduzida)
-        </label>
+      <div className="my-6">
+        <Checkbox
+          id="coparticipation"
+          label="Plano com Coparticipação (mensalidade reduzida)"
+          {...register("coparticipation")}
+        />
       </div>
 
       <div className="flex gap-4 mt-6">
