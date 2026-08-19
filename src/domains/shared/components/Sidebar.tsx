@@ -1,5 +1,5 @@
 import React from "react";
-import { FiBriefcase, FiSearch, FiSettings } from "react-icons/fi";
+import { FiBriefcase, FiSearch, FiSettings, FiHome } from "react-icons/fi";
 
 interface SidebarProps {
   activeTab: string;
@@ -24,6 +24,16 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       </div>
 
       <nav className="flex flex-col gap-2">
+        <div
+          onClick={() => setActiveTab("início")}
+          className={`flex items-center gap-3 py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
+            activeTab === "início" ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+          }`}
+        >
+          <FiHome />
+          <span>Início</span>
+        </div>
+
         <div
           onClick={() => setActiveTab("cotações")}
           className={`flex items-center gap-3 py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
@@ -59,6 +69,11 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           <span>Configurações</span>
         </div>
       </nav>
+
+      <div className="mt-auto border-t border-slate-100 pt-4 flex flex-col gap-1">
+        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Versão</span>
+        <span className="text-xs text-slate-500">v1.0.0</span>
+      </div>
     </aside>
   );
 }

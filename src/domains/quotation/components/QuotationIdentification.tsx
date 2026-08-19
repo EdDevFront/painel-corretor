@@ -77,7 +77,7 @@ export function QuotationIdentification({
         </Select>
       </div>
 
-      <Button type="submit" className="w-full">
+      <Button type="submit" size="lg" className="w-full">
         Prosseguir
       </Button>
     </form>

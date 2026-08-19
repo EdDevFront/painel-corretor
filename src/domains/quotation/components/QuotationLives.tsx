@@ -102,11 +102,12 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
       )}
 
       <div className="flex gap-4 mt-6">
-        <Button type="button" variant="secondary" className="flex-1" onClick={onBack}>
+        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack}>
           Voltar
         </Button>
         <Button
           type="button"
+          size="lg"
           className="flex-1"
           onClick={onNext}
           disabled={lives.length === 0}

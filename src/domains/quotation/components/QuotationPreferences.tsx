@@ -69,10 +69,10 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack }: P
       </div>
 
       <div className="flex gap-4 mt-6">
-        <Button type="button" variant="secondary" className="flex-1" onClick={onBack}>
+        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack}>
           Voltar
         </Button>
-        <Button type="submit" className="flex-1">
+        <Button type="submit" size="lg" className="flex-1">
           Calcular Resultados
         </Button>
       </div>

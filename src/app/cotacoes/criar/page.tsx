@@ -106,8 +106,18 @@ function CriarCotacaoContent() {
 }
 
 export default function CriarCotacaoPage() {
+  const router = useRouter();
+
+  const handleSetActiveTab = (tab: string) => {
+    if (tab === "início") {
+      router.push("/");
+    } else {
+      router.push(`/?tab=${tab}`);
+    }
+  };
+
   return (
-    <DashboardLayout activeTab="cotações">
+    <DashboardLayout activeTab="cotações" setActiveTab={handleSetActiveTab}>
       <Suspense fallback={
         <div className="bg-white border border-slate-100 rounded-lg p-8 shadow-xs max-w-[800px] mx-auto w-full flex flex-col gap-6">
           <Skeleton className="h-8 w-48" />
