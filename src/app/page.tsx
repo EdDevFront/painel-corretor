@@ -64,8 +64,13 @@ export default function Home() {
     setCurrentStep(1);
   };
 
-  const handleRestart = () => {
-    setViewState("list");
+  const isStepClickable = (stepNum: number): boolean => {
+    if (stepNum === 1) return true;
+    if (!quotation) return false;
+    if (quotation.status === "completed") return true;
+    if (stepNum === 2 || stepNum === 3) return true;
+    if (stepNum === 4) return quotation.lives.length > 0;
+    return false;
   };
 
   return (
@@ -94,7 +99,11 @@ export default function Home() {
           {activeTab === "cotações" && viewState === "wizard" && (
             <div className="max-w-[800px] mx-auto w-full relative z-10">
               <QuotationHeader clientName={quotation?.clientName} status={quotation?.status} />
-              <QuotationStepper currentStep={currentStep} />
+              <QuotationStepper 
+                currentStep={currentStep} 
+                isStepClickable={isStepClickable}
+                onStepClick={setCurrentStep}
+              />
 
               {currentStep === 1 && (
                 <QuotationIdentification
