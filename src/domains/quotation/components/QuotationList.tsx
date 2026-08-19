@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Quotation } from "../types";
-import { FiPlus, FiSearch, FiSliders, FiTrash2 } from "react-icons/fi";
+import { FiPlus, FiSearch, FiSliders, FiTrash2, FiFolderOpen } from "react-icons/fi";
 import { Spinner } from "../../shared/components/ui/Spinner";
 
 interface ListProps {
@@ -67,7 +67,9 @@ export function QuotationList({
             </div>
           ) : filtered.length === 0 ? (
             <div className="bg-white border border-slate-100 rounded-lg shadow-xs p-16 text-center">
-              <span className="text-4xl">📁</span>
+              <div className="flex justify-center text-slate-300 mb-4">
+                <FiFolderOpen className="text-5xl" />
+              </div>
               <h3 className="text-lg font-bold text-slate-700 mt-4">Nenhuma cotação finalizada</h3>
               <p className="text-slate-400 text-sm mt-2">Clique em "+ Nova" no topo para criar a sua primeira cotação de plano de saúde.</p>
             </div>
