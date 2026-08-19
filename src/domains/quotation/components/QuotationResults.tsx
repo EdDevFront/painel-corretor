@@ -196,7 +196,7 @@ export function QuotationResults({
 
           {/* Selected Plan Details */}
           <div className="flex flex-col items-center justify-center py-4 border-b border-slate-100 mb-4">
-            <div className="h-14 w-14 bg-amber-500/10 text-amber-600 rounded-xl flex items-center justify-center font-extrabold text-xl border border-amber-500/20 shadow-xs mb-2">
+            <div className="h-14 w-14 shrink-0 bg-amber-500/10 text-amber-600 rounded-xl flex items-center justify-center font-extrabold text-xl border border-amber-500/20 shadow-xs mb-2">
               {selectedPlan ? selectedPlan.operatorName.substring(0, 2).toUpperCase() : "OP"}
             </div>
             <h4 className="font-extrabold text-slate-950 text-base">{selectedPlan ? selectedPlan.operatorName : "Plano Selecionado"}</h4>
@@ -334,7 +334,7 @@ export function QuotationResults({
             <div className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs print:border-none print:shadow-none text-left">
               <h3 className="font-bold text-slate-900 text-base mb-1">{selectedPlan.operatorName}</h3>
               
-              <div className="flex gap-2 mt-2 mb-4 no-print">
+              <div className="flex gap-2 mt-2 mb-4 no-print items-center w-full">
                 <input 
                   type="text" 
                   placeholder="Adicione um comentário..." 
@@ -342,12 +342,13 @@ export function QuotationResults({
                   onChange={(e) => setComment(e.target.value)}
                   className="flex-1 p-2 text-sm border border-slate-200 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50"
                 />
-                <Button 
+                <button 
+                  type="button"
                   onClick={handleSaveComment}
-                  className="text-xs px-3"
+                  className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3 py-2.5 rounded-md transition-colors shrink-0 uppercase cursor-pointer"
                 >
                   Salvar
-                </Button>
+                </button>
               </div>
 
               {comment && (
@@ -367,8 +368,8 @@ export function QuotationResults({
                 ))}
               </div>
 
-              <div className="border-t border-slate-100 pt-4 flex justify-between items-baseline mb-5">
-                <span className="text-sm text-slate-400">Total Mensal</span>
+              <div className="border-t border-slate-100 pt-4 flex flex-col gap-1 mb-5 text-left">
+                <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Total Mensal</span>
                 <div className="text-3xl font-black text-slate-900 whitespace-nowrap">
                   R$ {selectedPlan.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}<span className="text-sm font-normal text-slate-400">/mês</span>
                 </div>
@@ -529,7 +530,7 @@ export function QuotationResults({
           {displayedResults.map((opResult: OperatorResult) => (
             <div key={opResult.operatorId} className="bg-white border border-slate-100 rounded-xl p-6 md:p-7 shadow-xs flex flex-col justify-between hover:border-slate-200 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-none print:p-0 print:mb-6 text-left">
               <div className="flex justify-between items-start mb-4">
-                <div className="h-10 w-10 bg-amber-500/10 text-amber-600 rounded-lg flex items-center justify-center font-extrabold text-sm border border-amber-500/20 shadow-xs">
+                <div className="h-10 w-10 shrink-0 bg-amber-500/10 text-amber-600 rounded-lg flex items-center justify-center font-extrabold text-sm border border-amber-500/20 shadow-xs">
                   {opResult.operatorName.substring(0, 2).toUpperCase()}
                 </div>
                 <div className="text-right">
