@@ -13,7 +13,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Painel Corretor - Vitalis",
+  title: "Painel Corretor",
   description: "Painel de cotações para corretores",
 };
 
