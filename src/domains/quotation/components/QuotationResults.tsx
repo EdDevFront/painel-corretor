@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Quotation, OperatorResult } from "../types";
 import { Button } from "../../../components/ui/Button";
+import { IconButton } from "../../../components/ui/IconButton";
 import { FiArrowLeft, FiEdit, FiTrash2, FiPrinter, FiPlus, FiChevronDown, FiChevronUp, FiSend, FiMoreVertical, FiActivity } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -76,20 +77,21 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
       unitPrice: info.unitPrice,
       total: info.total,
     }));
-  };
-
-  // --- 1. RENDER PLAN DETAIL SUB-VIEW ---
+  };  // --- 1. RENDER PLAN DETAIL SUB-VIEW ---
   if (selectedPlan) {
     const ageGroups = getAgeGroups(selectedPlan);
     return (
       <div className="w-full relative z-10 animate-fadeIn">
         {/* Header Block */}
-        <div className="flex justify-between items-center mb-6 no-print">
+        <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4">
           <div>
             <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">{selectedPlan.operatorName}</h2>
             <p className="text-slate-500 text-xs mt-1">Dona Saúde Saúde {quotation.mode}</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Button variant="secondary" onClick={() => window.print()}>
+              <FiPrinter className="mr-1.5" /> Imprimir Proposta
+            </Button>
             <Button variant="secondary" onClick={() => setSelectedPlan(null)}>
               <FiArrowLeft className="mr-1.5" /> Voltar para Planos
             </Button>
@@ -97,7 +99,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
         </div>
 
         {/* Plan Details Grid Layout */}
-        <div className="flex gap-6 items-start flex-wrap">
+        <div id="print-target" className="flex gap-6 items-start flex-wrap">
           {/* Left Panel: Accordions */}
           <div className="flex-3 min-w-[300px] space-y-3">
             {/* Coparticipação Accordion */}
@@ -152,7 +154,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               <input 
                 type="text" 
                 placeholder="Adicione um comentário..." 
-                className="w-full mt-2 mb-4 p-2 text-xs border border-slate-100 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50"
+                className="w-full mt-2 mb-4 p-2 text-xs border border-slate-100 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50 no-print"
               />
 
               <div className="space-y-3 mb-6">
@@ -176,7 +178,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               <button 
                 type="button" 
                 onClick={() => window.open(`https://wa.me/5500000000000?text=Tenho%20interesse%20no%20plano%20${selectedPlan.operatorName}`)}
-                className="w-full bg-[#25d366] text-white py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#20ba5a] transition-colors cursor-pointer shadow-xs"
+                className="w-full bg-[#25d366] text-white py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#20ba5a] transition-colors cursor-pointer shadow-xs no-print"
               >
                 <FaWhatsapp className="text-lg" /> Tenho interesse
               </button>
@@ -188,7 +190,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
                 <h4 className="font-bold text-slate-900 text-xs">40 Hospitais</h4>
                 <p className="text-[10px] text-slate-400 mt-0.5">Confira os principais hospitais da rede.</p>
               </div>
-              <div className="h-8 w-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
+              <div className="h-8 w-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 no-print">
                 <FiPlus />
               </div>
             </div>
@@ -198,7 +200,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
                 <h4 className="font-bold text-slate-900 text-xs">6 Laboratórios</h4>
                 <p className="text-[10px] text-slate-400 mt-0.5">Confira os laboratórios credenciados.</p>
               </div>
-              <div className="h-8 w-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
+              <div className="h-8 w-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 no-print">
                 <FiActivity />
               </div>
             </div>
@@ -220,7 +222,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
         
         <div className="flex items-center gap-2">
           <Button variant="secondary" onClick={() => window.print()}>
-            <FiPrinter className="mr-1" /> Imprimir
+            <FiPrinter className="mr-1" /> Imprimir Comparativo
           </Button>
           <Button variant="secondary" onClick={() => alert("Link de proposta gerado com sucesso!")}>
             Ver hospitais
@@ -243,7 +245,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
       </div>
 
       {/* Grid Comparison Layout */}
-      <div className="flex gap-6 items-start flex-wrap">
+      <div id="print-target" className="flex gap-6 items-start flex-wrap">
         {/* Left column: Plan Cards Grid */}
         <div className="flex-3 min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-4">
           {displayedResults.map((opResult: OperatorResult) => (
@@ -272,19 +274,13 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               <Button 
                 type="button" 
                 variant="secondary" 
-                className="w-full text-xs py-2 normal-case font-bold"
+                className="w-full text-xs py-2 normal-case font-bold no-print"
                 onClick={() => setSelectedPlan(opResult)}
               >
                 Ver detalhes
               </Button>
             </div>
           ))}
-
-          {/* Add Plan Card placeholder */}
-          <div className="border border-dashed border-slate-200 rounded-lg p-6 flex flex-col items-center justify-center text-slate-400 min-h-[180px] hover:bg-slate-50/50 cursor-pointer transition-all" onClick={onRestart}>
-            <FiPlus className="text-3xl mb-2 text-slate-300" />
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Adicionar Plano</span>
-          </div>
         </div>
 
         {/* Right column: Technical Summary Sidebar */}
