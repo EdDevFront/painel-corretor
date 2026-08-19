@@ -4,7 +4,8 @@ import { Life } from "../types";
 import { calculateAge } from "../calculator";
 import { Input } from "../../../components/ui/Input";
 import { Button } from "../../../components/ui/Button";
-import { FiUsers } from "react-icons/fi";
+import { IconButton } from "../../../components/ui/IconButton";
+import { FiUsers, FiTrash2 } from "react-icons/fi";
 
 interface LivesProps {
   lives: Life[];
@@ -111,15 +112,15 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext, isLoading
                   </td>
                   <td className="p-3 font-semibold text-slate-900">{life.age} anos</td>
                   <td className="p-3 text-right">
-                    <Button
+                    <IconButton
                       type="button"
-                      variant="secondary"
                       onClick={() => handleRemoveLife(life.id)}
                       disabled={isLoading}
-                      className="border-none bg-transparent hover:bg-red-50 text-slate-400 hover:text-red-600 !py-1 !px-2.5 normal-case"
+                      className="border-none bg-transparent hover:bg-slate-50 p-2"
+                      title="Remover Vida"
                     >
-                      Remover
-                    </Button>
+                      <FiTrash2 className="text-base text-slate-400 hover:text-red-500" />
+                    </IconButton>
                   </td>
                 </tr>
               ))}
