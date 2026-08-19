@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Quotation } from "../types";
 import { FiPlus, FiSearch, FiSliders, FiTrash2, FiFolder } from "react-icons/fi";
-import { Spinner } from "../../shared/components/ui/Spinner";
+import { TableSkeleton } from "../../shared/components/ui/TableSkeleton";
 
 interface ListProps {
   quotations: Quotation[];
@@ -62,9 +62,7 @@ export function QuotationList({
 
           {/* Table Area */}
           {isLoading ? (
-            <div className="bg-white border border-slate-100 rounded-lg shadow-xs p-16 flex items-center justify-center">
-              <Spinner />
-            </div>
+            <TableSkeleton />
           ) : filtered.length === 0 ? (
             <div className="bg-white border border-slate-100 rounded-lg shadow-xs p-16 text-center">
               <div className="flex justify-center text-slate-300 mb-4">

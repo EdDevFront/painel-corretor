@@ -10,7 +10,7 @@ import { QuotationProfile } from "../../../domains/quotation/components/Quotatio
 import { QuotationLives } from "../../../domains/quotation/components/QuotationLives";
 import { QuotationPreferences } from "../../../domains/quotation/components/QuotationPreferences";
 import { QuotationResults } from "../../../domains/quotation/components/QuotationResults";
-import { Spinner } from "../../../domains/shared/components/ui/Spinner";
+import { Skeleton } from "../../../domains/shared/components/ui/Skeleton";
 
 function CriarCotacaoContent() {
   const router = useRouter();
@@ -107,8 +107,15 @@ export default function CriarCotacaoPage() {
   return (
     <DashboardLayout activeTab="cotações">
       <Suspense fallback={
-        <div className="flex items-center justify-center p-20 bg-white border border-slate-100 rounded-lg shadow-xs max-w-[800px] mx-auto w-full">
-          <Spinner />
+        <div className="bg-white border border-slate-100 rounded-lg p-8 shadow-xs max-w-[800px] mx-auto w-full flex flex-col gap-6">
+          <Skeleton className="h-8 w-48" />
+          <div className="flex gap-4 justify-between my-4">
+            <Skeleton className="h-10 w-24 rounded-full" />
+            <Skeleton className="h-10 w-24 rounded-full" />
+            <Skeleton className="h-10 w-24 rounded-full" />
+            <Skeleton className="h-10 w-24 rounded-full" />
+          </div>
+          <Skeleton className="h-64 w-full" />
         </div>
       }>
         <CriarCotacaoContent />
