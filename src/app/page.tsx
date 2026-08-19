@@ -64,6 +64,10 @@ export default function Home() {
     setCurrentStep(1);
   };
 
+  const handleRestart = () => {
+    setViewState("list");
+  };
+
   const isStepClickable = (stepNum: number): boolean => {
     if (stepNum === 1) return true;
     if (!quotation) return false;
