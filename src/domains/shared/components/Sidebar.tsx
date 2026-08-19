@@ -1,12 +1,37 @@
+"use client";
+
 import React from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { FiBriefcase, FiSearch, FiSettings, FiHome } from "react-icons/fi";
 
 interface SidebarProps {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
+  activeTab?: string;
+  setActiveTab?: (tab: string) => void;
 }
 
 export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const isActive = (path: string) => pathname === path || pathname.startsWith(path + "/");
+
+  const nav = (path: string) => {
+    setActiveTab?.("");
+    router.push(path);
+  };
+
+  const navItems = [
+    { path: "/", label: "Início", icon: <FiHome />, exact: true },
+    { path: "/cotacoes", label: "Cotações", icon: <FiBriefcase /> },
+    { path: "/busca-ans", label: "Busca ANS", icon: <FiSearch />, badge: "beta" },
+    { path: "/configuracoes", label: "Configurações", icon: <FiSettings /> },
+  ];
+
+  const isItemActive = (item: typeof navItems[0]) => {
+    if (item.exact) return pathname === item.path;
+    return pathname.startsWith(item.path);
+  };
+
   return (
     <aside className="w-[260px] bg-white border-r border-slate-200 flex flex-col p-6 h-screen sticky top-0">
       <div className="flex items-center gap-3 mb-10">
@@ -24,50 +49,27 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       </div>
 
       <nav className="flex flex-col gap-2">
-        <div
-          onClick={() => setActiveTab("início")}
-          className={`flex items-center gap-3 py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
-            activeTab === "início" ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
-          }`}
-        >
-          <FiHome />
-          <span>Início</span>
-        </div>
-
-        <div
-          onClick={() => setActiveTab("cotações")}
-          className={`flex items-center gap-3 py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
-            activeTab === "cotações" ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
-          }`}
-        >
-          <FiBriefcase />
-          <span>Cotações</span>
-        </div>
-
-        <div
-          onClick={() => setActiveTab("busca")}
-          className={`flex items-center justify-between py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
-            activeTab === "busca" ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
-          }`}
-        >
-          <div className="flex items-center gap-3">
-            <FiSearch />
-            <span>Busca ANS</span>
-          </div>
-          <span className="text-[10px] bg-slate-100 text-slate-500 py-0.5 px-1.5 rounded font-semibold uppercase">
-            beta
-          </span>
-        </div>
-
-        <div
-          onClick={() => setActiveTab("configurações")}
-          className={`flex items-center gap-3 py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
-            activeTab === "configurações" ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
-          }`}
-        >
-          <FiSettings />
-          <span>Configurações</span>
-        </div>
+        {navItems.map((item) => (
+          <button
+            key={item.path}
+            onClick={() => nav(item.path)}
+            className={`flex items-center justify-between py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 border-none w-full text-left ${
+              isItemActive(item)
+                ? "bg-teal-50 text-teal-600"
+                : "text-slate-500 hover:bg-slate-50 hover:text-slate-800 bg-transparent"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              {item.icon}
+              <span>{item.label}</span>
+            </div>
+            {item.badge && (
+              <span className="text-[10px] bg-slate-100 text-slate-500 py-0.5 px-1.5 rounded font-semibold uppercase">
+                {item.badge}
+              </span>
+            )}
+          </button>
+        ))}
       </nav>
 
       <div className="mt-auto border-t border-slate-100 pt-4 flex flex-col gap-1">
