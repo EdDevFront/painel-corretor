@@ -100,8 +100,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 @media print {
-  /* Hide sidebar, top navbar, dashboard layout wrapper boundaries, and action buttons */
-  aside, nav, header, button, .no-print, .flex.gap-4, .mb-10, .flex.justify-between {
+  /* Hide sidebar, top navbar, and other utility containers tagged with no-print */
+  aside, nav, .no-print {
     display: none !important;
   }
   
@@ -125,7 +125,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   }
 
   /* Keep table borders visible during print */
-  .border, .border-b {
-    border-color: #cbd5e1 !important;
+  .border, .border-b, .border-slate-100 {
+    border-color: #e2e8f0 !important;
   }
 }
