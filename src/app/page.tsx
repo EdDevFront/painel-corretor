@@ -2,10 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Quotation } from "../domains/quotation/types";
-import { getQuotations, deleteQuotation } from "../domains/quotation/service";
 import { DashboardLayout } from "../domains/shared/components/DashboardLayout";
-import { QuotationList } from "../domains/quotation/components/QuotationList";
 
 function HomeContent() {
   const router = useRouter();
@@ -13,39 +10,16 @@ function HomeContent() {
   const tabParam = searchParams.get("tab") || "início";
 
   const [activeTab, setActiveTab] = useState("início");
-  const [allQuotations, setAllQuotations] = useState<Quotation[]>([]);
-  const [isListLoading, setIsListLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setActiveTab(tabParam);
   }, [tabParam]);
 
-  const fetchList = () => {
-    setIsListLoading(true);
-    getQuotations()
-      .then(setAllQuotations)
-      .finally(() => setIsListLoading(false));
-  };
-
-  useEffect(() => {
-    if (activeTab === "cotações") {
-      fetchList();
-    }
-  }, [activeTab]);
-
-  const handleDelete = async (id: string) => {
-    setIsListLoading(true);
-    await deleteQuotation(id);
-    fetchList();
-  };
-
-  const handleNewQuotation = () => {
-    router.push("/cotacoes/criar");
-  };
-
   const handleSetActiveTab = (tab: string) => {
     if (tab === "início") {
       router.push("/");
+    } else if (tab === "cotações") {
+      router.push("/cotacoes");
     } else {
       router.push(`/?tab=${tab}`);
     }
@@ -73,17 +47,7 @@ function HomeContent() {
         </div>
       )}
 
-      {activeTab === "cotações" && (
-        <QuotationList
-          quotations={allQuotations}
-          isLoading={isListLoading}
-          onSelectQuotation={(id) => router.push(`/cotacoes/criar?id=${id}`)}
-          onNewQuotation={handleNewQuotation}
-          onDeleteQuotation={handleDelete}
-        />
-      )}
-
-      {(activeTab === "busca" || activeTab === "configurações") && (
+      {activeTab !== "início" && activeTab !== "cotações" && (
         <div className="w-full">
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
             {activeTab === "busca" ? "Busca ANS" : "Configurações"}

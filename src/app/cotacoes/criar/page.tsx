@@ -30,7 +30,7 @@ function CriarCotacaoContent() {
   } = useQuotation(quotationId);
 
   const handleBackToDashboard = () => {
-    router.push("/");
+    router.push("/cotacoes");
   };
 
   const isStepClickable = (stepNum: number): boolean => {
@@ -112,6 +112,8 @@ export default function CriarCotacaoPage() {
   const handleSetActiveTab = (tab: string) => {
     if (tab === "início") {
       router.push("/");
+    } else if (tab === "cotações") {
+      router.push("/cotacoes");
     } else {
       router.push(`/?tab=${tab}`);
     }
