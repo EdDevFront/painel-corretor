@@ -4,7 +4,6 @@ import React, { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuotation } from "../../../domains/quotation/hooks/useQuotation";
 import { DashboardLayout } from "../../../domains/shared/components/DashboardLayout";
-import { QuotationHeader } from "../../../domains/quotation/components/QuotationHeader";
 import { QuotationStepper } from "../../../domains/quotation/components/QuotationStepper";
 import { QuotationIdentification } from "../../../domains/quotation/components/QuotationIdentification";
 import { QuotationProfile } from "../../../domains/quotation/components/QuotationProfile";
@@ -43,9 +42,14 @@ function CriarCotacaoContent() {
     return false;
   };
 
+  const pageTitle = quotationId ? "Editar Cotação" : "Nova Cotação";
+
   return (
     <div className="max-w-[800px] mx-auto w-full relative z-10">
-      <QuotationHeader clientName={quotation?.clientName} status={quotation?.status} />
+      <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
+        {pageTitle}
+      </h1>
+      
       <QuotationStepper 
         currentStep={currentStep} 
         isStepClickable={isStepClickable}
