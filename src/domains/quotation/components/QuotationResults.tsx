@@ -171,7 +171,7 @@ export function QuotationResults({
   const renderHospitalsModal = () => {
     if (!isHospitalsOpen) return null;
     return (
-      <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fadeIn no-print text-left">
+      <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-[200] animate-fadeIn no-print text-left">
         <div className="bg-white rounded-2xl p-6 w-full max-w-[650px] shadow-2xl relative border border-slate-100 flex flex-col max-h-[80vh]">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
@@ -436,8 +436,8 @@ export function QuotationResults({
       {/* Dynamic Actions Bar at the top */}
       <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4 text-left">
         <div>
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">{quotation.title || "Resultado Comparativo"}</h2>
-          <p className="text-slate-400 text-sm mt-1">Comparativo de planos de saúde • Gerado em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}</p>
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Comparativo de planos de saúde</h2>
+          <p className="text-slate-400 text-sm mt-1">Gerado em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")} • {quotation.title}</p>
         </div>
         
         <div className="flex items-center gap-2">
@@ -532,7 +532,7 @@ export function QuotationResults({
         {/* Left column: Plan Cards Grid */}
         <div className="flex-3 min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5 print:w-full print:grid-cols-1 text-left">
           {displayedResults.map((opResult: OperatorResult) => (
-            <div key={opResult.operatorId} className="bg-white border border-slate-100 rounded-xl p-6 md:p-7 shadow-xs flex flex-col hover:border-slate-200 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-none print:p-0 print:mb-6 text-left">
+            <div key={opResult.operatorId} className="bg-white border border-slate-100 rounded-xl p-6 md:p-7 shadow-xs flex flex-col justify-between hover:border-slate-200 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-none print:p-0 print:mb-6 text-left">
               <div>
                 <div className="flex justify-between items-start mb-4">
                   <div className="h-10 w-10 shrink-0 bg-amber-500/10 text-amber-600 rounded-lg flex items-center justify-center font-extrabold text-sm border border-amber-500/20 shadow-xs">
@@ -540,7 +540,7 @@ export function QuotationResults({
                   </div>
                 </div>
 
-                <div className="space-y-1 mb-3 text-left">
+                <div className="space-y-1 mb-5 text-left">
                   <h3 className="font-bold text-slate-950 text-base">{opResult.operatorName}</h3>
                   <p className="text-xs text-slate-500">Saúde {quotation.mode} • {quotation.preferences.hospitalNetwork === "premium" ? "Rede Premium" : "Rede Básica"}</p>
                   <div className="flex items-center gap-2 mt-2 flex-wrap text-xs text-slate-400">
@@ -548,16 +548,18 @@ export function QuotationResults({
                     <span className="bg-slate-50 px-2 py-0.5 rounded-sm">{quotation.preferences.coparticipation ? "Copart" : "Sem copart"}</span>
                   </div>
                 </div>
+              </div>
 
-                <div className="my-3">
+              <div className="mt-4 pt-4 border-t border-slate-50">
+                <div className="mb-4">
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block mb-1">Mensalidade</span>
                   <div className="text-3xl font-black text-slate-900 whitespace-nowrap flex items-baseline justify-start gap-1">
                     <span className="text-sm font-normal text-slate-400">R$</span>
                     <span>{opResult.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    <span className="text-[10px] font-normal text-slate-400">/mês</span>
                   </div>
                 </div>
-              </div>
 
-              <div className="mt-auto pt-3">
                 <Button 
                   type="button" 
                   variant="secondary" 
@@ -598,7 +600,7 @@ export function QuotationResults({
 
       {/* Share Modal */}
       {isShareOpen && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fadeIn no-print text-left">
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-[200] animate-fadeIn no-print text-left">
           <div className="bg-white rounded-2xl p-6 w-full max-w-[450px] shadow-2xl relative border border-slate-100">
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
