@@ -1,6 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { QuotationMode } from "../types";
+import { Input } from "../../shared/components/ui/Input";
+import { Select } from "../../shared/components/ui/Select";
+import { Button } from "../../shared/components/ui/Button";
 
 interface IdentificationProps {
   onSubmit: (clientName: string, brokerName: string, mode: QuotationMode) => void;
@@ -37,49 +40,44 @@ export function QuotationIdentification({
     <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs max-w-[500px] mx-auto">
       <h2 className="text-lg font-bold text-slate-900 mb-6">Identificação da Cotação</h2>
       
-      <div className="flex flex-col gap-1.5 mb-5">
-        <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Nome do Cliente</label>
-        <input
-          type="text"
-          className="border border-slate-200 rounded-md py-2 px-3 focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
+      <div className="mb-5">
+        <Input
+          label="Nome do Cliente"
           placeholder="Ex: João Silva ou Empresa XYZ"
+          error={errors.clientName?.message}
           {...register("clientName", { 
             required: "Nome do cliente é obrigatório", 
             minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
           })}
         />
-        {errors.clientName && <span className="text-red-500 text-xs mt-0.5">{errors.clientName.message}</span>}
       </div>
 
-      <div className="flex flex-col gap-1.5 mb-5">
-        <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Nome do Corretor</label>
-        <input
-          type="text"
-          className="border border-slate-200 rounded-md py-2 px-3 focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
+      <div className="mb-5">
+        <Input
+          label="Nome do Corretor"
           placeholder="Seu Nome completo"
+          error={errors.brokerName?.message}
           {...register("brokerName", { 
             required: "Nome do corretor é obrigatório", 
             minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
           })}
         />
-        {errors.brokerName && <span className="text-red-500 text-xs mt-0.5">{errors.brokerName.message}</span>}
       </div>
 
-      <div className="flex flex-col gap-1.5 mb-6">
-        <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Modalidade de Cotação</label>
-        <select 
-          className="border border-slate-200 rounded-md py-2 px-3 bg-white focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
+      <div className="mb-6">
+        <Select 
+          label="Modalidade de Cotação"
           {...register("mode", { required: true })}
         >
           <option value="PF">Pessoa Física (PF)</option>
           <option value="PME">Pequena e Média Empresa (PME)</option>
           <option value="ADESAO">Coletivo por Adesão</option>
-        </select>
+        </Select>
       </div>
 
-      <button type="submit" className="w-full flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200">
+      <Button type="submit" className="w-full">
         Prosseguir
-      </button>
+      </Button>
     </form>
   );
 }

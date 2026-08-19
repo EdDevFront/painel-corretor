@@ -1,25 +1,41 @@
 import React, { useState } from "react";
 import { Quotation } from "../types";
-import { FiPlus, FiSearch, FiSliders } from "react-icons/fi";
+import { FiPlus, FiSearch, FiSliders, FiTrash2 } from "react-icons/fi";
+import { Spinner } from "../../shared/components/ui/Spinner";
 
 interface ListProps {
   quotations: Quotation[];
+  isLoading: boolean;
   onSelectQuotation: (id: string) => void;
   onNewQuotation: () => void;
+  onDeleteQuotation: (id: string) => void;
 }
 
-export function QuotationList({ quotations, onSelectQuotation, onNewQuotation }: ListProps) {
+export function QuotationList({
+  quotations,
+  isLoading,
+  onSelectQuotation,
+  onNewQuotation,
+  onDeleteQuotation,
+}: ListProps) {
   const [search, setSearch] = useState("");
 
-  const filtered = quotations.filter(
+  const completedQuotes = quotations.filter((q) => q.status === "completed");
+
+  const filtered = completedQuotes.filter(
     (q) => q.clientName.toLowerCase().includes(search.toLowerCase()) ||
            q.brokerName.toLowerCase().includes(search.toLowerCase())
   );
 
+  const handleDelete = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDeleteQuotation(id);
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Cotações</h1>
+        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Cotações Finalizadas</h1>
       </div>
 
       <div className="flex gap-8 items-start flex-wrap">
@@ -44,25 +60,29 @@ export function QuotationList({ quotations, onSelectQuotation, onNewQuotation }:
             </button>
           </div>
 
-          {/* Quotations Table */}
-          <div className="bg-white border border-slate-100 rounded-lg shadow-xs overflow-x-auto">
-            <table className="w-full border-collapse text-left">
-              <thead>
-                <tr className="border-b border-slate-200 bg-slate-50">
-                  <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Título</th>
-                  <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Criada por</th>
-                  <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.length === 0 ? (
-                  <tr>
-                    <td colSpan={3} className="p-8 text-center text-slate-400">
-                      Nenhuma cotação cadastrada.
-                    </td>
+          {/* Table Area */}
+          {isLoading ? (
+            <div className="bg-white border border-slate-100 rounded-lg shadow-xs p-16 flex items-center justify-center">
+              <Spinner />
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="bg-white border border-slate-100 rounded-lg shadow-xs p-16 text-center">
+              <span className="text-4xl">📁</span>
+              <h3 className="text-lg font-bold text-slate-700 mt-4">Nenhuma cotação finalizada</h3>
+              <p className="text-slate-400 text-sm mt-2">Clique em "+ Nova" no topo para criar a sua primeira cotação de plano de saúde.</p>
+            </div>
+          ) : (
+            <div className="bg-white border border-slate-100 rounded-lg shadow-xs overflow-x-auto">
+              <table className="w-full border-collapse text-left">
+                <thead>
+                  <tr className="border-b border-slate-200 bg-slate-50">
+                    <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Título</th>
+                    <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Criada por</th>
+                    <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-right">Ações</th>
                   </tr>
-                ) : (
-                  filtered.map((q) => (
+                </thead>
+                <tbody>
+                  {filtered.map((q) => (
                     <tr
                       key={q.id}
                       onClick={() => onSelectQuotation(q.id)}
@@ -75,25 +95,27 @@ export function QuotationList({ quotations, onSelectQuotation, onNewQuotation }:
                           {new Date(q.createdAt).toLocaleDateString("pt-BR")}
                         </div>
                       </td>
-                      <td className="p-4">
-                        <span className="inline-flex items-center gap-2 text-xs text-slate-500">
-                          <span className={`w-2 h-2 rounded-full ${q.status === "completed" ? "bg-emerald-500" : "bg-slate-400"}`}></span>
-                          {q.status === "completed" ? "Finalizada" : "Rascunho"}
-                        </span>
+                      <td className="p-4 text-right">
+                        <button
+                          onClick={(e) => handleDelete(q.id, e)}
+                          className="p-2 text-slate-400 hover:text-red-500 rounded-md hover:bg-slate-50 cursor-pointer transition-all inline-flex items-center justify-center"
+                        >
+                          <FiTrash2 className="text-base" />
+                        </button>
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
         {/* Metrics Column */}
         <div className="flex-1 min-w-[220px] flex flex-col gap-4">
           <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs">
             <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Cadastradas</span>
-            <div className="text-4xl font-extrabold text-slate-900 mt-2">{quotations.length}</div>
+            <div className="text-4xl font-extrabold text-slate-900 mt-2">{completedQuotes.length}</div>
           </div>
           <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs">
             <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Visualizadas</span>

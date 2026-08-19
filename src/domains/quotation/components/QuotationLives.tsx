@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Life } from "../types";
 import { calculateAge } from "../calculator";
+import { Input } from "../../shared/components/ui/Input";
+import { Button } from "../../shared/components/ui/Button";
 
 interface LivesProps {
   lives: Life[];
@@ -39,28 +41,25 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
       <h2 className="text-lg font-bold text-slate-900 mb-6">Gerenciamento de Vidas</h2>
       
       <form onSubmit={handleSubmit(onAddLife)} className="flex gap-4 mb-8 items-end flex-wrap">
-        <div className="flex-2 flex flex-col gap-1.5 min-w-[150px]">
-          <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Nome</label>
-          <input
-            type="text"
-            className="border border-slate-200 rounded-md py-2 px-3 focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
+        <div className="flex-2 min-w-[150px]">
+          <Input
+            label="Nome"
             placeholder="Nome da pessoa"
+            error={errors.name?.message}
             {...register("name", { required: "Nome é obrigatório", minLength: { value: 3, message: "Mínimo 3 letras" } })}
           />
-          {errors.name && <span className="text-red-500 text-xs mt-0.5">{errors.name.message}</span>}
         </div>
-        <div className="flex-1 flex flex-col gap-1.5 min-w-[120px]">
-          <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Nascimento</label>
-          <input
+        <div className="flex-1 min-w-[120px]">
+          <Input
+            label="Nascimento"
             type="date"
-            className="border border-slate-200 rounded-md py-2 px-3 focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
+            error={errors.birthDate?.message}
             {...register("birthDate", { required: "Obrigatório" })}
           />
-          {errors.birthDate && <span className="text-red-500 text-xs mt-0.5">{errors.birthDate.message}</span>}
         </div>
-        <button type="submit" className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200 h-[40px]">
+        <Button type="submit" className="h-[40px]">
           Adicionar
-        </button>
+        </Button>
       </form>
 
       {lives.length === 0 ? (
@@ -103,17 +102,17 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
       )}
 
       <div className="flex gap-4 mt-6">
-        <button type="button" className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-white border border-slate-200 text-slate-700 py-2.5 px-5 rounded-lg hover:bg-slate-50 cursor-pointer transition-all" onClick={onBack}>
+        <Button type="button" variant="secondary" className="flex-1" onClick={onBack}>
           Voltar
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200"
+          className="flex-1"
           onClick={onNext}
           disabled={lives.length === 0}
         >
           Prosseguir
-        </button>
+        </Button>
       </div>
     </div>
   );

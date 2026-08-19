@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuotation } from "../domains/quotation/hooks/useQuotation";
 import { Quotation } from "../domains/quotation/types";
-import { getQuotations } from "../domains/quotation/service";
+import { getQuotations, deleteQuotation } from "../domains/quotation/service";
 import { Sidebar } from "../domains/shared/components/Sidebar";
 import { Navbar } from "../domains/shared/components/Navbar";
 import { QuotationList } from "../domains/quotation/components/QuotationList";
@@ -19,6 +19,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("cotações");
   const [viewState, setViewState] = useState<"list" | "wizard">("list");
   const [allQuotations, setAllQuotations] = useState<Quotation[]>([]);
+  const [isListLoading, setIsListLoading] = useState<boolean>(false);
   
   const {
     quotation,
@@ -34,17 +35,28 @@ export default function Home() {
   } = useQuotation();
 
   const fetchList = () => {
-    getQuotations().then(setAllQuotations);
+    setIsListLoading(true);
+    getQuotations()
+      .then(setAllQuotations)
+      .finally(() => setIsListLoading(false));
   };
 
   useEffect(() => {
-    fetchList();
+    if (viewState === "list") {
+      fetchList();
+    }
   }, [viewState]);
+
+  const handleDelete = async (id: string) => {
+    setIsListLoading(true);
+    await deleteQuotation(id);
+    fetchList();
+  };
 
   const handleSelectQuotation = (id: string) => {
     loadQuotation(id);
     setViewState("wizard");
-    setCurrentStep(3); // Start draft at Step 3 (Lives)
+    setCurrentStep(3); // Start completed at step 3 or edit draft
   };
 
   const handleNewQuotation = () => {
@@ -54,7 +66,6 @@ export default function Home() {
 
   const handleRestart = () => {
     setViewState("list");
-    fetchList();
   };
 
   return (
@@ -73,8 +84,10 @@ export default function Home() {
           {activeTab === "cotações" && viewState === "list" && (
             <QuotationList
               quotations={allQuotations}
+              isLoading={isListLoading}
               onSelectQuotation={handleSelectQuotation}
               onNewQuotation={handleNewQuotation}
+              onDeleteQuotation={handleDelete}
             />
           )}
 
