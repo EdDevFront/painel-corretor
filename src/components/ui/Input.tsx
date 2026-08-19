@@ -107,8 +107,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           "value"
         )?.set;
         nativeInputValueSetter?.call(inputRef.current, dateStr);
-        const event = new Event("input", { bubbles: true });
-        inputRef.current.dispatchEvent(event);
+        inputRef.current.dispatchEvent(new Event("input", { bubbles: true }));
+        inputRef.current.dispatchEvent(new Event("change", { bubbles: true }));
       }
     };
 
@@ -189,12 +189,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {/* Hidden native input registered by form hook */}
             <input
               ref={inputRef}
-              type="hidden"
+              type="text"
               value={selectedDateStr}
               onChange={(e) => {
                 setSelectedDateStr(e.target.value);
                 onChange?.(e);
               }}
+              className="absolute opacity-0 pointer-events-none w-0 h-0"
               {...props}
             />
 
