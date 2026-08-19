@@ -45,16 +45,17 @@ function CriarCotacaoContent() {
   const pageTitle = quotationId ? "Editar Cotação" : "Nova Cotação";
 
   return (
-    <div className="max-w-[800px] mx-auto w-full relative z-10">
+    <div className="w-full relative z-10">
       <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
         {pageTitle}
       </h1>
       
-      <QuotationStepper 
-        currentStep={currentStep} 
-        isStepClickable={isStepClickable}
-        onStepClick={setCurrentStep}
-      />
+      <div className="max-w-[800px] mx-auto w-full">
+        <QuotationStepper 
+          currentStep={currentStep} 
+          isStepClickable={isStepClickable}
+          onStepClick={setCurrentStep}
+        />
 
       {currentStep === 1 && (
         <QuotationIdentification
@@ -99,6 +100,7 @@ function CriarCotacaoContent() {
           onBack={prevStep}
         />
       )}
+      </div>
     </div>
   );
 }
