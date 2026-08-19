@@ -105,6 +105,7 @@ function CriarCotacaoContent() {
           <>
             {currentStep === 1 && (
               <QuotationIdentification
+                initialTitle={quotation?.title}
                 initialClient={quotation?.clientName}
                 initialBroker={quotation?.brokerName}
                 initialMode={quotation?.mode}

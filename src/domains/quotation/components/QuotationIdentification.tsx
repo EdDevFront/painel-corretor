@@ -6,8 +6,9 @@ import { Select } from "../../../components/ui/Select";
 import { Button } from "../../../components/ui/Button";
 
 interface IdentificationProps {
-  onSubmit: (clientName: string, brokerName: string, mode: QuotationMode) => void;
+  onSubmit: (title: string, clientName: string, brokerName: string, mode: QuotationMode) => void;
   onBack: () => void;
+  initialTitle?: string;
   initialClient?: string;
   initialBroker?: string;
   initialMode?: QuotationMode;
@@ -15,6 +16,7 @@ interface IdentificationProps {
 }
 
 interface FormInputs {
+  title: string;
   clientName: string;
   brokerName: string;
   mode: QuotationMode;
@@ -23,6 +25,7 @@ interface FormInputs {
 export function QuotationIdentification({
   onSubmit,
   onBack,
+  initialTitle = "",
   initialClient = "",
   initialBroker = "",
   initialMode = "PF",
@@ -30,6 +33,7 @@ export function QuotationIdentification({
 }: IdentificationProps) {
   const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>({
     defaultValues: {
+      title: initialTitle,
       clientName: initialClient,
       brokerName: initialBroker,
       mode: initialMode,
@@ -37,13 +41,26 @@ export function QuotationIdentification({
   });
 
   const onFormSubmit = (data: FormInputs) => {
-    onSubmit(data.clientName, data.brokerName, data.mode);
+    onSubmit(data.title, data.clientName, data.brokerName, data.mode);
   };
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
       <h2 className="text-xl font-bold text-slate-900 mb-6">Identificação da Cotação</h2>
       
+      <div className="mb-4">
+        <Input
+          label="Título da Cotação"
+          placeholder="Ex: Cotação Diretores, Plano Familiar, etc."
+          error={errors.title?.message}
+          disabled={isLoading}
+          {...register("title", { 
+            required: "Título da cotação é obrigatório", 
+            minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
+          })}
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-2">
         <div>
           <Input

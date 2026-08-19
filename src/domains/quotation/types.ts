@@ -39,6 +39,7 @@ export interface QuotationResult {
 
 export interface Quotation {
   id: string;
+  title: string;
   clientName: string;
   brokerName: string;
   mode: QuotationMode;

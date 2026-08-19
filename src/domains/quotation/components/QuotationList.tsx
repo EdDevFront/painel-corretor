@@ -208,6 +208,7 @@ export function QuotationList({
               <table className="w-full border-collapse text-left">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-50">
+                    <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Título</th>
                     <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Cliente</th>
                     <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Criada por</th>
                     <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Status</th>
@@ -221,7 +222,8 @@ export function QuotationList({
                       onClick={() => onSelectQuotation(q.id)}
                       className="border-b border-slate-100 hover:bg-slate-50/50 cursor-pointer transition-colors"
                     >
-                      <td className="p-4 font-semibold text-slate-900">{q.clientName}</td>
+                      <td className="p-4 font-semibold text-slate-900">{q.title || "Sem título"}</td>
+                      <td className="p-4 text-slate-700 font-medium">{q.clientName}</td>
                       <td className="p-4">
                         <div className="font-medium text-slate-800">{q.brokerName}</div>
                         <div className="text-[11px] text-slate-400">

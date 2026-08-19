@@ -20,6 +20,7 @@ export async function getQuotationById(id: string): Promise<Quotation | null> {
 }
 
 export async function createNewQuotation(
+  title: string,
   clientName: string,
   brokerName: string,
   mode: QuotationMode
@@ -27,6 +28,7 @@ export async function createNewQuotation(
   await delay(DELAY_MS);
   const initialQuotation: Quotation = {
     id: Math.random().toString(36).substring(2, 11),
+    title,
     clientName,
     brokerName,
     mode,

@@ -35,11 +35,11 @@ export function useQuotation(initialId?: string) {
     }
   }, []);
 
-  const startNewQuotation = async (clientName: string, brokerName: string, mode: QuotationMode) => {
+  const startNewQuotation = async (title: string, clientName: string, brokerName: string, mode: QuotationMode) => {
     setIsLoading(true);
     setError(null);
     try {
-      const newQ = await createNewQuotation(clientName, brokerName, mode);
+      const newQ = await createNewQuotation(title, clientName, brokerName, mode);
       setQuotation(newQ);
       setCurrentStep(2); // Move to Step 2
     } catch (err) {
