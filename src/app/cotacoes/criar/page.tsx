@@ -37,47 +37,7 @@ function CriarCotacaoContent() {
     router.push("/cotacoes");
   };
 
-  if (isLoading) {
-    return (
-      <div className="w-full relative z-10 animate-pulse">
-        <div className="flex items-center gap-4 mb-8">
-          <Skeleton className="h-10 w-10 rounded-full" />
-          <Skeleton className="h-8 w-48" />
-        </div>
-        
-        <div className="max-w-[800px] mx-auto w-full space-y-6">
-          {/* Stepper Skeleton */}
-          <div className="flex justify-between mb-10">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex flex-col items-center gap-2 flex-1">
-                <Skeleton className="h-9 w-9 rounded-full" />
-                <Skeleton className="h-3 w-16" />
-              </div>
-            ))}
-          </div>
 
-          {/* Banner */}
-          <Skeleton className="h-16 w-full rounded-lg" />
-
-          {/* Top Buttons */}
-          <div className="flex gap-4">
-            <Skeleton className="h-10 flex-1 rounded-md" />
-            <Skeleton className="h-10 flex-1 rounded-md" />
-            <Skeleton className="h-10 flex-1 rounded-md" />
-          </div>
-
-          {/* Results card */}
-          <div className="space-y-4">
-            <Skeleton className="h-24 w-full rounded-lg" />
-            <Skeleton className="h-24 w-full rounded-lg" />
-          </div>
-
-          {/* Summary card */}
-          <Skeleton className="h-32 w-full rounded-lg" />
-        </div>
-      </div>
-    );
-  }
 
   const isStepClickable = (stepNum: number): boolean => {
     if (stepNum === 1) return true;
@@ -118,58 +78,85 @@ function CriarCotacaoContent() {
           </div>
         )}
 
-      {currentStep === 1 && (
-        <QuotationIdentification
-          initialClient={quotation?.clientName}
-          initialBroker={quotation?.brokerName}
-          initialMode={quotation?.mode}
-          onSubmit={startNewQuotation}
-          onBack={handleBackToDashboard}
-        />
-      )}
+        {isLoading ? (
+          <div className="space-y-6 animate-pulse mt-8">
+            {currentStep === 5 ? (
+              <>
+                <Skeleton className="h-16 w-full rounded-lg" />
+                <div className="space-y-4">
+                  <Skeleton className="h-24 w-full rounded-lg" />
+                  <Skeleton className="h-24 w-full rounded-lg" />
+                </div>
+                <Skeleton className="h-32 w-full rounded-lg" />
+              </>
+            ) : (
+              <>
+                <Skeleton className="h-12 w-full rounded-lg" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Skeleton className="h-12 w-full rounded-lg" />
+                  <Skeleton className="h-12 w-full rounded-lg" />
+                </div>
+                <Skeleton className="h-24 w-full rounded-lg" />
+                <Skeleton className="h-12 w-32 rounded-lg ml-auto" />
+              </>
+            )}
+          </div>
+        ) : (
+          <>
+            {currentStep === 1 && (
+              <QuotationIdentification
+                initialClient={quotation?.clientName}
+                initialBroker={quotation?.brokerName}
+                initialMode={quotation?.mode}
+                onSubmit={startNewQuotation}
+                onBack={handleBackToDashboard}
+              />
+            )}
 
-      {currentStep === 2 && (
-        <QuotationProfile
-          onBack={handleBackToDashboard}
-          onSubmit={() => nextStep()}
-        />
-      )}
+            {currentStep === 2 && (
+              <QuotationProfile
+                onBack={handleBackToDashboard}
+                onSubmit={() => nextStep()}
+              />
+            )}
 
-      {currentStep === 3 && quotation && (
-        <QuotationLives
-          lives={quotation.lives}
-          onUpdateLives={updateLives}
-          onBack={prevStep}
-          onNext={nextStep}
-        />
-      )}
+            {currentStep === 3 && quotation && (
+              <QuotationLives
+                lives={quotation.lives}
+                onUpdateLives={updateLives}
+                onBack={prevStep}
+                onNext={nextStep}
+              />
+            )}
 
-      {currentStep === 4 && quotation && (
-        <QuotationPreferences
-          initialPreferences={quotation.preferences}
-          onBack={prevStep}
-          onSubmit={async (prefs) => {
-            await updatePreferences(prefs);
-            await finalizeQuotation();
-          }}
-        />
-      )}
+            {currentStep === 4 && quotation && (
+              <QuotationPreferences
+                initialPreferences={quotation.preferences}
+                onBack={prevStep}
+                onSubmit={async (prefs) => {
+                  await updatePreferences(prefs);
+                  await finalizeQuotation();
+                }}
+              />
+            )}
 
-      {currentStep === 5 && quotation && (
-        <QuotationResults
-          quotation={quotation}
-          onRestart={handleBackToDashboard}
-          onBack={handleBackToDashboard}
-          onEdit={() => setCurrentStep(1)}
-          onDelete={async () => {
-            if (confirm("Tem certeza que deseja excluir esta cotação?")) {
-              await deleteQuotation(quotation.id);
-              handleBackToDashboard();
-            }
-          }}
-          isDetailView={isDetailMode}
-        />
-      )}
+            {currentStep === 5 && quotation && (
+              <QuotationResults
+                quotation={quotation}
+                onRestart={handleBackToDashboard}
+                onBack={handleBackToDashboard}
+                onEdit={() => setCurrentStep(1)}
+                onDelete={async () => {
+                  if (confirm("Tem certeza que deseja excluir esta cotação?")) {
+                    await deleteQuotation(quotation.id);
+                    handleBackToDashboard();
+                  }
+                }}
+                isDetailView={isDetailMode}
+              />
+            )}
+          </>
+        )}
       </div>
     </div>
   );

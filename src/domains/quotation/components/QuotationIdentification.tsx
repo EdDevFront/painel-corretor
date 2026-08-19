@@ -64,7 +64,7 @@ export function QuotationIdentification({
             })}
           >
             <option value="">Selecione o Corretor</option>
-            <option value="Beltran Silva">Beltran Silva</option>
+            <option value="Beltrano Silva">Beltrano Silva</option>
             <option value="Ana Souza">Ana Souza</option>
             <option value="Carlos Oliveira">Carlos Oliveira</option>
             <option value="Fernanda Santos">Fernanda Santos</option>
