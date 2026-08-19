@@ -45,7 +45,7 @@ export function QuotationList({
   return (
     <div className="w-full relative">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Cotações Finalizadas</h1>
+        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Cotações</h1>
       </div>
 
       <div className="w-full">
@@ -125,7 +125,7 @@ export function QuotationList({
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50">
-                  <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Título</th>
+                  <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Cliente</th>
                   <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">Criada por</th>
                   <th className="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-right">Ações</th>
                 </tr>

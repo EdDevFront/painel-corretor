@@ -56,15 +56,19 @@ export function QuotationIdentification({
         </div>
 
         <div>
-          <Input
+          <Select
             label="Nome do Corretor"
-            placeholder="Seu Nome completo"
             error={errors.brokerName?.message}
             {...register("brokerName", { 
-              required: "Nome do corretor é obrigatório", 
-              minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
+              required: "Nome do corretor é obrigatório"
             })}
-          />
+          >
+            <option value="">Selecione o Corretor</option>
+            <option value="Beltran Silva">Beltran Silva</option>
+            <option value="Ana Souza">Ana Souza</option>
+            <option value="Carlos Oliveira">Carlos Oliveira</option>
+            <option value="Fernanda Santos">Fernanda Santos</option>
+          </Select>
         </div>
       </div>
 
