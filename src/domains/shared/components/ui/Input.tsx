@@ -8,7 +8,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, className = "", ...props }, ref) => {
     return (
-      <div className="flex flex-col gap-1.5 w-full">
+      <div className="flex flex-col gap-1 w-full">
         {label && (
           <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">
             {label}
@@ -21,7 +21,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           } ${className}`}
           {...props}
         />
-        {error && <span className="text-red-500 text-xs mt-0.5">{error}</span>}
+        {/* Fixed height container to prevent layout shift */}
+        <div className="h-5">
+          {error && <span className="text-red-500 text-xs block mt-0.5">{error}</span>}
+        </div>
       </div>
     );
   }

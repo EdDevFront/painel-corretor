@@ -9,7 +9,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, error, className = "", children, ...props }, ref) => {
     return (
-      <div className="flex flex-col gap-1.5 w-full">
+      <div className="flex flex-col gap-1 w-full">
         {label && (
           <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">
             {label}
@@ -29,7 +29,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             <FiChevronDown />
           </div>
         </div>
-        {error && <span className="text-red-500 text-xs mt-0.5">{error}</span>}
+        {/* Fixed height container to prevent layout shift */}
+        <div className="h-5">
+          {error && <span className="text-red-500 text-xs block mt-0.5">{error}</span>}
+        </div>
       </div>
     );
   }
