@@ -81,7 +81,7 @@ function EditarCotacaoContent() {
       </div>
       
       <div className="max-w-[800px] mx-auto w-full text-left">
-        {!isDetailMode && (
+        {!isDetailMode && quotation && (
           <div className="no-print mb-8">
             <QuotationStepper 
               currentStep={currentStep} 
@@ -92,55 +92,71 @@ function EditarCotacaoContent() {
         )}
 
         {isLoading && !quotation ? (
-          // Results grid skeleton — matches the final comparative layout
+          // Skeleton fiel ao layout final: breadcrumb + actions bar + grid de cards + sidebar
           <div className="w-full animate-pulse">
+            {/* Breadcrumbs */}
             <div className="flex gap-2 mb-6">
               <div className="h-3 w-16 bg-slate-100 rounded" />
               <div className="h-3 w-2 bg-slate-100 rounded" />
-              <div className="h-3 w-28 bg-slate-100 rounded" />
+              <div className="h-3 w-32 bg-slate-100 rounded" />
             </div>
-            <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
+            {/* Actions bar: título + botões */}
+            <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
               <div className="space-y-2">
-                <div className="h-8 w-64 bg-slate-100 rounded-lg" />
-                <div className="h-3 w-48 bg-slate-100 rounded" />
+                <div className="h-9 w-72 bg-slate-100 rounded-lg" />
+                <div className="h-3 w-52 bg-slate-100 rounded" />
               </div>
               <div className="flex gap-2">
-                <div className="h-9 w-36 bg-slate-100 rounded-lg" />
-                <div className="h-9 w-28 bg-slate-100 rounded-lg" />
-                <div className="h-9 w-20 bg-slate-100 rounded-lg" />
+                <div className="h-9 w-40 bg-slate-100 rounded-lg" />
+                <div className="h-9 w-32 bg-slate-100 rounded-lg" />
+                <div className="h-9 w-24 bg-slate-100 rounded-lg" />
                 <div className="h-9 w-9 bg-slate-100 rounded-lg" />
               </div>
             </div>
-            <div className="flex gap-6 items-start">
-              <div className="flex-3 min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Grid: cards de planos + sidebar */}
+            <div className="flex gap-6 items-start flex-wrap">
+              {/* Cards de planos */}
+              <div className="flex-[3] min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="bg-white border border-slate-100 rounded-xl p-6 space-y-4">
+                  <div key={i} className="bg-white border border-slate-100 rounded-xl p-6 md:p-7 flex flex-col justify-between space-y-4">
+                    {/* Avatar do operador */}
                     <div className="h-10 w-10 bg-slate-100 rounded-lg" />
+                    {/* Nome + subtítulo + badges */}
                     <div className="space-y-2">
-                      <div className="h-4 w-32 bg-slate-100 rounded" />
-                      <div className="h-3 w-24 bg-slate-100 rounded" />
+                      <div className="h-4 w-36 bg-slate-100 rounded" />
+                      <div className="h-3 w-28 bg-slate-100 rounded" />
                       <div className="flex gap-2 mt-2">
-                        <div className="h-5 w-20 bg-slate-50 rounded" />
-                        <div className="h-5 w-16 bg-slate-50 rounded" />
+                        <div className="h-5 w-20 bg-slate-50 rounded-sm" />
+                        <div className="h-5 w-16 bg-slate-50 rounded-sm" />
                       </div>
                     </div>
-                    <div className="border-t border-slate-50 pt-4 space-y-2">
-                      <div className="h-3 w-20 bg-slate-100 rounded" />
-                      <div className="h-8 w-36 bg-slate-100 rounded" />
+                    {/* Preço */}
+                    <div className="border-t border-slate-50 pt-4 space-y-1.5">
+                      <div className="h-2.5 w-20 bg-slate-100 rounded" />
+                      <div className="h-9 w-44 bg-slate-100 rounded" />
                     </div>
-                    <div className="h-9 w-full bg-slate-100 rounded-lg" />
+                    {/* Botão Ver detalhes */}
+                    <div className="h-10 w-full bg-slate-100 rounded-lg" />
                   </div>
                 ))}
               </div>
-              <div className="flex-1 min-w-[260px] bg-slate-50 border border-slate-100 rounded-xl p-6 space-y-5">
-                <div className="space-y-2">
-                  <div className="h-2 w-16 bg-slate-100 rounded" />
-                  <div className="h-5 w-12 bg-slate-100 rounded" />
-                  <div className="h-3 w-28 bg-slate-100 rounded" />
+              {/* Sidebar */}
+              <div className="flex-1 min-w-[280px] bg-slate-50 border border-slate-100 rounded-xl p-6 space-y-4">
+                <div className="space-y-1.5">
+                  <div className="h-2.5 w-20 bg-slate-100 rounded" />
+                  <div className="h-5 w-14 bg-slate-100 rounded" />
+                  <div className="h-3 w-32 bg-slate-100 rounded" />
                 </div>
-                <div className="border-t border-slate-100 pt-4 space-y-2">
-                  <div className="h-2 w-16 bg-slate-100 rounded" />
-                  <div className="h-5 w-32 bg-slate-100 rounded" />
+                <div className="border-t border-slate-100 pt-4 space-y-1.5">
+                  <div className="h-2.5 w-20 bg-slate-100 rounded" />
+                  <div className="h-5 w-36 bg-slate-100 rounded" />
+                </div>
+                <div className="border-t border-slate-100 pt-4 flex items-center gap-2.5">
+                  <div className="h-2.5 w-2.5 bg-slate-100 rounded-full" />
+                  <div className="space-y-1">
+                    <div className="h-3 w-36 bg-slate-100 rounded" />
+                    <div className="h-2.5 w-24 bg-slate-100 rounded" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -224,64 +240,73 @@ export default function EditarCotacaoPage() {
     <DashboardLayout activeTab="cotações" setActiveTab={handleSetActiveTab}>
       <Suspense fallback={
         <div className="w-full animate-pulse">
-          {/* Breadcrumb skeleton */}
+          {/* Cabeçalho: botão voltar + título da página */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-10 w-10 bg-slate-100 rounded-lg border border-slate-200" />
+            <div className="h-9 w-52 bg-slate-100 rounded-lg" />
+          </div>
+          {/* Breadcrumbs */}
           <div className="flex gap-2 mb-6">
             <div className="h-3 w-16 bg-slate-100 rounded" />
             <div className="h-3 w-2 bg-slate-100 rounded" />
-            <div className="h-3 w-24 bg-slate-100 rounded" />
+            <div className="h-3 w-32 bg-slate-100 rounded" />
           </div>
-          {/* Header row: title + action buttons */}
-          <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
+          {/* Actions bar: título + botões */}
+          <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
             <div className="space-y-2">
-              <div className="h-8 w-64 bg-slate-100 rounded-lg" />
-              <div className="h-3 w-48 bg-slate-100 rounded" />
+              <div className="h-9 w-72 bg-slate-100 rounded-lg" />
+              <div className="h-3 w-52 bg-slate-100 rounded" />
             </div>
             <div className="flex gap-2">
-              <div className="h-9 w-36 bg-slate-100 rounded-lg" />
-              <div className="h-9 w-28 bg-slate-100 rounded-lg" />
-              <div className="h-9 w-20 bg-slate-100 rounded-lg" />
+              <div className="h-9 w-40 bg-slate-100 rounded-lg" />
+              <div className="h-9 w-32 bg-slate-100 rounded-lg" />
+              <div className="h-9 w-24 bg-slate-100 rounded-lg" />
               <div className="h-9 w-9 bg-slate-100 rounded-lg" />
             </div>
           </div>
-          {/* Grid: plan cards + sidebar */}
-          <div className="flex gap-6 items-start">
-            {/* Plan cards grid */}
-            <div className="flex-3 min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* Grid: cards de planos + sidebar */}
+          <div className="flex gap-6 items-start flex-wrap">
+            {/* Cards de planos */}
+            <div className="flex-[3] min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-white border border-slate-100 rounded-xl p-6 space-y-4">
+                <div key={i} className="bg-white border border-slate-100 rounded-xl p-6 md:p-7 flex flex-col justify-between space-y-4">
+                  {/* Avatar do operador */}
                   <div className="h-10 w-10 bg-slate-100 rounded-lg" />
+                  {/* Nome + subtítulo + badges */}
                   <div className="space-y-2">
-                    <div className="h-4 w-32 bg-slate-100 rounded" />
-                    <div className="h-3 w-24 bg-slate-100 rounded" />
+                    <div className="h-4 w-36 bg-slate-100 rounded" />
+                    <div className="h-3 w-28 bg-slate-100 rounded" />
                     <div className="flex gap-2 mt-2">
-                      <div className="h-5 w-20 bg-slate-50 rounded" />
-                      <div className="h-5 w-16 bg-slate-50 rounded" />
+                      <div className="h-5 w-20 bg-slate-50 rounded-sm" />
+                      <div className="h-5 w-16 bg-slate-50 rounded-sm" />
                     </div>
                   </div>
-                  <div className="border-t border-slate-50 pt-4 space-y-2">
-                    <div className="h-3 w-20 bg-slate-100 rounded" />
-                    <div className="h-8 w-36 bg-slate-100 rounded" />
+                  {/* Preço */}
+                  <div className="border-t border-slate-50 pt-4 space-y-1.5">
+                    <div className="h-2.5 w-20 bg-slate-100 rounded" />
+                    <div className="h-9 w-44 bg-slate-100 rounded" />
                   </div>
-                  <div className="h-9 w-full bg-slate-100 rounded-lg" />
+                  {/* Botão Ver detalhes */}
+                  <div className="h-10 w-full bg-slate-100 rounded-lg" />
                 </div>
               ))}
             </div>
             {/* Sidebar */}
-            <div className="flex-1 min-w-[260px] bg-slate-50 border border-slate-100 rounded-xl p-6 space-y-5">
-              <div className="space-y-2">
-                <div className="h-2 w-16 bg-slate-100 rounded" />
-                <div className="h-5 w-12 bg-slate-100 rounded" />
-                <div className="h-3 w-28 bg-slate-100 rounded" />
+            <div className="flex-1 min-w-[280px] bg-slate-50 border border-slate-100 rounded-xl p-6 space-y-4">
+              <div className="space-y-1.5">
+                <div className="h-2.5 w-20 bg-slate-100 rounded" />
+                <div className="h-5 w-14 bg-slate-100 rounded" />
+                <div className="h-3 w-32 bg-slate-100 rounded" />
               </div>
-              <div className="border-t border-slate-100 pt-4 space-y-2">
-                <div className="h-2 w-16 bg-slate-100 rounded" />
-                <div className="h-5 w-32 bg-slate-100 rounded" />
+              <div className="border-t border-slate-100 pt-4 space-y-1.5">
+                <div className="h-2.5 w-20 bg-slate-100 rounded" />
+                <div className="h-5 w-36 bg-slate-100 rounded" />
               </div>
-              <div className="border-t border-slate-100 pt-4 flex gap-3 items-center">
-                <div className="h-3 w-3 bg-slate-100 rounded-full" />
+              <div className="border-t border-slate-100 pt-4 flex items-center gap-2.5">
+                <div className="h-2.5 w-2.5 bg-slate-100 rounded-full" />
                 <div className="space-y-1">
-                  <div className="h-3 w-32 bg-slate-100 rounded" />
-                  <div className="h-2 w-24 bg-slate-100 rounded" />
+                  <div className="h-3 w-36 bg-slate-100 rounded" />
+                  <div className="h-2.5 w-24 bg-slate-100 rounded" />
                 </div>
               </div>
             </div>
