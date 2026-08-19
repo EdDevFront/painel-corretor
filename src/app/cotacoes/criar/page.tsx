@@ -11,6 +11,7 @@ import { QuotationLives } from "../../../domains/quotation/components/QuotationL
 import { QuotationPreferences } from "../../../domains/quotation/components/QuotationPreferences";
 import { QuotationResults } from "../../../domains/quotation/components/QuotationResults";
 import { Skeleton } from "../../../components/ui/Skeleton";
+import { Button } from "../../../components/ui/Button";
 
 function CriarCotacaoContent() {
   const router = useRouter();
@@ -46,9 +47,18 @@ function CriarCotacaoContent() {
 
   return (
     <div className="w-full relative z-10">
-      <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
-        {pageTitle}
-      </h1>
+      <div className="flex items-center justify-between gap-4 mb-8">
+        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+          {pageTitle}
+        </h1>
+        <Button 
+          variant="secondary" 
+          onClick={handleBackToDashboard}
+          className="h-9 px-4 text-xs font-bold uppercase tracking-wider border-slate-200"
+        >
+          Voltar para Cotações
+        </Button>
+      </div>
       
       <div className="max-w-[800px] mx-auto w-full">
         <QuotationStepper 

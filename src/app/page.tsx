@@ -27,7 +27,6 @@ function HomeContent() {
 
   return (
     <DashboardLayout activeTab={activeTab} setActiveTab={handleSetActiveTab}>
-      {activeTab === "início" && (
         <div className="w-full">
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">Início</h1>
           <div className="bg-white border border-slate-100 rounded-lg p-10 md:p-16 shadow-xs max-w-[600px] mx-auto text-center relative z-10">
@@ -45,19 +44,6 @@ function HomeContent() {
             </div>
           </div>
         </div>
-      )}
-
-      {activeTab !== "início" && activeTab !== "cotações" && (
-        <div className="w-full">
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
-            {activeTab === "busca" ? "Busca ANS" : "Configurações"}
-          </h1>
-          <div className="bg-white border border-slate-100 rounded-lg p-16 shadow-xs text-center max-w-[600px] mx-auto relative z-10">
-            <h2 className="text-xl font-bold text-slate-900">{activeTab === "busca" ? "Busca ANS" : "Configurações"}</h2>
-            <p className="text-slate-400 mt-4">Área em desenvolvimento (Beta).</p>
-          </div>
-        </div>
-      )}
     </DashboardLayout>
   );
 }

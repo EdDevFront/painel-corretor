@@ -4,6 +4,7 @@ import { Life } from "../types";
 import { calculateAge } from "../calculator";
 import { Input } from "../../../components/ui/Input";
 import { Button } from "../../../components/ui/Button";
+import { FiUsers } from "react-icons/fi";
 
 interface LivesProps {
   lives: Life[];
@@ -40,7 +41,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
     <div className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
       <h2 className="text-xl font-bold text-slate-900 mb-6">Gerenciamento de Vidas</h2>
       
-      <form onSubmit={handleSubmit(onAddLife)} className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-1 mb-8 items-end">
+      <form onSubmit={handleSubmit(onAddLife)} className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-1 mb-8 items-start">
         <div className="md:col-span-2">
           <Input
             label="Nome"
@@ -57,15 +58,25 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
             {...register("birthDate", { required: "Obrigatório" })}
           />
         </div>
-        <Button type="submit" className="h-[40px] mb-5 md:mb-0">
-          Adicionar
-        </Button>
+        <div className="flex flex-col gap-1 w-full">
+          <div className="h-[15px] hidden md:block" />
+          <Button type="submit" className="h-[40px] w-full">
+            Adicionar
+          </Button>
+          <div className="h-5" />
+        </div>
       </form>
 
       {lives.length === 0 ? (
-        <p className="text-slate-400 text-center my-8">
-          Nenhuma vida cadastrada nesta cotação.
-        </p>
+        <div className="bg-slate-50 border border-dashed border-slate-200 rounded-lg p-10 text-center my-8">
+          <div className="flex justify-center text-slate-300 mb-3">
+            <FiUsers className="text-4xl" />
+          </div>
+          <h3 className="text-sm font-bold text-slate-700">Nenhuma vida cadastrada</h3>
+          <p className="text-xs text-slate-400 mt-1 max-w-[320px] mx-auto">
+            Utilize os campos acima para adicionar membros e beneficiários a esta cotação de saúde.
+          </p>
+        </div>
       ) : (
         <div className="overflow-x-auto mb-8 border border-slate-100 rounded-lg">
           <table className="w-full border-collapse text-left">

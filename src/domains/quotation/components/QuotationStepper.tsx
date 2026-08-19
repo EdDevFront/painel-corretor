@@ -1,4 +1,5 @@
 import React from "react";
+import { FiUserCheck, FiSliders, FiUsers, FiAward, FiCheckCircle } from "react-icons/fi";
 
 interface StepperProps {
   currentStep: number;
@@ -7,11 +8,11 @@ interface StepperProps {
 }
 
 const STEPS = [
-  "Identificação",
-  "Configuração",
-  "Vidas",
-  "Preferências",
-  "Resultados",
+  { label: "Identificação", icon: FiUserCheck },
+  { label: "Configuração", icon: FiSliders },
+  { label: "Vidas", icon: FiUsers },
+  { label: "Preferências", icon: FiAward },
+  { label: "Resultados", icon: FiCheckCircle },
 ];
 
 export function QuotationStepper({ currentStep, isStepClickable, onStepClick }: StepperProps) {
@@ -22,28 +23,29 @@ export function QuotationStepper({ currentStep, isStepClickable, onStepClick }: 
         const isActive = stepNum === currentStep;
         const isCompleted = stepNum < currentStep;
         const clickable = isStepClickable(stepNum);
+        const StepIcon = step.icon;
         
         return (
           <div 
-            key={step} 
+            key={step.label} 
             onClick={() => clickable && onStepClick(stepNum)}
             className={`flex flex-col items-center flex-1 z-10 ${
               clickable ? "cursor-pointer group" : "cursor-not-allowed"
             }`}
           >
-            <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
+            <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm transition-all duration-300 ${
               isActive 
                 ? "bg-teal-600 text-white border-4 border-teal-100" 
                 : isCompleted 
                   ? "bg-slate-900 text-white group-hover:bg-slate-700" 
                   : "bg-slate-100 text-slate-500"
             }`}>
-              {stepNum}
+              <StepIcon />
             </div>
             <span className={`text-[10px] uppercase font-bold tracking-wider mt-2 text-center transition-colors ${
               isActive ? "text-slate-900" : clickable ? "text-slate-500 group-hover:text-slate-700" : "text-slate-400"
             }`}>
-              {step}
+              {stepNum}. {step.label}
             </span>
           </div>
         );
