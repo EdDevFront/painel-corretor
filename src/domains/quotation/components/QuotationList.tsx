@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Quotation } from "../types";
-import { FiPlus, FiSliders, FiTrash2, FiFolder } from "react-icons/fi";
+import { FiPlus, FiSliders, FiTrash2, FiFolder, FiEye } from "react-icons/fi";
 import { TableSkeleton } from "../../../components/ui/TableSkeleton";
 import { Button } from "../../../components/ui/Button";
 import { IconButton } from "../../../components/ui/IconButton";
@@ -140,10 +140,21 @@ export function QuotationList({
                           {new Date(q.createdAt).toLocaleDateString("pt-BR")}
                         </div>
                       </td>
-                      <td className="p-4 text-right">
+                      <td className="p-4 text-right flex justify-end gap-2">
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelectQuotation(q.id);
+                          }}
+                          className="border-none bg-transparent hover:bg-slate-50 p-2"
+                          title="Visualizar Detalhes"
+                        >
+                          <FiEye className="text-base text-slate-400 hover:text-teal-600" />
+                        </IconButton>
                         <IconButton
                           onClick={(e) => handleDelete(q.id, e)}
                           className="border-none bg-transparent hover:bg-slate-50 p-2"
+                          title="Excluir Cotação"
                         >
                           <FiTrash2 className="text-base text-slate-400 hover:text-red-500" />
                         </IconButton>
