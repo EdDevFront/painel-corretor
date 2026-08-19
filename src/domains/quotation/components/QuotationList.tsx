@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Quotation } from "../types";
 import { FiPlus, FiSearch, FiSliders, FiTrash2, FiFolder } from "react-icons/fi";
-import { TableSkeleton } from "../../shared/components/ui/TableSkeleton";
-import { Button } from "../../shared/components/ui/Button";
-import { IconButton } from "../../shared/components/ui/IconButton";
-import { Input } from "../../shared/components/ui/Input";
+import { TableSkeleton } from "../../../components/ui/TableSkeleton";
+import { Button } from "../../../components/ui/Button";
+import { IconButton } from "../../../components/ui/IconButton";
+import { Input } from "../../../components/ui/Input";
 
 interface ListProps {
   quotations: Quotation[];
