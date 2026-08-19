@@ -4,6 +4,7 @@ import { FiCalendar, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  hideErrorSpace?: boolean;
 }
 
 const MONTH_NAMES = [
@@ -14,7 +15,7 @@ const MONTH_NAMES = [
 const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, className = "", type = "text", onChange, value: controlledValue, defaultValue, ...props }, ref) => {
+  ({ label, error, className = "", type = "text", onChange, value: controlledValue, defaultValue, hideErrorSpace, ...props }, ref) => {
     const isDate = type === "date";
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -294,9 +295,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {/* Fixed height container to prevent layout shift */}
-        <div className="h-5">
-          {error && <span className="text-red-500 text-xs block mt-0.5">{error}</span>}
-        </div>
+        {!hideErrorSpace && (
+          <div className="h-5">
+            {error && <span className="text-red-500 text-xs block mt-0.5">{error}</span>}
+          </div>
+        )}
       </div>
     );
   }

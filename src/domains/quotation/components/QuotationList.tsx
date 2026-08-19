@@ -60,6 +60,7 @@ export function QuotationList({
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="h-[38px] py-1 px-3"
+                  hideErrorSpace={true}
                 />
               </div>
               <IconButton 
@@ -78,12 +79,13 @@ export function QuotationList({
 
           {/* Collapsible Filters Drawer */}
           {showFilters && (
-            <div className="bg-white border border-slate-200 rounded-lg p-5 mb-6 shadow-xs flex flex-wrap gap-4 items-end animate-fadeIn">
+            <div className="bg-white border border-slate-200 rounded-lg p-5 mb-6 shadow-xs flex flex-wrap gap-4 items-start animate-fadeIn">
               <div className="w-full md:w-[250px]">
                 <Select 
                   label="Modalidade" 
                   value={selectedMode} 
                   onChange={(e) => setSelectedMode(e.target.value)}
+                  hideErrorSpace={true}
                 >
                   <option value="">Todas as Modalidades</option>
                   <option value="PF">Pessoa Física (PF)</option>
@@ -92,16 +94,19 @@ export function QuotationList({
                 </Select>
               </div>
               
-              <Button 
-                variant="secondary" 
-                onClick={() => {
-                  setSelectedMode("");
-                  setShowFilters(false);
-                }}
-                className="h-[38px] mb-5"
-              >
-                Limpar Filtros
-              </Button>
+              <div className="flex flex-col gap-1">
+                <div className="h-[15px] hidden md:block" />
+                <Button 
+                  variant="secondary" 
+                  onClick={() => {
+                    setSelectedMode("");
+                    setShowFilters(false);
+                  }}
+                  className="h-[38px] text-red-500 hover:text-red-600 hover:bg-red-50 border-red-200 hover:border-red-300 transition-colors normal-case"
+                >
+                  Limpar Filtros
+                </Button>
+              </div>
             </div>
           )}
 

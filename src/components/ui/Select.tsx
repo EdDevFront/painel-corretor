@@ -4,10 +4,11 @@ import { FiChevronDown } from "react-icons/fi";
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
+  hideErrorSpace?: boolean;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, error, className = "", children, onChange, value: controlledValue, defaultValue, ...props }, ref) => {
+  ({ label, error, className = "", children, onChange, value: controlledValue, defaultValue, hideErrorSpace, ...props }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const selectRef = useRef<HTMLSelectElement>(null);
@@ -119,9 +120,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         </div>
 
         {/* Fixed height error container */}
-        <div className="h-5">
-          {error && <span className="text-red-500 text-xs block mt-0.5">{error}</span>}
-        </div>
+        {!hideErrorSpace && (
+          <div className="h-5">
+            {error && <span className="text-red-500 text-xs block mt-0.5">{error}</span>}
+          </div>
+        )}
       </div>
     );
   }
