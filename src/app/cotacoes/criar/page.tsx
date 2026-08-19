@@ -88,7 +88,8 @@ function CriarCotacaoContent() {
     return false;
   };
 
-  const pageTitle = quotationId ? "Editar Cotação" : "Nova Cotação";
+  const isDetailMode = !!quotationId && quotation?.status === "completed" && currentStep === 5;
+  const pageTitle = isDetailMode ? "Detalhes da Cotação" : (quotationId ? "Editar Cotação" : "Nova Cotação");
 
   return (
     <div className="w-full relative z-10">
@@ -107,11 +108,13 @@ function CriarCotacaoContent() {
       </div>
       
       <div className="max-w-[800px] mx-auto w-full">
-        <QuotationStepper 
-          currentStep={currentStep} 
-          isStepClickable={isStepClickable}
-          onStepClick={setCurrentStep}
-        />
+        {!isDetailMode && (
+          <QuotationStepper 
+            currentStep={currentStep} 
+            isStepClickable={isStepClickable}
+            onStepClick={setCurrentStep}
+          />
+        )}
 
       {currentStep === 1 && (
         <QuotationIdentification
@@ -162,6 +165,7 @@ function CriarCotacaoContent() {
               handleBackToDashboard();
             }
           }}
+          isDetailView={isDetailMode}
         />
       )}
       </div>

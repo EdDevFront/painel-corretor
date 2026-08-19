@@ -9,9 +9,10 @@ interface ResultsProps {
   onBack: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  isDetailView?: boolean;
 }
 
-export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelete }: ResultsProps) {
+export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelete, isDetailView }: ResultsProps) {
   const results = quotation.results;
   const preferredOp = quotation.preferences.operatorId;
 
@@ -30,13 +31,15 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
   return (
     <div className="max-w-[800px] mx-auto w-full">
       {/* 1. Success Alert Banner */}
-      <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-5 mb-6 flex items-center gap-4 text-emerald-800 no-print">
-        <FiCheckCircle className="text-emerald-500 text-3xl shrink-0" />
-        <div>
-          <h3 className="font-bold text-sm">Cotação Salva com Sucesso!</h3>
-          <p className="text-xs text-emerald-600/90 mt-0.5">Os dados foram arquivados e estão disponíveis na listagem de cotações.</p>
+      {!isDetailView && (
+        <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-5 mb-6 flex items-center gap-4 text-emerald-800 no-print">
+          <FiCheckCircle className="text-emerald-500 text-3xl shrink-0" />
+          <div>
+            <h3 className="font-bold text-sm">Cotação Salva com Sucesso!</h3>
+            <p className="text-xs text-emerald-600/90 mt-0.5">Os dados foram arquivados e estão disponíveis na listagem de cotações.</p>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex gap-4 mb-8 flex-wrap no-print">
         <Button type="button" variant="secondary" className="flex-1 min-w-[150px]" onClick={onEdit}>
