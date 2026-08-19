@@ -1,6 +1,6 @@
 import React from "react";
 import { FiBell, FiUser, FiMenu, FiX } from "react-icons/fi";
-import { IconButton } from "../../components/ui/IconButton";
+import { IconButton } from "../../../../components/ui/IconButton";
 
 interface NavbarProps {
   onToggleSidebar?: () => void;

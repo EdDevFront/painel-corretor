@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { QuotationMode } from "../types";
-import { Input } from "../../../components/ui/Input";
-import { Select } from "../../../components/ui/Select";
-import { Button } from "../../../components/ui/Button";
+import { Input } from "../../../../components/ui/Input";
+import { Select } from "../../../../components/ui/Select";
+import { Button } from "../../../../components/ui/Button";
 
 interface IdentificationProps {
   onSubmit: (clientName: string, brokerName: string, mode: QuotationMode) => void;

@@ -2,8 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Life } from "../types";
 import { calculateAge } from "../calculator";
-import { Input } from "../../../components/ui/Input";
-import { Button } from "../../../components/ui/Button";
+import { Input } from "../../../../components/ui/Input";
+import { Button } from "../../../../components/ui/Button";
 
 interface LivesProps {
   lives: Life[];

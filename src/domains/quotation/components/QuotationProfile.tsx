@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Select } from "../../../components/ui/Select";
-import { Button } from "../../../components/ui/Button";
+import { Select } from "../../../../components/ui/Select";
+import { Button } from "../../../../components/ui/Button";
 
 interface ProfileProps {
   onBack: () => void;
