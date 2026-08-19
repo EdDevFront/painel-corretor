@@ -38,11 +38,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
         </div>
       </div>
 
-      {/* 2. Step navigation at the top */}
       <div className="flex gap-4 mb-8 flex-wrap no-print">
-        <Button type="button" variant="secondary" className="flex-1 min-w-[100px]" onClick={onBack}>
-          <FiArrowLeft className="mr-1.5" /> Voltar
-        </Button>
         <Button type="button" variant="secondary" className="flex-1 min-w-[150px]" onClick={onEdit}>
           <FiEdit className="mr-1.5" /> Editar Cotação
         </Button>
