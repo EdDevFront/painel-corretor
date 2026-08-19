@@ -98,3 +98,34 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .animate-spin-custom {
   animation: spin 1s linear infinite;
 }
+
+@media print {
+  /* Hide sidebar, top navbar, dashboard layout wrapper boundaries, and action buttons */
+  aside, nav, header, button, .no-print, .flex.gap-4, .mb-10, .flex.justify-between {
+    display: none !important;
+  }
+  
+  /* Reset background and text colors */
+  body, html {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Make print-target span the entire print sheet */
+  #print-target {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /* Keep table borders visible during print */
+  .border, .border-b {
+    border-color: #cbd5e1 !important;
+  }
+}
