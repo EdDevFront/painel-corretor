@@ -48,7 +48,7 @@ function CotacoesPageContent() {
       <QuotationList
         quotations={allQuotations}
         isLoading={isListLoading}
-        onSelectQuotation={(id) => router.push(`/cotacoes/criar?id=${id}`)}
+        onSelectQuotation={(id) => router.push(`/cotacoes/${id}`)}
         onNewQuotation={handleNewQuotation}
         onDeleteQuotation={handleDelete}
       />

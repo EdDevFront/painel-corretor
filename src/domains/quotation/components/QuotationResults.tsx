@@ -42,7 +42,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
 
   if (!results) {
     return (
-      <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs">
+      <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs text-sm">
         Nenhum resultado de cálculo disponível.
       </div>
     );
@@ -114,16 +114,32 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
     )
   })).filter(group => group.items.length > 0);
 
+  // Common print identification header block
+  const renderPrintHeader = () => (
+    <div className="hidden print:block border-b border-slate-300 pb-4 mb-6 text-left">
+      <h1 className="text-2xl font-black text-slate-900">{quotation.title || "Cotação de Plano de Saúde"}</h1>
+      <div className="grid grid-cols-2 gap-x-8 gap-y-1.5 mt-3 text-sm text-slate-700">
+        <div><strong>Cliente:</strong> {quotation.clientName}</div>
+        <div><strong>Corretor:</strong> {quotation.brokerName}</div>
+        <div><strong>Modalidade:</strong> {quotation.mode}</div>
+        <div><strong>Data de Emissão:</strong> {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}</div>
+      </div>
+    </div>
+  );
+
   // --- 1. RENDER PLAN DETAIL SUB-VIEW ---
   if (selectedPlan) {
     const ageGroups = getAgeGroups(selectedPlan);
     return (
-      <div className="w-full relative z-10 animate-fadeIn">
+      <div className="w-full relative z-10 animate-fadeIn text-left">
+        {/* Print Identification Header */}
+        {renderPrintHeader()}
+
         {/* Header Block */}
-        <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4">
+        <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4 text-left">
           <div>
             <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">{selectedPlan.operatorName}</h2>
-            <p className="text-slate-500 text-xs mt-1">Dona Saúde Saúde {quotation.mode}</p>
+            <p className="text-slate-500 text-sm mt-1">Dona Saúde Saúde {quotation.mode}</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="secondary" onClick={() => window.print()}>
@@ -136,11 +152,11 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
         </div>
 
         {/* Plan Details Grid Layout */}
-        <div className="flex gap-6 items-start flex-wrap print:flex-col print:w-full print:gap-6">
+        <div className="flex gap-6 items-start flex-wrap print:flex-col print:w-full print:gap-6 text-left">
           {/* Left Panel: Accordions */}
-          <div className="flex-3 min-w-[300px] space-y-3 print:w-full print:order-2">
+          <div className="flex-3 min-w-[300px] space-y-3 print:w-full print:order-2 text-left">
             {/* Coparticipação Accordion */}
-            <div className="bg-white border border-slate-100 rounded-lg overflow-hidden shadow-xs print:border-none print:shadow-none">
+            <div className="bg-white border border-slate-100 rounded-lg overflow-hidden shadow-xs print:border-none print:shadow-none text-left">
               <button 
                 onClick={() => toggleAccordion("copart")}
                 className="w-full p-4 flex justify-between items-center font-bold text-slate-800 hover:bg-slate-50 text-left text-sm no-print"
@@ -150,11 +166,11 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               </button>
               
               {/* Printed static title */}
-              <h4 className="hidden print:block font-bold text-slate-950 text-sm p-4 pb-1 uppercase tracking-wider">
+              <h4 className="hidden print:block font-bold text-slate-950 text-sm p-4 pb-1 uppercase tracking-wider text-left">
                 {quotation.preferences.coparticipation ? "Com coparticipação" : "Sem coparticipação"}
               </h4>
 
-              <div className={`p-4 pt-0 border-t border-slate-50 text-xs text-slate-500 leading-relaxed ${openAccordions.copart ? "block" : "hidden"} print:block print:border-none print:pt-2`}>
+              <div className={`p-4 pt-0 border-t border-slate-50 text-sm text-slate-500 leading-relaxed ${openAccordions.copart ? "block" : "hidden"} print:block print:border-none print:pt-2 text-left`}>
                 {quotation.preferences.coparticipation 
                   ? "Possui custos adicionais reduzidos para a realização de consultas, exames simples, e procedimentos médicos eletivos."
                   : "Não possui custos adicionais para realização de consultas, exames, procedimentos ou internações corporativas."}
@@ -171,7 +187,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               { id: "pay", title: "Forma de Pagamento", desc: "Boleto bancário mensal com vencimento selecionado na assinatura da proposta." },
               { id: "prod", title: "Produto", desc: "Plano corporativo regulamentado pela ANS nº 489.120/21-8." }
             ].map((acc) => (
-              <div key={acc.id} className="bg-white border border-slate-100 rounded-lg overflow-hidden shadow-xs print:border-none print:shadow-none">
+              <div key={acc.id} className="bg-white border border-slate-100 rounded-lg overflow-hidden shadow-xs print:border-none print:shadow-none text-left">
                 <button 
                   onClick={() => toggleAccordion(acc.id)}
                   className="w-full p-4 flex justify-between items-center font-bold text-slate-800 hover:bg-slate-50 text-left text-sm no-print"
@@ -181,11 +197,11 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
                 </button>
 
                 {/* Printed static title */}
-                <h4 className="hidden print:block font-bold text-slate-950 text-sm p-4 pb-1 uppercase tracking-wider">
+                <h4 className="hidden print:block font-bold text-slate-950 text-sm p-4 pb-1 uppercase tracking-wider text-left">
                   {acc.title}
                 </h4>
 
-                <div className={`p-4 pt-0 border-t border-slate-50 text-xs text-slate-500 leading-relaxed ${openAccordions[acc.id] ? "block" : "hidden"} print:block print:border-none print:pt-2`}>
+                <div className={`p-4 pt-0 border-t border-slate-50 text-sm text-slate-500 leading-relaxed ${openAccordions[acc.id] ? "block" : "hidden"} print:block print:border-none print:pt-2 text-left`}>
                   {acc.desc}
                 </div>
               </div>
@@ -193,18 +209,18 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
           </div>
 
           {/* Right Panel: Pricing breakdown card */}
-          <div className="flex-1 min-w-[280px] space-y-4 print:w-full print:order-1">
-            <div className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs print:border-none print:shadow-none">
-              <h3 className="font-bold text-slate-900 text-sm mb-1">{selectedPlan.operatorName}</h3>
+          <div className="flex-1 min-w-[280px] space-y-4 print:w-full print:order-1 text-left">
+            <div className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs print:border-none print:shadow-none text-left">
+              <h3 className="font-bold text-slate-900 text-base mb-1">{selectedPlan.operatorName}</h3>
               <input 
                 type="text" 
                 placeholder="Adicione um comentário..." 
-                className="w-full mt-2 mb-4 p-2 text-xs border border-slate-100 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50 no-print"
+                className="w-full mt-2 mb-4 p-2 text-sm border border-slate-200 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50 no-print"
               />
 
               <div className="space-y-3 mb-6">
                 {ageGroups.map((g) => (
-                  <div key={g.bracket} className="flex justify-between text-xs text-slate-600">
+                  <div key={g.bracket} className="flex justify-between text-sm text-slate-600">
                     <span>{g.bracket}</span>
                     <strong className="font-semibold text-slate-900">
                       {g.count} x R$ {g.unitPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
@@ -214,9 +230,9 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               </div>
 
               <div className="border-t border-slate-100 pt-4 flex justify-between items-baseline mb-5">
-                <span className="text-xs text-slate-400">Total Mensal</span>
-                <div className="text-2xl font-extrabold text-slate-900">
-                  R$ {selectedPlan.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}<span className="text-xs font-normal text-slate-400">/mês</span>
+                <span className="text-sm text-slate-400">Total Mensal</span>
+                <div className="text-3xl font-black text-slate-900">
+                  R$ {selectedPlan.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}<span className="text-sm font-normal text-slate-400">/mês</span>
                 </div>
               </div>
 
@@ -232,21 +248,21 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
             {/* Hospital coverage preview cards */}
             <div 
               onClick={() => setIsHospitalsOpen(true)}
-              className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs flex justify-between items-center cursor-pointer hover:border-slate-200 transition-colors print:hidden"
+              className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs flex justify-between items-center cursor-pointer hover:border-slate-200 transition-colors print:hidden text-left"
             >
               <div>
-                <h4 className="font-bold text-slate-900 text-xs">40 Hospitais</h4>
-                <p className="text-[10px] text-slate-400 mt-0.5">Confira os principais hospitais da rede.</p>
+                <h4 className="font-bold text-slate-900 text-sm">40 Hospitais</h4>
+                <p className="text-xs text-slate-400 mt-0.5">Confira os principais hospitais da rede.</p>
               </div>
               <div className="h-8 w-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
                 <FiPlus />
               </div>
             </div>
 
-            <div className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs flex justify-between items-center print:hidden">
+            <div className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs flex justify-between items-center print:hidden text-left">
               <div>
-                <h4 className="font-bold text-slate-900 text-xs">6 Laboratórios</h4>
-                <p className="text-[10px] text-slate-400 mt-0.5">Confira os laboratórios credenciados.</p>
+                <h4 className="font-bold text-slate-900 text-sm">6 Laboratórios</h4>
+                <p className="text-xs text-slate-400 mt-0.5">Confira os laboratórios credenciados.</p>
               </div>
               <div className="h-8 w-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
                 <FiActivity />
@@ -265,7 +281,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
   function renderHospitalsModal() {
     if (!isHospitalsOpen) return null;
     return (
-      <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fadeIn no-print">
+      <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fadeIn no-print text-left">
         <div className="bg-white rounded-2xl p-6 w-full max-w-[650px] shadow-2xl relative border border-slate-100 flex flex-col max-h-[80vh]">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
@@ -294,7 +310,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               {selectedPlan ? selectedPlan.operatorName.substring(0, 2).toUpperCase() : "OP"}
             </div>
             <h4 className="font-extrabold text-slate-950 text-base">{selectedPlan ? selectedPlan.operatorName : "Plano Selecionado"}</h4>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Enfermaria</span>
+            <span className="text-xs uppercase font-bold tracking-wider text-slate-400">Enfermaria</span>
           </div>
 
           {/* Scrollable Accreditations List */}
@@ -305,17 +321,17 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               filteredHospitals.map(group => (
                 <div key={group.region}>
                   <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-3 uppercase tracking-wider">
-                    <FiMapPin className="text-teal-600 text-sm" />
+                    <FiMapPin className="text-teal-600 text-base" />
                     <span>{group.region}</span>
                   </div>
                   <div className="space-y-2">
                     {group.items.map(item => (
-                      <div key={item.name} className="bg-slate-50/50 border border-slate-100 rounded-lg p-3 flex justify-between items-center text-xs">
+                      <div key={item.name} className="bg-slate-50/50 border border-slate-100 rounded-lg p-3 flex justify-between items-center text-sm">
                         <div>
                           <div className="font-bold text-slate-800">{item.name}</div>
                           <div className="text-slate-400 mt-0.5">{item.sub}</div>
                         </div>
-                        <span className="bg-white border border-slate-100 text-[10px] font-bold text-slate-500 px-2 py-0.5 rounded-sm">{item.type}</span>
+                        <span className="bg-white border border-slate-100 text-xs font-bold text-slate-500 px-2 py-0.5 rounded-sm">{item.type}</span>
                       </div>
                     ))}
                   </div>
@@ -330,12 +346,15 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
 
   // --- 2. RENDER MAIN RESULTS COMPARATIVE GRID ---
   return (
-    <div className="w-full relative z-10 animate-fadeIn">
+    <div className="w-full relative z-10 animate-fadeIn text-left">
+      {/* Print Identification Header */}
+      {renderPrintHeader()}
+
       {/* Dynamic Actions Bar at the top */}
-      <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4">
+      <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4 text-left">
         <div>
           <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">{quotation.title || "Resultado Comparativo"}</h2>
-          <p className="text-slate-400 text-xs mt-1">Cotação gerada em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}</p>
+          <p className="text-slate-400 text-sm mt-1">Cotação gerada em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}</p>
         </div>
         
         <div className="flex items-center gap-2">
@@ -426,27 +445,27 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
       </div>
 
       {/* Grid Comparison Layout */}
-      <div id="print-target" className="flex gap-6 items-start flex-wrap print:flex-col print:w-full print:gap-6">
+      <div className="flex gap-6 items-start flex-wrap print:flex-col print:w-full print:gap-6 text-left">
         {/* Left column: Plan Cards Grid */}
-        <div className="flex-3 min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-4 print:w-full print:grid-cols-1">
+        <div className="flex-3 min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-4 print:w-full print:grid-cols-1 text-left">
           {displayedResults.map((opResult: OperatorResult) => (
-            <div key={opResult.operatorId} className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs flex flex-col justify-between hover:border-slate-200 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-none print:p-0 print:mb-6">
+            <div key={opResult.operatorId} className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs flex flex-col justify-between hover:border-slate-200 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-none print:p-0 print:mb-6 text-left">
               <div className="flex justify-between items-start mb-4">
                 <div className="h-10 w-10 bg-amber-500/10 text-amber-600 rounded-lg flex items-center justify-center font-extrabold text-sm border border-amber-500/20 shadow-xs">
                   {opResult.operatorName.substring(0, 2).toUpperCase()}
                 </div>
                 <div className="text-right">
                   <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block">Mensalidade</span>
-                  <div className="text-lg font-black text-slate-900">
+                  <div className="text-3xl font-black text-slate-900">
                     R$ {opResult.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-1 mb-5">
-                <h3 className="font-bold text-slate-900 text-sm">{opResult.operatorName}</h3>
-                <p className="text-[10px] text-slate-500">Saúde {quotation.mode} • {quotation.preferences.hospitalNetwork === "premium" ? "Rede Premium" : "Rede Básica"}</p>
-                <div className="flex items-center gap-2 mt-2 flex-wrap text-[10px] text-slate-400">
+              <div className="space-y-1 mb-5 text-left">
+                <h3 className="font-bold text-slate-900 text-base">{opResult.operatorName}</h3>
+                <p className="text-xs text-slate-500">Saúde {quotation.mode} • {quotation.preferences.hospitalNetwork === "premium" ? "Rede Premium" : "Rede Básica"}</p>
+                <div className="flex items-center gap-2 mt-2 flex-wrap text-xs text-slate-400">
                   <span className="bg-slate-50 px-2 py-0.5 rounded-sm">40 Hospitais</span>
                   <span className="bg-slate-50 px-2 py-0.5 rounded-sm">{quotation.preferences.coparticipation ? "Copart" : "Sem copart"}</span>
                 </div>
@@ -455,7 +474,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
               <Button 
                 type="button" 
                 variant="secondary" 
-                className="w-full text-xs py-2 normal-case font-bold no-print"
+                className="w-full text-sm py-2 normal-case font-bold no-print"
                 onClick={() => setSelectedPlan(opResult)}
               >
                 Ver detalhes
@@ -465,21 +484,21 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
         </div>
 
         {/* Right column: Technical Summary Sidebar */}
-        <div className="flex-1 min-w-[280px] bg-white border border-slate-100 rounded-lg p-5 shadow-xs space-y-4 print:w-full print:border-none print:shadow-none print:p-0">
+        <div className="flex-1 min-w-[280px] bg-white border border-slate-100 rounded-lg p-5 shadow-xs space-y-4 print:w-full print:border-none print:shadow-none print:p-0 text-left">
           <div>
             <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">Distribuição</span>
             <div className="text-lg font-bold text-slate-800 mt-1">Geral</div>
-            <div className="text-xs text-slate-500 mt-0.5">{results.totalLives} {results.totalLives === 1 ? "vida" : "vidas"} cadastrada(s)</div>
+            <div className="text-sm text-slate-500 mt-0.5">{results.totalLives} {results.totalLives === 1 ? "vida" : "vidas"} cadastrada(s)</div>
           </div>
 
           <div className="border-t border-slate-50 pt-4 print:border-none">
             <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">CNPJ / CPF</span>
-            <div className="text-sm font-semibold text-slate-800 mt-1">
+            <div className="text-base font-semibold text-slate-800 mt-1">
               {quotation.mode === "PME" ? "Informado (PME)" : "Não informado"}
             </div>
           </div>
 
-          <div className="border-t border-slate-50 pt-4 flex items-center gap-2.5 text-xs text-slate-500 print:hidden">
+          <div className="border-t border-slate-50 pt-4 flex items-center gap-2.5 text-sm text-slate-500 print:hidden">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
             <div>
               <span>Criada por <strong className="font-semibold text-slate-700">{quotation.brokerName}</strong></span>
@@ -491,7 +510,7 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
 
       {/* Share Modal */}
       {isShareOpen && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fadeIn no-print">
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fadeIn no-print text-left">
           <div className="bg-white rounded-2xl p-6 w-full max-w-[450px] shadow-2xl relative border border-slate-100">
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
@@ -551,14 +570,14 @@ export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelet
                 type="text" 
                 readOnly 
                 value={`https://app.cotaco.es/c/${quotation.id}`}
-                className="flex-1 bg-transparent text-xs text-slate-600 px-2 focus:outline-hidden"
+                className="flex-1 bg-transparent text-sm text-slate-600 px-2 focus:outline-hidden"
               />
               <Button 
                 onClick={() => {
                   navigator.clipboard.writeText(`https://app.cotaco.es/c/${quotation.id}`);
                   alert("Link copiado com sucesso!");
                 }}
-                className="text-xs py-1.5 px-4 rounded-md"
+                className="text-sm py-1.5 px-4 rounded-md"
               >
                 Copiar
               </Button>
