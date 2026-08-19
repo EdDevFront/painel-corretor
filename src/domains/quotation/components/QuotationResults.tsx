@@ -12,7 +12,7 @@ export function QuotationResults({ quotation, onRestart, onBack }: ResultsProps)
   const preferredOp = quotation.preferences.operatorId;
 
   if (!results) {
-    return <div className="card">Nenhum resultado de cálculo disponível.</div>;
+    return <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs">Nenhum resultado de cálculo disponível.</div>;
   }
 
   const displayedResults = preferredOp
@@ -20,29 +20,29 @@ export function QuotationResults({ quotation, onRestart, onBack }: ResultsProps)
     : [...results.operatorResults].sort((a, b) => a.totalPrice - b.totalPrice);
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto", width: "100%" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-        <h2>Resultados da Cotação</h2>
-        <button className="btn-secondary" onClick={onRestart}>Nova Cotação</button>
+    <div className="max-w-[800px] mx-auto w-full">
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Resultados da Cotação</h2>
+        <button className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-white border border-slate-200 text-slate-700 py-2.5 px-5 rounded-lg hover:bg-slate-50 cursor-pointer transition-all" onClick={onRestart}>Nova Cotação</button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "1.5rem", marginBottom: "2.5rem" }}>
+      <div className="grid grid-cols-1 gap-6 mb-8">
         {displayedResults.map((opResult: OperatorResult) => (
-          <div key={opResult.operatorId} className="card" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1.5rem" }}>
+          <div key={opResult.operatorId} className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs flex justify-between items-center flex-wrap gap-6 hover:border-slate-200 hover:shadow-sm transition-all duration-300">
             <div>
-              <span className="status-badge" style={{ marginBottom: "0.5rem" }}>Operadora</span>
-              <h3 style={{ fontSize: "1.5rem", color: "var(--slate-900)" }}>{opResult.operatorName}</h3>
-              <p style={{ fontSize: "0.875rem", color: "var(--slate-500)", marginTop: "0.25rem" }}>
+              <span className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-teal-50 border border-teal-100 text-teal-700 text-[9px] font-bold uppercase tracking-widest mb-2">Operadora</span>
+              <h3 className="text-xl font-bold text-slate-900">{opResult.operatorName}</h3>
+              <p className="text-xs text-slate-500 mt-1">
                 Total para {results.totalLives} {results.totalLives === 1 ? "vida" : "vidas"}
               </p>
             </div>
             
-            <div style={{ textAlign: "right" }}>
-              <span style={{ fontSize: "0.75rem", textTransform: "uppercase", color: "var(--slate-400)", fontWeight: 600 }}>Valor Mensal</span>
-              <div style={{ fontSize: "2rem", fontWeight: 700, color: "var(--teal-600)" }}>
+            <div className="text-right">
+              <span className="text-[10px] uppercase text-slate-400 font-bold tracking-wider">Valor Mensal</span>
+              <div className="text-3xl font-extrabold text-teal-600">
                 R$ {opResult.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
-              <span style={{ fontSize: "0.75rem", color: "var(--slate-400)" }}>
+              <span className="text-[10px] text-slate-400">
                 + R$ {results.baseFees.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} taxa adm.
               </span>
             </div>
@@ -50,31 +50,31 @@ export function QuotationResults({ quotation, onRestart, onBack }: ResultsProps)
         ))}
       </div>
 
-      <div className="card" style={{ background: "var(--slate-100)", border: "none", marginBottom: "2rem" }}>
-        <h4 style={{ marginBottom: "1rem", fontSize: "1rem" }}>Resumo Técnico da Cotação</h4>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+      <div className="bg-slate-100 rounded-lg p-6 mb-8">
+        <h4 className="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wider">Resumo Técnico da Cotação</h4>
+        <div className="flex justify-between mb-2 text-sm text-slate-700">
           <span>Cliente:</span>
-          <strong>{quotation.clientName}</strong>
+          <strong className="font-semibold text-slate-900">{quotation.clientName}</strong>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+        <div className="flex justify-between mb-2 text-sm text-slate-700">
           <span>Corretor:</span>
-          <strong>{quotation.brokerName}</strong>
+          <strong className="font-semibold text-slate-900">{quotation.brokerName}</strong>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+        <div className="flex justify-between mb-2 text-sm text-slate-700">
           <span>Modalidade:</span>
-          <strong>{quotation.mode === "PF" ? "Pessoa Física (PF)" : quotation.mode === "PME" ? "Pequena e Média Empresa (PME)" : "Adesão"}</strong>
+          <strong className="font-semibold text-slate-900">{quotation.mode === "PF" ? "Pessoa Física (PF)" : quotation.mode === "PME" ? "Pequena e Média Empresa (PME)" : "Adesão"}</strong>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.875rem" }}>
+        <div className="flex justify-between text-sm text-slate-700">
           <span>Coparticipação:</span>
-          <strong>{quotation.preferences.coparticipation ? "Sim" : "Não"}</strong>
+          <strong className="font-semibold text-slate-900">{quotation.preferences.coparticipation ? "Sim" : "Não"}</strong>
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <button type="button" className="btn-secondary" style={{ flex: 1 }} onClick={onBack}>
+      <div className="flex gap-4">
+        <button type="button" className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-white border border-slate-200 text-slate-700 py-2.5 px-5 rounded-lg hover:bg-slate-50 cursor-pointer transition-all" onClick={onBack}>
           Voltar e Editar
         </button>
-        <button type="button" className="btn-primary" style={{ flex: 1 }} onClick={() => window.print()}>
+        <button type="button" className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200" onClick={() => window.print()}>
           Imprimir / PDF
         </button>
       </div>

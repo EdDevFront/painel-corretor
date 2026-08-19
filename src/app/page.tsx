@@ -44,7 +44,7 @@ export default function Home() {
   const handleSelectQuotation = (id: string) => {
     loadQuotation(id);
     setViewState("wizard");
-    setCurrentStep(3); // Start draft at Step 3 (Lives) or load step based on state
+    setCurrentStep(3); // Start draft at Step 3 (Lives)
   };
 
   const handleNewQuotation = () => {
@@ -58,14 +58,14 @@ export default function Home() {
   };
 
   return (
-    <div className="main-layout">
+    <div className="flex flex-row min-h-screen w-full">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       
-      <div className="content-wrapper">
+      <div className="flex flex-col flex-1 bg-slate-50">
         <Navbar />
         
-        <main className="main-content">
-          <div className="ambient-bg">
+        <main className="p-10 flex-1 overflow-y-auto relative">
+          <div className="fixed inset-0 z-0 pointer-events-none">
             <div className="glow-blue"></div>
             <div className="glow-teal"></div>
           </div>
@@ -79,7 +79,7 @@ export default function Home() {
           )}
 
           {activeTab === "cotações" && viewState === "wizard" && (
-            <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+            <div className="max-w-[800px] mx-auto w-full relative z-10">
               <QuotationHeader clientName={quotation?.clientName} status={quotation?.status} />
               <QuotationStepper currentStep={currentStep} />
 
@@ -130,9 +130,9 @@ export default function Home() {
           )}
 
           {activeTab !== "cotações" && (
-            <div className="card" style={{ textAlign: "center", padding: "4rem" }}>
-              <h2>{activeTab === "busca" ? "Busca ANS" : "Configurações"}</h2>
-              <p style={{ color: "var(--slate-400)", marginTop: "1rem" }}>Área em desenvolvimento (Beta).</p>
+            <div className="bg-white border border-slate-100 rounded-lg p-16 shadow-xs text-center max-w-[600px] mx-auto relative z-10">
+              <h2 className="text-xl font-bold text-slate-900">{activeTab === "busca" ? "Busca ANS" : "Configurações"}</h2>
+              <p className="text-slate-400 mt-4">Área em desenvolvimento (Beta).</p>
             </div>
           )}
         </main>

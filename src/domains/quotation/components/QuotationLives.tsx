@@ -35,64 +35,62 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
   };
 
   return (
-    <div className="card" style={{ maxWidth: "600px", margin: "0 auto" }}>
-      <h2 style={{ marginBottom: "1.5rem", fontSize: "1.25rem" }}>Gerenciamento de Vidas</h2>
+    <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs max-w-[600px] mx-auto">
+      <h2 className="text-lg font-bold text-slate-900 mb-6">Gerenciamento de Vidas</h2>
       
-      <form onSubmit={handleSubmit(onAddLife)} style={{ display: "flex", gap: "1rem", marginBottom: "2rem", alignItems: "flex-end", flexWrap: "wrap" }}>
-        <div className="form-group" style={{ flex: 2, marginBottom: 0, minWidth: "150px" }}>
-          <label className="form-label">Nome</label>
+      <form onSubmit={handleSubmit(onAddLife)} className="flex gap-4 mb-8 items-end flex-wrap">
+        <div className="flex-2 flex flex-col gap-1.5 min-w-[150px]">
+          <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Nome</label>
           <input
             type="text"
-            className="form-input"
+            className="border border-slate-200 rounded-md py-2 px-3 focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
             placeholder="Nome da pessoa"
             {...register("name", { required: "Nome é obrigatório", minLength: { value: 3, message: "Mínimo 3 letras" } })}
           />
-          {errors.name && <span style={{ color: "#ef4444", fontSize: "0.75rem" }}>{errors.name.message}</span>}
+          {errors.name && <span className="text-red-500 text-xs mt-0.5">{errors.name.message}</span>}
         </div>
-        <div className="form-group" style={{ flex: 1, marginBottom: 0, minWidth: "120px" }}>
-          <label className="form-label">Nascimento</label>
+        <div className="flex-1 flex flex-col gap-1.5 min-w-[120px]">
+          <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Nascimento</label>
           <input
             type="date"
-            className="form-input"
+            className="border border-slate-200 rounded-md py-2 px-3 focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
             {...register("birthDate", { required: "Obrigatório" })}
           />
-          {errors.birthDate && <span style={{ color: "#ef4444", fontSize: "0.75rem" }}>{errors.birthDate.message}</span>}
+          {errors.birthDate && <span className="text-red-500 text-xs mt-0.5">{errors.birthDate.message}</span>}
         </div>
-        <button type="submit" className="btn-primary" style={{ height: "42px" }}>
+        <button type="submit" className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200 h-[40px]">
           Adicionar
         </button>
       </form>
 
       {lives.length === 0 ? (
-        <p style={{ color: "var(--slate-400)", textAlign: "center", margin: "2rem 0" }}>
+        <p className="text-slate-400 text-center my-8">
           Nenhuma vida cadastrada nesta cotação.
         </p>
       ) : (
-        <div style={{ overflowX: "auto", marginBottom: "2rem" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+        <div className="overflow-x-auto mb-8 border border-slate-100 rounded-lg">
+          <table className="w-full border-collapse text-left">
             <thead>
-              <tr style={{ borderBottom: "1px solid var(--slate-200)" }}>
-                <th style={{ padding: "0.75rem", fontSize: "0.75rem", textTransform: "uppercase", color: "var(--slate-500)" }}>Nome</th>
-                <th style={{ padding: "0.75rem", fontSize: "0.75rem", textTransform: "uppercase", color: "var(--slate-500)" }}>Nascimento</th>
-                <th style={{ padding: "0.75rem", fontSize: "0.75rem", textTransform: "uppercase", color: "var(--slate-500)" }}>Idade</th>
-                <th style={{ padding: "0.75rem", fontSize: "0.75rem", textTransform: "uppercase", color: "var(--slate-500)", textAlign: "right" }}>Ações</th>
+              <tr className="border-b border-slate-200 bg-slate-50">
+                <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Nome</th>
+                <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Nascimento</th>
+                <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Idade</th>
+                <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-right">Ações</th>
               </tr>
             </thead>
             <tbody>
               {lives.map((life) => (
-                <tr key={life.id} style={{ borderBottom: "1px solid var(--slate-100)" }}>
-                  <td style={{ padding: "0.75rem", fontSize: "0.875rem", fontWeight: 500, color: "var(--slate-900)" }}>{life.name}</td>
-                  <td style={{ padding: "0.75rem", fontSize: "0.875rem", color: "var(--slate-500)" }}>
+                <tr key={life.id} className="border-b border-slate-100 text-slate-700">
+                  <td className="p-3 font-medium text-slate-900">{life.name}</td>
+                  <td className="p-3 text-slate-500">
                     {new Date(life.birthDate).toLocaleDateString("pt-BR", { timeZone: "UTC" })}
                   </td>
-                  <td style={{ padding: "0.75rem", fontSize: "0.875rem", color: "var(--slate-900)", fontWeight: 600 }}>{life.age} anos</td>
-                  <td style={{ padding: "0.75rem", textAlign: "right" }}>
+                  <td className="p-3 font-semibold text-slate-900">{life.age} anos</td>
+                  <td className="p-3 text-right">
                     <button
                       type="button"
                       onClick={() => handleRemoveLife(life.id)}
-                      style={{ background: "none", border: "none", color: "var(--slate-400)", cursor: "pointer", fontSize: "0.75rem" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = "#ef4444")}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = "var(--slate-400)")}
+                      className="background-none border-none text-slate-400 hover:text-red-500 cursor-pointer text-xs"
                     >
                       Remover
                     </button>
@@ -104,14 +102,13 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
         </div>
       )}
 
-      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
-        <button type="button" className="btn-secondary" style={{ flex: 1 }} onClick={onBack}>
+      <div className="flex gap-4 mt-6">
+        <button type="button" className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-white border border-slate-200 text-slate-700 py-2.5 px-5 rounded-lg hover:bg-slate-50 cursor-pointer transition-all" onClick={onBack}>
           Voltar
         </button>
         <button
           type="button"
-          className="btn-primary"
-          style={{ flex: 1 }}
+          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200"
           onClick={onNext}
           disabled={lives.length === 0}
         >

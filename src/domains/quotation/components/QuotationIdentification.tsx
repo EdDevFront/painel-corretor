@@ -34,47 +34,50 @@ export function QuotationIdentification({
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="card" style={{ maxWidth: "500px", margin: "0 auto" }}>
-      <h2 style={{ marginBottom: "1.5rem", fontSize: "1.25rem" }}>Identificação da Cotação</h2>
+    <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs max-w-[500px] mx-auto">
+      <h2 className="text-lg font-bold text-slate-900 mb-6">Identificação da Cotação</h2>
       
-      <div className="form-group">
-        <label className="form-label">Nome do Cliente</label>
+      <div className="flex flex-col gap-1.5 mb-5">
+        <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Nome do Cliente</label>
         <input
           type="text"
-          className="form-input"
+          className="border border-slate-200 rounded-md py-2 px-3 focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
           placeholder="Ex: João Silva ou Empresa XYZ"
           {...register("clientName", { 
             required: "Nome do cliente é obrigatório", 
             minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
           })}
         />
-        {errors.clientName && <span style={{ color: "#ef4444", fontSize: "0.75rem" }}>{errors.clientName.message}</span>}
+        {errors.clientName && <span className="text-red-500 text-xs mt-0.5">{errors.clientName.message}</span>}
       </div>
 
-      <div className="form-group">
-        <label className="form-label">Nome do Corretor</label>
+      <div className="flex flex-col gap-1.5 mb-5">
+        <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Nome do Corretor</label>
         <input
           type="text"
-          className="form-input"
+          className="border border-slate-200 rounded-md py-2 px-3 focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
           placeholder="Seu Nome completo"
           {...register("brokerName", { 
             required: "Nome do corretor é obrigatório", 
             minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
           })}
         />
-        {errors.brokerName && <span style={{ color: "#ef4444", fontSize: "0.75rem" }}>{errors.brokerName.message}</span>}
+        {errors.brokerName && <span className="text-red-500 text-xs mt-0.5">{errors.brokerName.message}</span>}
       </div>
 
-      <div className="form-group">
-        <label className="form-label">Modalidade de Cotação</label>
-        <select className="form-select" {...register("mode", { required: true })}>
+      <div className="flex flex-col gap-1.5 mb-6">
+        <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Modalidade de Cotação</label>
+        <select 
+          className="border border-slate-200 rounded-md py-2 px-3 bg-white focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm"
+          {...register("mode", { required: true })}
+        >
           <option value="PF">Pessoa Física (PF)</option>
           <option value="PME">Pequena e Média Empresa (PME)</option>
           <option value="ADESAO">Coletivo por Adesão</option>
         </select>
       </div>
 
-      <button type="submit" className="btn-primary" style={{ width: "100%", marginTop: "1rem" }}>
+      <button type="submit" className="w-full flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200">
         Prosseguir
       </button>
     </form>

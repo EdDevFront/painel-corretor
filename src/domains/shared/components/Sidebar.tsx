@@ -8,36 +8,27 @@ interface SidebarProps {
 
 export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <div style={{
-          width: "28px",
-          height: "28px",
-          backgroundColor: "#ffd700",
-          borderRadius: "6px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontWeight: 800,
-          color: "var(--slate-900)",
-          fontSize: "1.1rem"
-        }}>
+    <aside className="w-[260px] bg-white border-r border-slate-200 flex flex-col p-6 h-screen sticky top-0">
+      <div className="flex items-center gap-3 mb-10">
+        <div className="w-7 h-7 bg-amber-400 rounded-md flex items-center justify-center font-extrabold text-slate-900 text-lg">
           P
         </div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <span style={{ fontSize: "1rem", fontWeight: 800, color: "var(--slate-900)", lineHeight: 1.1 }}>
-            painel <span style={{ fontWeight: 400 }}>do</span>
+        <div className="flex flex-col">
+          <span className="text-base font-extrabold text-slate-900 leading-[1.1]">
+            painel <span className="font-normal">do</span>
           </span>
-          <span style={{ fontSize: "1rem", fontWeight: 800, color: "var(--slate-900)", lineHeight: 1.1 }}>
+          <span className="text-base font-extrabold text-slate-900 leading-[1.1]">
             corretor
           </span>
         </div>
       </div>
 
-      <nav className="sidebar-menu">
+      <nav className="flex flex-col gap-2">
         <div
           onClick={() => setActiveTab("cotações")}
-          className={`sidebar-item ${activeTab === "cotações" ? "active" : ""}`}
+          className={`flex items-center gap-3 py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
+            activeTab === "cotações" ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+          }`}
         >
           <FiBriefcase />
           <span>Cotações</span>
@@ -45,29 +36,24 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
 
         <div
           onClick={() => setActiveTab("busca")}
-          className={`sidebar-item ${activeTab === "busca" ? "active" : ""}`}
-          style={{ justifyContent: "space-between" }}
+          className={`flex items-center justify-between py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
+            activeTab === "busca" ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+          }`}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div className="flex items-center gap-3">
             <FiSearch />
             <span>Busca ANS</span>
           </div>
-          <span style={{
-            fontSize: "0.625rem",
-            backgroundColor: "var(--slate-100)",
-            color: "var(--slate-500)",
-            padding: "0.125rem 0.375rem",
-            borderRadius: "4px",
-            fontWeight: 600,
-            textTransform: "uppercase"
-          }}>
+          <span className="text-[10px] bg-slate-100 text-slate-500 py-0.5 px-1.5 rounded font-semibold uppercase">
             beta
           </span>
         </div>
 
         <div
           onClick={() => setActiveTab("configurações")}
-          className={`sidebar-item ${activeTab === "configurações" ? "active" : ""}`}
+          className={`flex items-center gap-3 py-3 px-4 rounded-lg font-medium text-sm cursor-pointer transition-all duration-200 ${
+            activeTab === "configurações" ? "bg-teal-50 text-teal-600" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+          }`}
         >
           <FiSettings />
           <span>Configurações</span>

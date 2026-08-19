@@ -14,51 +14,26 @@ const STEPS = [
 
 export function QuotationStepper({ currentStep }: StepperProps) {
   return (
-    <div style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      width: "100%",
-      marginBottom: "2.5rem",
-      padding: "0.5rem 0",
-      position: "relative",
-    }}>
+    <div className="flex justify-between items-center w-full mb-10 py-2 relative">
       {STEPS.map((step, index) => {
         const stepNum = index + 1;
         const isActive = stepNum === currentStep;
         const isCompleted = stepNum < currentStep;
         
         return (
-          <div key={step} style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            flex: 1,
-            zIndex: 2,
-          }}>
-            <div style={{
-              width: "2.25rem",
-              height: "2.25rem",
-              borderRadius: "50%",
-              backgroundColor: isActive ? "var(--teal-600)" : isCompleted ? "var(--slate-900)" : "var(--slate-100)",
-              color: isActive || isCompleted ? "#ffffff" : "var(--slate-500)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "0.875rem",
-              fontWeight: 600,
-              border: isActive ? "4px solid var(--teal-100)" : "none",
-              transition: "all 0.3s ease",
-            }}>
+          <div key={step} className="flex flex-col items-center flex-1 z-10">
+            <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
+              isActive 
+                ? "bg-teal-600 text-white border-4 border-teal-100" 
+                : isCompleted 
+                  ? "bg-slate-900 text-white" 
+                  : "bg-slate-100 text-slate-500"
+            }`}>
               {stepNum}
             </div>
-            <span style={{
-              fontSize: "0.75rem",
-              fontWeight: isActive ? 600 : 500,
-              color: isActive ? "var(--slate-900)" : "var(--slate-400)",
-              marginTop: "0.5rem",
-              textAlign: "center",
-            }}>
+            <span className={`text-[10px] uppercase font-bold tracking-wider mt-2 text-center ${
+              isActive ? "text-slate-900" : "text-slate-400"
+            }`}>
               {step}
             </span>
           </div>
