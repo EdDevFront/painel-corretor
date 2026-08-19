@@ -370,8 +370,10 @@ export function QuotationResults({
 
               <div className="border-t border-slate-100 pt-4 flex flex-col gap-1 mb-5 text-left">
                 <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Total Mensal</span>
-                <div className="text-3xl font-black text-slate-900 whitespace-nowrap">
-                  R$ {selectedPlan.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}<span className="text-sm font-normal text-slate-400">/mês</span>
+                <div className="text-3xl font-black text-slate-900 whitespace-nowrap flex items-baseline gap-1">
+                  <span className="text-sm font-normal text-slate-400">R$</span>
+                  <span>{selectedPlan.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span>
+                  <span className="text-sm font-normal text-slate-400">/mês</span>
                 </div>
               </div>
 
@@ -535,8 +537,10 @@ export function QuotationResults({
                 </div>
                 <div className="text-right">
                   <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block">Mensalidade</span>
-                  <div className="text-3xl font-black text-slate-900 whitespace-nowrap">
-                    R$ {opResult.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  <div className="text-3xl font-black text-slate-900 whitespace-nowrap flex items-baseline justify-end gap-1">
+                    <span className="text-sm font-normal text-slate-400">R$</span>
+                    <span>{opResult.totalPrice.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    <span className="text-[10px] font-normal text-slate-400">/mês</span>
                   </div>
                 </div>
               </div>
