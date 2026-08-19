@@ -10,7 +10,7 @@ import { QuotationProfile } from "../../../domains/quotation/components/Quotatio
 import { QuotationLives } from "../../../domains/quotation/components/QuotationLives";
 import { QuotationPreferences } from "../../../domains/quotation/components/QuotationPreferences";
 import { QuotationResults } from "../../../domains/quotation/components/QuotationResults";
-import { Skeleton } from "../../../../components/ui/Skeleton";
+import { Skeleton } from "../../../components/ui/Skeleton";
 
 function CriarCotacaoContent() {
   const router = useRouter();

@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { QuotationPreferences as Prefs } from "../types";
 import { Operator } from "../../operator/types";
 import { getOperators } from "../../operator/service";
-import { Select } from "../../../../components/ui/Select";
-import { Button } from "../../../../components/ui/Button";
-import { Checkbox } from "../../../../components/ui/Checkbox";
+import { Select } from "../../../components/ui/Select";
+import { Button } from "../../../components/ui/Button";
+import { Checkbox } from "../../../components/ui/Checkbox";
 
 interface PreferencesProps {
   initialPreferences: Prefs;
