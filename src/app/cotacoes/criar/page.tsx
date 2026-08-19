@@ -93,7 +93,7 @@ function CriarCotacaoContent() {
 
   return (
     <div className="w-full relative z-10">
-      <div className="flex items-center gap-4 mb-8">
+      <div className="flex items-center gap-4 mb-8 no-print">
         <IconButton 
           type="button" 
           onClick={handleBackToDashboard}
@@ -109,11 +109,13 @@ function CriarCotacaoContent() {
       
       <div className="max-w-[800px] mx-auto w-full">
         {!isDetailMode && (
-          <QuotationStepper 
-            currentStep={currentStep} 
-            isStepClickable={isStepClickable}
-            onStepClick={setCurrentStep}
-          />
+          <div className="no-print">
+            <QuotationStepper 
+              currentStep={currentStep} 
+              isStepClickable={isStepClickable}
+              onStepClick={setCurrentStep}
+            />
+          </div>
         )}
 
       {currentStep === 1 && (
