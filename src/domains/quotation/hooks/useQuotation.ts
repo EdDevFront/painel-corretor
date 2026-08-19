@@ -91,6 +91,17 @@ export function useQuotation(initialId?: string) {
   const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, 5));
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
+  const [hasSetInitialStep, setHasSetInitialStep] = useState(false);
+
+  useEffect(() => {
+    if (quotation && !hasSetInitialStep) {
+      if (quotation.status === "completed") {
+        setCurrentStep(5);
+      }
+      setHasSetInitialStep(true);
+    }
+  }, [quotation, hasSetInitialStep]);
+
   useEffect(() => {
     if (initialId) {
       loadQuotation(initialId);

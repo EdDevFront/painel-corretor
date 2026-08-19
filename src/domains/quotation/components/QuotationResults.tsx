@@ -1,15 +1,17 @@
 import React from "react";
 import { Quotation, OperatorResult } from "../types";
 import { Button } from "../../../components/ui/Button";
-import { FiCheckCircle, FiPrinter, FiArrowLeft, FiEdit, FiPlus } from "react-icons/fi";
+import { FiCheckCircle, FiPrinter, FiArrowLeft, FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 interface ResultsProps {
   quotation: Quotation;
   onRestart: () => void;
   onBack: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-export function QuotationResults({ quotation, onRestart, onBack }: ResultsProps) {
+export function QuotationResults({ quotation, onRestart, onBack, onEdit, onDelete }: ResultsProps) {
   const results = quotation.results;
   const preferredOp = quotation.preferences.operatorId;
 
@@ -28,7 +30,7 @@ export function QuotationResults({ quotation, onRestart, onBack }: ResultsProps)
   return (
     <div className="max-w-[800px] mx-auto w-full">
       {/* 1. Success Alert Banner */}
-      <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-5 mb-6 flex items-center gap-4 text-emerald-800">
+      <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-5 mb-6 flex items-center gap-4 text-emerald-800 no-print">
         <FiCheckCircle className="text-emerald-500 text-3xl shrink-0" />
         <div>
           <h3 className="font-bold text-sm">Cotação Salva com Sucesso!</h3>
@@ -37,12 +39,15 @@ export function QuotationResults({ quotation, onRestart, onBack }: ResultsProps)
       </div>
 
       {/* 2. Step navigation at the top */}
-      <div className="flex gap-4 mb-8">
-        <Button type="button" variant="secondary" className="flex-1" onClick={onBack}>
+      <div className="flex gap-4 mb-8 flex-wrap no-print">
+        <Button type="button" variant="secondary" className="flex-1 min-w-[100px]" onClick={onBack}>
           <FiArrowLeft className="mr-1.5" /> Voltar
         </Button>
-        <Button type="button" variant="secondary" className="flex-1" onClick={onBack}>
+        <Button type="button" variant="secondary" className="flex-1 min-w-[150px]" onClick={onEdit}>
           <FiEdit className="mr-1.5" /> Editar Cotação
+        </Button>
+        <Button type="button" variant="secondary" className="flex-1 min-w-[150px] border-red-100 hover:bg-red-50 hover:text-red-600 text-slate-500" onClick={onDelete}>
+          <FiTrash2 className="mr-1.5" /> Excluir
         </Button>
       </div>
 
@@ -101,7 +106,7 @@ export function QuotationResults({ quotation, onRestart, onBack }: ResultsProps)
       </div>
 
       {/* 3. Printing and New actions at the bottom */}
-      <div className="flex gap-4 mt-8">
+      <div className="flex gap-4 mt-8 no-print">
         <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={() => window.print()}>
           <FiPrinter className="mr-1.5" /> Imprimir / PDF
         </Button>

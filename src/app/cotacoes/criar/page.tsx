@@ -3,6 +3,7 @@
 import React, { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuotation } from "../../../domains/quotation/hooks/useQuotation";
+import { deleteQuotation } from "../../../domains/quotation/service";
 import { DashboardLayout } from "../../../domains/shared/components/DashboardLayout";
 import { QuotationStepper } from "../../../domains/quotation/components/QuotationStepper";
 import { QuotationIdentification } from "../../../domains/quotation/components/QuotationIdentification";
@@ -110,7 +111,14 @@ function CriarCotacaoContent() {
         <QuotationResults
           quotation={quotation}
           onRestart={handleBackToDashboard}
-          onBack={prevStep}
+          onBack={handleBackToDashboard}
+          onEdit={() => setCurrentStep(1)}
+          onDelete={async () => {
+            if (confirm("Tem certeza que deseja excluir esta cotação?")) {
+              await deleteQuotation(quotation.id);
+              handleBackToDashboard();
+            }
+          }}
         />
       )}
       </div>
