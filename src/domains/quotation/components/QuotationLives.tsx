@@ -11,6 +11,7 @@ interface LivesProps {
   onUpdateLives: (lives: Life[]) => void;
   onBack: () => void;
   onNext: () => void;
+  isLoading?: boolean;
 }
 
 interface LifeFormInput {
@@ -18,7 +19,7 @@ interface LifeFormInput {
   birthDate: string;
 }
 
-export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesProps) {
+export function QuotationLives({ lives, onUpdateLives, onBack, onNext, isLoading = false }: LivesProps) {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<LifeFormInput>();
 
   const onAddLife = (data: LifeFormInput) => {
@@ -38,7 +39,15 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
+    <div className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full relative">
+      {/* Local small top loading indicator overlay */}
+      {isLoading && (
+        <div className="absolute top-4 right-4 flex items-center gap-2 text-xs font-semibold text-teal-600">
+          <div className="animate-spin-custom rounded-full h-3.5 w-3.5 border-2 border-teal-600 border-t-transparent" />
+          <span>Salvando...</span>
+        </div>
+      )}
+
       <h2 className="text-xl font-bold text-slate-900 mb-6">Gerenciamento de Vidas</h2>
       
       <form onSubmit={handleSubmit(onAddLife)} className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-1 mb-8 items-start">
@@ -47,6 +56,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
             label="Nome"
             placeholder="Nome da pessoa"
             error={errors.name?.message}
+            disabled={isLoading}
             {...register("name", { required: "Nome é obrigatório", minLength: { value: 3, message: "Mínimo 3 letras" } })}
           />
         </div>
@@ -55,12 +65,16 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
             label="Nascimento"
             type="date"
             error={errors.birthDate?.message}
+            disabled={isLoading}
             {...register("birthDate", { required: "Obrigatório" })}
           />
         </div>
         <div className="flex flex-col gap-1 w-full">
           <div className="h-[15px] hidden md:block" />
-          <Button type="submit" className="h-[40px] w-full">
+          <Button type="submit" className="h-[40px] w-full flex items-center justify-center gap-2" disabled={isLoading}>
+            {isLoading && (
+              <div className="animate-spin-custom rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent" />
+            )}
             Adicionar
           </Button>
           <div className="h-5" />
@@ -101,6 +115,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
                       type="button"
                       variant="secondary"
                       onClick={() => handleRemoveLife(life.id)}
+                      disabled={isLoading}
                       className="border-none bg-transparent hover:bg-red-50 text-slate-400 hover:text-red-600 !py-1 !px-2.5 normal-case"
                     >
                       Remover
@@ -114,16 +129,19 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext }: LivesPr
       )}
 
       <div className="flex gap-4 mt-6">
-        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack}>
+        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack} disabled={isLoading}>
           Voltar
         </Button>
         <Button
           type="button"
           size="lg"
-          className="flex-1"
+          className="flex-1 flex items-center justify-center gap-2"
           onClick={onNext}
-          disabled={lives.length === 0}
+          disabled={lives.length === 0 || isLoading}
         >
+          {isLoading && (
+            <div className="animate-spin-custom rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent" />
+          )}
           Prosseguir
         </Button>
       </div>

@@ -11,9 +11,10 @@ interface PreferencesProps {
   initialPreferences: Prefs;
   onSubmit: (preferences: Prefs) => void;
   onBack: () => void;
+  isLoading?: boolean;
 }
 
-export function QuotationPreferences({ initialPreferences, onSubmit, onBack }: PreferencesProps) {
+export function QuotationPreferences({ initialPreferences, onSubmit, onBack, isLoading = false }: PreferencesProps) {
   const [operators, setOperators] = useState<Operator[]>([]);
   const { register, handleSubmit } = useForm<Prefs>({
     defaultValues: {
@@ -37,7 +38,7 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack }: P
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-4">
         <div>
-          <Select label="Filtrar Operadora Preferencial" {...register("operatorId")}>
+          <Select label="Filtrar Operadora Preferencial" disabled={isLoading} {...register("operatorId")}>
             <option value="">Todas as Operadoras (Comparativo)</option>
             {operators.map((op) => (
               <option key={op.id} value={op.id}>
@@ -48,7 +49,7 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack }: P
         </div>
 
         <div>
-          <Select label="Rede Hospitalar" {...register("hospitalNetwork")}>
+          <Select label="Rede Hospitalar" disabled={isLoading} {...register("hospitalNetwork")}>
             <option value="standard">Padrão (Rede Básica + Média)</option>
             <option value="premium">Premium (Rede Ampla + Hospitais de Referência)</option>
           </Select>
@@ -59,15 +60,19 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack }: P
         <Checkbox
           id="coparticipation"
           label="Plano com Coparticipação (mensalidade reduzida)"
+          disabled={isLoading}
           {...register("coparticipation")}
         />
       </div>
 
       <div className="flex gap-4 mt-6">
-        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack}>
+        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack} disabled={isLoading}>
           Voltar
         </Button>
-        <Button type="submit" size="lg" className="flex-1">
+        <Button type="submit" size="lg" className="flex-1 flex items-center justify-center gap-2" disabled={isLoading}>
+          {isLoading && (
+            <div className="animate-spin-custom rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent" />
+          )}
           Calcular Resultados
         </Button>
       </div>

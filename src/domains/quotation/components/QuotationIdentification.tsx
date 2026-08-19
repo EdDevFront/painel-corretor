@@ -11,6 +11,7 @@ interface IdentificationProps {
   initialClient?: string;
   initialBroker?: string;
   initialMode?: QuotationMode;
+  isLoading?: boolean;
 }
 
 interface FormInputs {
@@ -25,6 +26,7 @@ export function QuotationIdentification({
   initialClient = "",
   initialBroker = "",
   initialMode = "PF",
+  isLoading = false,
 }: IdentificationProps) {
   const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>({
     defaultValues: {
@@ -48,6 +50,7 @@ export function QuotationIdentification({
             label="Nome do Cliente"
             placeholder="Ex: João Silva ou Empresa XYZ"
             error={errors.clientName?.message}
+            disabled={isLoading}
             {...register("clientName", { 
               required: "Nome do cliente é obrigatório", 
               minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
@@ -59,6 +62,7 @@ export function QuotationIdentification({
           <Select
             label="Nome do Corretor"
             error={errors.brokerName?.message}
+            disabled={isLoading}
             {...register("brokerName", { 
               required: "Nome do corretor é obrigatório"
             })}
@@ -75,6 +79,7 @@ export function QuotationIdentification({
       <div className="mb-6">
         <Select 
           label="Modalidade de Cotação"
+          disabled={isLoading}
           {...register("mode", { required: true })}
         >
           <option value="PF">Pessoa Física (PF)</option>
@@ -84,10 +89,13 @@ export function QuotationIdentification({
       </div>
 
       <div className="flex gap-4 mt-6">
-        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack}>
+        <Button type="button" variant="secondary" size="lg" className="flex-1" onClick={onBack} disabled={isLoading}>
           Voltar
         </Button>
-        <Button type="submit" size="lg" className="flex-1">
+        <Button type="submit" size="lg" className="flex-1 flex items-center justify-center gap-2" disabled={isLoading}>
+          {isLoading && (
+            <div className="animate-spin-custom rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+          )}
           Prosseguir
         </Button>
       </div>

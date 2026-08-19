@@ -78,7 +78,7 @@ function CriarCotacaoContent() {
           </div>
         )}
 
-        {isLoading ? (
+        {isLoading && !quotation ? (
           <div className="space-y-6 animate-pulse mt-8">
             {currentStep === 5 ? (
               <>
@@ -110,6 +110,7 @@ function CriarCotacaoContent() {
                 initialMode={quotation?.mode}
                 onSubmit={startNewQuotation}
                 onBack={handleBackToDashboard}
+                isLoading={isLoading}
               />
             )}
 
@@ -117,6 +118,7 @@ function CriarCotacaoContent() {
               <QuotationProfile
                 onBack={handleBackToDashboard}
                 onSubmit={() => nextStep()}
+                isLoading={isLoading}
               />
             )}
 
@@ -126,6 +128,7 @@ function CriarCotacaoContent() {
                 onUpdateLives={updateLives}
                 onBack={prevStep}
                 onNext={nextStep}
+                isLoading={isLoading}
               />
             )}
 
@@ -137,6 +140,7 @@ function CriarCotacaoContent() {
                   await updatePreferences(prefs);
                   await finalizeQuotation();
                 }}
+                isLoading={isLoading}
               />
             )}
 
