@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Quotation } from "../types";
-import { FiPlus, FiSearch, FiSliders, FiTrash2, FiFolder } from "react-icons/fi";
+import { FiPlus, FiSliders, FiTrash2, FiFolder } from "react-icons/fi";
 import { TableSkeleton } from "../../../components/ui/TableSkeleton";
 import { Button } from "../../../components/ui/Button";
 import { IconButton } from "../../../components/ui/IconButton";
 import { Input } from "../../../components/ui/Input";
+import { Select } from "../../../components/ui/Select";
 
 interface ListProps {
   quotations: Quotation[];
@@ -22,13 +23,19 @@ export function QuotationList({
   onDeleteQuotation,
 }: ListProps) {
   const [search, setSearch] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedMode, setSelectedMode] = useState("");
 
   const completedQuotes = quotations.filter((q) => q.status === "completed");
 
-  const filtered = completedQuotes.filter(
+  let filtered = completedQuotes.filter(
     (q) => q.clientName.toLowerCase().includes(search.toLowerCase()) ||
            q.brokerName.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (selectedMode) {
+    filtered = filtered.filter((q) => q.mode === selectedMode);
+  }
 
   const handleDelete = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -44,22 +51,59 @@ export function QuotationList({
       <div className="flex gap-8 items-start flex-wrap">
         <div className="flex-3 min-w-[300px]">
           {/* Controls Bar */}
-          <div className="flex justify-between gap-4 mb-6 items-start">
-            <div className="flex-1 max-w-[300px]">
-              <Input
-                placeholder="Procurar cotação..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="h-[38px] py-1 px-3"
-              />
+          <div className="flex justify-between gap-4 mb-4 items-center">
+            {/* Grouped Search and Sliders on the left */}
+            <div className="flex items-center gap-3 flex-1 max-w-[400px]">
+              <div className="flex-1">
+                <Input
+                  placeholder="Procurar cotação..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="h-[38px] py-1 px-3"
+                />
+              </div>
+              <IconButton 
+                type="button" 
+                onClick={() => setShowFilters(!showFilters)}
+                className={`h-[38px] w-[38px] transition-colors ${showFilters ? "bg-teal-50 border-teal-200 text-teal-600" : ""}`}
+              >
+                <FiSliders />
+              </IconButton>
             </div>
-            <IconButton type="button">
-              <FiSliders />
-            </IconButton>
+            
             <Button onClick={onNewQuotation} className="h-[38px]">
               <FiPlus className="text-base" /> Nova
             </Button>
           </div>
+
+          {/* Collapsible Filters Drawer */}
+          {showFilters && (
+            <div className="bg-white border border-slate-200 rounded-lg p-5 mb-6 shadow-xs flex flex-wrap gap-4 items-end animate-fadeIn">
+              <div className="w-full md:w-[250px]">
+                <Select 
+                  label="Modalidade" 
+                  value={selectedMode} 
+                  onChange={(e) => setSelectedMode(e.target.value)}
+                >
+                  <option value="">Todas as Modalidades</option>
+                  <option value="PF">Pessoa Física (PF)</option>
+                  <option value="PME">Pequena e Média Empresa (PME)</option>
+                  <option value="ADESAO">Coletivo por Adesão</option>
+                </Select>
+              </div>
+              
+              <Button 
+                variant="secondary" 
+                onClick={() => {
+                  setSelectedMode("");
+                  setShowFilters(false);
+                }}
+                className="h-[38px] mb-5"
+              >
+                Limpar Filtros
+              </Button>
+            </div>
+          )}
 
           {/* Table Area */}
           {isLoading ? (
