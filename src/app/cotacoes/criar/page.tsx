@@ -200,7 +200,7 @@ function CriarCotacaoContent() {
                     onClick={() => router.push(`/cotacoes/${quotation.id}`)}
                     className="px-5 py-2.5 text-sm font-bold bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
                   >
-                    Ver comparativo →
+                    Ver cotação →
                   </button>
                 </div>
               </div>

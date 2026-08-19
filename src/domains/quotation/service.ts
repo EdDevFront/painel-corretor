@@ -48,7 +48,13 @@ export async function createNewQuotation(
 
 export async function calculateAndSaveQuotation(quotation: Quotation): Promise<Quotation> {
   await delay(DELAY_MS);
-  const operators = await getOperators();
+  const allOperators = await getOperators();
+
+  // If a specific operator was selected in preferences, filter to only that one
+  const operators = quotation.preferences?.operatorId
+    ? allOperators.filter((op) => op.id === quotation.preferences.operatorId)
+    : allOperators;
+
   const results = calculateQuotationResult(operators, quotation.lives, quotation.mode);
   
   const updatedQuotation: Quotation = {
