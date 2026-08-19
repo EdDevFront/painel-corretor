@@ -1,5 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Select } from "../../shared/components/ui/Select";
+import { Button } from "../../shared/components/ui/Button";
 
 interface ProfileProps {
   onBack: () => void;
@@ -34,35 +36,27 @@ export function QuotationProfile({
     <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs max-w-[500px] mx-auto">
       <h2 className="text-lg font-bold text-slate-900 mb-6">Configurações do Plano</h2>
 
-      <div className="flex flex-col gap-1.5 mb-5">
-        <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Acomodação</label>
-        <select 
-          className="border border-slate-200 rounded-md py-2 px-3 bg-white focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm" 
-          {...register("accommodation")}
-        >
+      <div className="mb-5">
+        <Select label="Acomodação" {...register("accommodation")}>
           <option value="enfermaria">Enfermaria (Coletiva)</option>
           <option value="apartamento">Apartamento (Individual)</option>
-        </select>
+        </Select>
       </div>
 
-      <div className="flex flex-col gap-1.5 mb-6">
-        <label className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Abrangência Geográfica</label>
-        <select 
-          className="border border-slate-200 rounded-md py-2 px-3 bg-white focus:outline-hidden focus:border-teal-500 focus:ring-3 focus:ring-teal-100 transition-all text-sm" 
-          {...register("region")}
-        >
+      <div className="mb-6">
+        <Select label="Abrangência Geográfica" {...register("region")}>
           <option value="nacional">Nacional</option>
           <option value="regional">Regional</option>
-        </select>
+        </Select>
       </div>
 
       <div className="flex gap-4 mt-6">
-        <button type="button" className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-white border border-slate-200 text-slate-700 py-2.5 px-5 rounded-lg hover:bg-slate-50 cursor-pointer transition-all" onClick={onBack}>
+        <Button type="button" variant="secondary" className="flex-1" onClick={onBack}>
           Voltar
-        </button>
-        <button type="submit" className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white py-2.5 px-5 rounded-lg hover:bg-slate-800 cursor-pointer transition-all shadow-md shadow-slate-200">
+        </Button>
+        <Button type="submit" className="flex-1">
           Prosseguir
-        </button>
+        </Button>
       </div>
     </form>
   );
