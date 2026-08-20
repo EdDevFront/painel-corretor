@@ -179,7 +179,7 @@ export function QuotationResults({
       </div>
 
       <div className="flex gap-6 items-start flex-wrap print:flex-col print:w-full print:gap-6">
-        <div className="flex-[3] min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5 print:w-full print:grid-cols-1">
+        <div className="flex-[3] min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5 print:w-full print:grid-cols-2 lg:print:grid-cols-3 print:gap-4">
           {displayedResults.map((opResult) => (
             <QuotationPlanCard key={opResult.operatorId} opResult={opResult} quotation={quotation} onSelect={setSelectedPlan} />
           ))}

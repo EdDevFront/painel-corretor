@@ -11,7 +11,7 @@ interface QuotationPlanCardProps {
 
 export function QuotationPlanCard({ opResult, quotation, onSelect }: QuotationPlanCardProps) {
   return (
-    <div className="bg-white border border-slate-100 rounded-xl p-6 md:p-7 shadow-xs flex flex-col justify-between hover:border-slate-200 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-none print:p-0 print:mb-6 text-left">
+    <div className="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-xs flex flex-col justify-between hover:border-slate-300 hover:shadow-sm transition-all duration-200 print:shadow-none print:border-slate-300 print:p-4 print:mb-4 text-left break-inside-avoid">
       <div>
         <div className="flex justify-between items-start mb-4">
           <div className="h-10 w-10 shrink-0 bg-amber-500/10 text-amber-600 rounded-lg flex items-center justify-center font-extrabold text-sm border border-amber-500/20 shadow-xs">
@@ -19,7 +19,7 @@ export function QuotationPlanCard({ opResult, quotation, onSelect }: QuotationPl
           </div>
         </div>
 
-        <div className="space-y-1 mb-5 text-left">
+        <div className="space-y-1 mb-3 text-left">
           <h3 className="font-bold text-slate-950 text-base">{opResult.operatorName}</h3>
           <p className="text-xs text-slate-500">
             {"Saude "}{quotation.mode}{" "}
@@ -34,7 +34,7 @@ export function QuotationPlanCard({ opResult, quotation, onSelect }: QuotationPl
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-slate-50">
+      <div className="mt-3 pt-3 border-t border-slate-100">
         <div className="mb-4">
           <span className="text-[9px] uppercase font-bold tracking-widest text-slate-400 block mb-1">
             Mensalidade

@@ -76,6 +76,8 @@ function CriarCotacaoContent() {
   const isDetailMode = !!quotationId && quotation?.status === "completed" && currentStep === 5;
   const isFirstStep = currentStep === 1;
   const showStepper = !isDetailMode && !showSuccess;
+  
+  const isInitialLoad = !!quotationId && !quotation && isLoading;
 
   const detailTitle = viewingPlanName ? `${quotation?.title} â€” ${viewingPlanName}` : (quotation?.title || "Detalhes da CotaÃ§Ã£o");
   const defaultTitle = quotationId ? "Editar CotaÃ§Ã£o" : "Nova CotaÃ§Ã£o";
@@ -105,7 +107,7 @@ function CriarCotacaoContent() {
           </div>
         )}
 
-        {isLoading && !quotation ? (
+        {isInitialLoad ? (
           <div className="mt-8"><QuotationWizardSkeleton /></div>
         ) : (
           <QuotationWizardSteps
