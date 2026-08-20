@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { QuotationPreferences as Prefs } from "../types";
-import { Operator } from "../../operator/types";
-import { getOperators } from "../../operator/service";
-import { Select } from "../../../components/ui/Select";
-import { Button } from "../../../components/ui/Button";
-import { Checkbox } from "../../../components/ui/Checkbox";
+import { QuotationPreferences as Prefs } from "../../../types";
+import { Operator } from "../../../../operator/types";
+import { getOperators } from "../../../../operator/service";
+import { Select } from "../../../../../components/ui/Select";
+import { Button } from "../../../../../components/ui/Button";
+import { Checkbox } from "../../../../../components/ui/Checkbox";
 
 interface PreferencesProps {
   initialPreferences: Prefs;
@@ -34,7 +34,7 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack, isL
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
-      <h2 className="text-lg font-bold text-slate-900 mb-6">Preferências e Filtros</h2>
+      <h2 className="text-lg font-bold text-slate-900 mb-6">PreferÃƒÆ’Ã‚Âªncias e Filtros</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 mb-4">
         <div>
@@ -50,8 +50,8 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack, isL
 
         <div>
           <Select label="Rede Hospitalar" disabled={isLoading} {...register("hospitalNetwork")}>
-            <option value="standard">Padrão (Rede Básica + Média)</option>
-            <option value="premium">Premium (Rede Ampla + Hospitais de Referência)</option>
+            <option value="standard">PadrÃƒÆ’Ã‚Â£o (Rede BÃƒÆ’Ã‚Â¡sica + MÃƒÆ’Ã‚Â©dia)</option>
+            <option value="premium">Premium (Rede Ampla + Hospitais de ReferÃƒÆ’Ã‚Âªncia)</option>
           </Select>
         </div>
       </div>
@@ -59,7 +59,7 @@ export function QuotationPreferences({ initialPreferences, onSubmit, onBack, isL
       <div className="my-6">
         <Checkbox
           id="coparticipation"
-          label="Plano com Coparticipação (mensalidade reduzida)"
+          label="Plano com CoparticipaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o (mensalidade reduzida)"
           disabled={isLoading}
           {...register("coparticipation")}
         />

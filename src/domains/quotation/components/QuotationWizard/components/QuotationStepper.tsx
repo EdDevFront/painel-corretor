@@ -8,10 +8,10 @@ interface StepperProps {
 }
 
 const STEPS = [
-  { label: "Identificação", icon: FiUserCheck },
-  { label: "Configuração", icon: FiSliders },
+  { label: "IdentificaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o", icon: FiUserCheck },
+  { label: "ConfiguraÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o", icon: FiSliders },
   { label: "Vidas", icon: FiUsers },
-  { label: "Preferências", icon: FiAward },
+  { label: "PreferÃƒÆ’Ã‚Âªncias", icon: FiAward },
   { label: "Resultados", icon: FiCheckCircle },
 ];
 

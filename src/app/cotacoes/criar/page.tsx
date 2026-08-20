@@ -4,9 +4,9 @@ import React, { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuotation } from "../../../domains/quotation/hooks/useQuotation";
 import { DashboardLayout } from "../../../domains/shared/components/DashboardLayout";
-import { QuotationStepper } from "../../../domains/quotation/components/QuotationStepper";
-import { QuotationWizardSteps } from "../../../domains/quotation/components/QuotationWizardSteps";
-import { QuotationWizardSkeleton } from "../../../domains/quotation/components/QuotationWizardSkeleton";
+import { QuotationStepper } from "../../../domains/quotation/components/QuotationWizard/components/QuotationStepper";
+import { QuotationWizardSteps } from "../../../domains/quotation/components/QuotationWizard/QuotationWizardSteps";
+import { QuotationWizardSkeleton } from "../../../domains/quotation/components/QuotationWizard/components/QuotationWizardSkeleton";
 import { IconButton } from "../../../components/ui/IconButton";
 import { FiArrowLeft } from "react-icons/fi";
 
@@ -77,8 +77,8 @@ function CriarCotacaoContent() {
   const isFirstStep = currentStep === 1;
   const showStepper = !isDetailMode && !showSuccess;
 
-  const detailTitle = viewingPlanName ? `${quotation?.title} — ${viewingPlanName}` : (quotation?.title || "Detalhes da Cotação");
-  const defaultTitle = quotationId ? "Editar Cotação" : "Nova Cotação";
+  const detailTitle = viewingPlanName ? `${quotation?.title} â€” ${viewingPlanName}` : (quotation?.title || "Detalhes da CotaÃ§Ã£o");
+  const defaultTitle = quotationId ? "Editar CotaÃ§Ã£o" : "Nova CotaÃ§Ã£o";
   const pageTitle = isDetailMode ? detailTitle : defaultTitle;
 
   return (
@@ -135,8 +135,8 @@ export default function CriarCotacaoPage() {
   const router = useRouter();
 
   const handleSetActiveTab = (tab: string) => {
-    const isHome = tab === "início";
-    const isCotacoes = tab === "cotações";
+    const isHome = tab === "inÃ­cio";
+    const isCotacoes = tab === "cotaÃ§Ãµes";
     if (isHome) {
       router.push("/");
     } else if (isCotacoes) {
@@ -147,7 +147,7 @@ export default function CriarCotacaoPage() {
   };
 
   return (
-    <DashboardLayout activeTab="cotações" setActiveTab={handleSetActiveTab}>
+    <DashboardLayout activeTab="cotaÃ§Ãµes" setActiveTab={handleSetActiveTab}>
       <Suspense fallback={<QuotationWizardSkeleton />}>
         <CriarCotacaoContent />
       </Suspense>

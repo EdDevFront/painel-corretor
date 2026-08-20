@@ -1,10 +1,10 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { Quotation } from "../types";
 import { FiPlus, FiSliders, FiFolder } from "react-icons/fi";
 import { TableSkeleton } from "../../../components/ui/TableSkeleton";
 import { Button } from "../../../components/ui/Button";
 import { IconButton } from "../../../components/ui/IconButton";
-import { Input } from "../../../components/ui/Input";
+import { Input } from "../../../components/ui/Input/Input";
 import { QuotationFiltersDropdown } from "./QuotationFiltersDropdown";
 import { QuotationTable } from "./QuotationTable";
 

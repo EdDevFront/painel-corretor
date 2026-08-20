@@ -1,12 +1,12 @@
 import React from "react";
-import { Quotation } from "../types";
-import { QuotationIdentification } from "./QuotationIdentification";
-import { QuotationProfile } from "./QuotationProfile";
-import { QuotationLives } from "./QuotationLives";
-import { QuotationPreferences } from "./QuotationPreferences";
-import { QuotationResults } from "./QuotationResults";
-import { QuotationSuccessScreen } from "./QuotationSuccessScreen";
-import { deleteQuotation } from "../service";
+import { Quotation } from "../../types";
+import { QuotationIdentification } from "./components/QuotationIdentification";
+import { QuotationProfile } from "./components/QuotationProfile";
+import { QuotationLives } from "./components/QuotationLives";
+import { QuotationPreferences } from "./components/QuotationPreferences";
+import { QuotationResults } from "../QuotationResults/QuotationResults";
+import { QuotationSuccessScreen } from "./components/QuotationSuccessScreen";
+import { deleteQuotation } from "../../service";
 
 interface QuotationWizardStepsProps {
   currentStep: number;
@@ -52,7 +52,7 @@ export function QuotationWizardSteps({
 
   const handleDelete = async () => {
     if (!quotation) return;
-    const confirmDelete = window.confirm("Tem certeza que deseja excluir esta cotaÃƒÂ§ÃƒÂ£o?");
+    const confirmDelete = window.confirm("Tem certeza que deseja excluir esta cotaÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£o?");
     if (confirmDelete) {
       await deleteQuotation(quotation.id);
       handleBackToDashboard();

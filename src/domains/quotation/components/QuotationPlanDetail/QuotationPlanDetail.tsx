@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Quotation, OperatorResult } from "../types";
-import { Button } from "../../../components/ui/Button";
+import { Quotation, OperatorResult } from "../../types";
+import { Button } from "../../../../components/ui/Button";
 import { FiArrowLeft, FiPrinter } from "react-icons/fi";
-import { QuotationHospitalsModal } from "./QuotationHospitalsModal";
-import { QuotationPlanAccordions } from "./QuotationPlanAccordions";
-import { QuotationPricingSidebar } from "./QuotationPricingSidebar";
+import { QuotationHospitalsModal } from "../QuotationResults/components/QuotationHospitalsModal";
+import { QuotationPlanAccordions } from "./components/QuotationPlanAccordions";
+import { QuotationPricingSidebar } from "./components/QuotationPricingSidebar";
 
 const MOCK_HOSPITALS = [
-  { region: "São Paulo - Centro", items: [{ name: "Hospital BP", sub: "Bela Vista", type: "H, PS" }, { name: "Leforte", sub: "Liberdade", type: "H, PS" }] },
-  { region: "São Paulo - Zona Sul", items: [{ name: "Hospital Santa Joana", sub: "Paraíso", type: "M, H" }] },
+  { region: "SÃƒÆ’Ã‚Â£o Paulo - Centro", items: [{ name: "Hospital BP", sub: "Bela Vista", type: "H, PS" }, { name: "Leforte", sub: "Liberdade", type: "H, PS" }] },
+  { region: "SÃƒÆ’Ã‚Â£o Paulo - Zona Sul", items: [{ name: "Hospital Santa Joana", sub: "ParaÃƒÆ’Ã‚Â­so", type: "M, H" }] },
 ];
 
 interface AgeGroup {
@@ -43,20 +43,20 @@ export function QuotationPlanDetail({ quotation, selectedPlan, ageGroups, onBack
 
   const handleSaveComment = () => {
     localStorage.setItem(storageKey, comment);
-    alert("Comentário salvo com sucesso!");
+    alert("ComentÃƒÆ’Ã‚Â¡rio salvo com sucesso!");
   };
 
   const toggleAccordion = (key: string) => {
     setOpenAccordions((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const pageTitle = quotation.title || "Cotação de Plano de Saúde";
+  const pageTitle = quotation.title || "CotaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o de Plano de SaÃƒÆ’Ã‚Âºde";
   const breadcrumbTitle = quotation.title || "Comparativo";
 
   return (
     <div className="w-full relative z-10 animate-fadeIn text-left">
       <nav className="flex items-center gap-2 text-xs text-slate-400 mb-6 no-print font-medium">
-        <a href="/cotacoes" className="hover:text-slate-600 transition-colors">Cotações</a>
+        <a href="/cotacoes" className="hover:text-slate-600 transition-colors">CotaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Âµes</a>
         <span>/</span>
         <button onClick={onBack} className="hover:text-slate-600 transition-colors border-none bg-transparent cursor-pointer font-medium p-0">
           {breadcrumbTitle}
@@ -72,7 +72,7 @@ export function QuotationPlanDetail({ quotation, selectedPlan, ageGroups, onBack
       <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4">
         <div>
           <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">{selectedPlan.operatorName}</h2>
-          <p className="text-slate-500 text-sm mt-1">Saúde {quotation.mode}</p>
+          <p className="text-slate-500 text-sm mt-1">SaÃƒÆ’Ã‚Âºde {quotation.mode}</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="secondary" onClick={() => window.print()}>

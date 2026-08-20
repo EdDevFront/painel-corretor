@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { QuotationMode } from "../types";
-import { Input } from "../../../components/ui/Input";
-import { Select } from "../../../components/ui/Select";
-import { Button } from "../../../components/ui/Button";
+import { QuotationMode } from "../../../types";
+import { Input } from "../../../../../components/ui/Input/Input";
+import { Select } from "../../../../../components/ui/Select";
+import { Button } from "../../../../../components/ui/Button";
 
 interface IdentificationProps {
   onSubmit: (title: string, clientName: string, brokerName: string, mode: QuotationMode) => void;
@@ -46,17 +46,17 @@ export function QuotationIdentification({
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className="bg-white border border-slate-100 rounded-lg p-6 md:p-8 shadow-xs max-w-[800px] mx-auto w-full">
-      <h2 className="text-xl font-bold text-slate-900 mb-6">Identificação da Cotação</h2>
+      <h2 className="text-xl font-bold text-slate-900 mb-6">IdentificaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o da CotaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o</h2>
       
       <div className="mb-4">
         <Input
-          label="Título da Cotação"
-          placeholder="Ex: Cotação Diretores, Plano Familiar, etc."
+          label="TÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­tulo da CotaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o"
+          placeholder="Ex: CotaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o Diretores, Plano Familiar, etc."
           error={errors.title?.message}
           disabled={isLoading}
           {...register("title", { 
-            required: "Título da cotação é obrigatório", 
-            minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
+            required: "TÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­tulo da cotaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© obrigatÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³rio", 
+            minLength: { value: 3, message: "MÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­nimo de 3 caracteres" } 
           })}
         />
       </div>
@@ -65,12 +65,12 @@ export function QuotationIdentification({
         <div>
           <Input
             label="Nome do Cliente"
-            placeholder="Ex: João Silva ou Empresa XYZ"
+            placeholder="Ex: JoÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o Silva ou Empresa XYZ"
             error={errors.clientName?.message}
             disabled={isLoading}
             {...register("clientName", { 
-              required: "Nome do cliente é obrigatório", 
-              minLength: { value: 3, message: "Mínimo de 3 caracteres" } 
+              required: "Nome do cliente ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© obrigatÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³rio", 
+              minLength: { value: 3, message: "MÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­nimo de 3 caracteres" } 
             })}
           />
         </div>
@@ -81,7 +81,7 @@ export function QuotationIdentification({
             error={errors.brokerName?.message}
             disabled={isLoading}
             {...register("brokerName", { 
-              required: "Nome do corretor é obrigatório"
+              required: "Nome do corretor ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© obrigatÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³rio"
             })}
           >
             <option value="">Selecione o Corretor</option>
@@ -95,13 +95,13 @@ export function QuotationIdentification({
 
       <div className="mb-6">
         <Select 
-          label="Modalidade de Cotação"
+          label="Modalidade de CotaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o"
           disabled={isLoading}
           {...register("mode", { required: true })}
         >
-          <option value="PF">Pessoa Física (PF)</option>
-          <option value="PME">Pequena e Média Empresa (PME)</option>
-          <option value="ADESAO">Coletivo por Adesão</option>
+          <option value="PF">Pessoa FÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­sica (PF)</option>
+          <option value="PME">Pequena e MÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©dia Empresa (PME)</option>
+          <option value="ADESAO">Coletivo por AdesÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o</option>
         </Select>
       </div>
 

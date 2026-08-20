@@ -1,10 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Life } from "../types";
-import { calculateAge } from "../calculator";
-import { Input } from "../../../components/ui/Input";
-import { Button } from "../../../components/ui/Button";
-import { IconButton } from "../../../components/ui/IconButton";
+import { Life } from "../../../types";
+import { calculateAge } from "../../../calculator";
+import { Input } from "../../../../../components/ui/Input/Input";
+import { Button } from "../../../../../components/ui/Button";
+import { IconButton } from "../../../../../components/ui/IconButton";
 import { FiUsers, FiTrash2 } from "react-icons/fi";
 
 interface LivesProps {
@@ -58,7 +58,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext, isLoading
             placeholder="Nome da pessoa"
             error={errors.name?.message}
             disabled={isLoading}
-            {...register("name", { required: "Nome é obrigatório", minLength: { value: 3, message: "Mínimo 3 letras" } })}
+            {...register("name", { required: "Nome ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© obrigatÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³rio", minLength: { value: 3, message: "MÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­nimo 3 letras" } })}
           />
         </div>
         <div>
@@ -67,7 +67,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext, isLoading
             type="date"
             error={errors.birthDate?.message}
             disabled={isLoading}
-            {...register("birthDate", { required: "Obrigatório" })}
+            {...register("birthDate", { required: "ObrigatÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³rio" })}
           />
         </div>
         <div className="flex flex-col gap-1 w-full">
@@ -89,7 +89,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext, isLoading
           </div>
           <h3 className="text-sm font-bold text-slate-700">Nenhuma vida cadastrada</h3>
           <p className="text-xs text-slate-400 mt-1 max-w-[320px] mx-auto">
-            Utilize os campos acima para adicionar membros e beneficiários a esta cotação de saúde.
+            Utilize os campos acima para adicionar membros e beneficiÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡rios a esta cotaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o de saÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âºde.
           </p>
         </div>
       ) : (
@@ -100,7 +100,7 @@ export function QuotationLives({ lives, onUpdateLives, onBack, onNext, isLoading
                 <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Nome</th>
                 <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Nascimento</th>
                 <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Idade</th>
-                <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-right">Ações</th>
+                <th className="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-right">AÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âµes</th>
               </tr>
             </thead>
             <tbody>

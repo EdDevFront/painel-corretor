@@ -2,7 +2,7 @@ import React from "react";
 import { FiSliders, FiX, FiPrinter } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
-import { Button } from "../../../components/ui/Button";
+import { Button } from "../../../../../components/ui/Button";
 
 interface QuotationShareModalProps {
   isOpen: boolean;

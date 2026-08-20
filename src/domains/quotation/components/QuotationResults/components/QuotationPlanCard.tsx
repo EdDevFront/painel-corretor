@@ -1,7 +1,7 @@
 import React from "react";
-import { OperatorResult } from "../types";
-import { Quotation } from "../types";
-import { Button } from "../../../components/ui/Button";
+import { OperatorResult } from "../../../types";
+import { Quotation } from "../../../types";
+import { Button } from "../../../../../components/ui/Button";
 
 interface QuotationPlanCardProps {
   opResult: OperatorResult;
