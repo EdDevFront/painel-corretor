@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Quotation } from "../../../types";
 
 interface QuotationSuccessScreenProps {
@@ -20,13 +20,13 @@ export function QuotationSuccessScreen({
         </svg>
       </div>
 
-      <h2 className="text-2xl font-extrabold text-slate-900 mb-2">CotaÃƒÂ§ÃƒÂ£o criada com sucesso!</h2>
+      <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Cotação criada com sucesso!</h2>
       <p className="text-slate-400 text-sm max-w-[400px] mb-2">
-        A cotaÃƒÂ§ÃƒÂ£o <strong className="text-slate-700">{quotation.title}</strong> foi gerada para{" "}
+        A cotação <strong className="text-slate-700">{quotation.title}</strong> foi gerada para{" "}
         <strong className="text-slate-700">{quotation.clientName}</strong>.
       </p>
       <p className="text-slate-400 text-xs mb-8">
-        {quotation.lives?.length ?? 0} vidas incluÃƒÂ­das Ã¢â‚¬Â¢ Gerada em{" "}
+        {quotation.lives?.length ?? 0} vidas incluídas • Gerada em{" "}
         {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}
       </p>
 
@@ -35,13 +35,13 @@ export function QuotationSuccessScreen({
           onClick={onGoToList}
           className="px-5 py-2.5 text-sm font-semibold border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer bg-white"
         >
-          Ir para CotaÃƒÂ§ÃƒÂµes
+          Ir para Cotações
         </button>
         <button
           onClick={onViewQuotation}
           className="px-5 py-2.5 text-sm font-bold bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
         >
-          Ver cotaÃƒÂ§ÃƒÂ£o Ã¢â€ â€™
+          Ver cotação →
         </button>
       </div>
     </div>

@@ -3,13 +3,13 @@ import { Quotation } from "../../../types";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const PLAN_ACCORDIONS = [
-  { id: "area", title: "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Ârea de ComercializaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o / UtilizaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o", desc: "DisponÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­vel para toda a RegiÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o Metropolitana e capitais associadas." },
-  { id: "cancel", title: "Cancelamento do Contrato", desc: "Cancelamento sem carÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªncia ou multas rescisÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³rias em atÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© 30 dias apÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³s a assinatura formal." },
-  { id: "carencias", title: "CarÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªncias", desc: "UrgÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªncia e emergÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªncia: 24h. Consultas e exames simples: 30 dias. Procedimentos complexos: 180 dias. Parto: 300 dias." },
-  { id: "composition", title: "ComposiÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o / Quem Pode Aderir", desc: "SÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³cios, administradores e funcionÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡rios com vÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­nculo CLT ativo." },
-  { id: "docs", title: "Documentos NecessÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡rios", desc: "RG, CPF, Comprovante de ResidÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªncia e Contrato Social ou Certificado de MEI." },
-  { id: "pay", title: "Forma de Pagamento", desc: "Boleto bancÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡rio mensal com vencimento selecionado na assinatura da proposta." },
-  { id: "prod", title: "Produto", desc: "Plano corporativo regulamentado pela ANS nÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âº 489.120/21-8." },
+  { id: "area", title: "Área de Comercialização / Utilização", desc: "Disponível para toda a Região Metropolitana e capitais associadas." },
+  { id: "cancel", title: "Cancelamento do Contrato", desc: "Cancelamento sem carência ou multas rescisórias em até 30 dias após a assinatura formal." },
+  { id: "carencias", title: "Carências", desc: "Urgência e emergência: 24h. Consultas e exames simples: 30 dias. Procedimentos complexos: 180 dias. Parto: 300 dias." },
+  { id: "composition", title: "Composição / Quem Pode Aderir", desc: "Sócios, administradores e funcionários com vínculo CLT ativo." },
+  { id: "docs", title: "Documentos Necessários", desc: "RG, CPF, Comprovante de Residência e Contrato Social ou Certificado de MEI." },
+  { id: "pay", title: "Forma de Pagamento", desc: "Boleto bancário mensal com vencimento selecionado na assinatura da proposta." },
+  { id: "prod", title: "Produto", desc: "Plano corporativo regulamentado pela ANS nº 489.120/21-8." },
 ];
 
 interface QuotationPlanAccordionsProps {
@@ -20,10 +20,10 @@ interface QuotationPlanAccordionsProps {
 
 export function QuotationPlanAccordions({ quotation, openAccordions, toggleAccordion }: QuotationPlanAccordionsProps) {
   const hasCoparticipation = quotation.preferences.coparticipation;
-  const copartTitle = hasCoparticipation ? "Com coparticipaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o" : "Sem coparticipaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o";
+  const copartTitle = hasCoparticipation ? "Com coparticipação" : "Sem coparticipação";
   const copartDesc = hasCoparticipation
-    ? "Possui custos adicionais reduzidos para a realizaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o de consultas, exames simples, e procedimentos mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©dicos eletivos."
-    : "NÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o possui custos adicionais para realizaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o de consultas, exames, procedimentos ou internaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âµes corporativas.";
+    ? "Possui custos adicionais reduzidos para a realização de consultas, exames simples, e procedimentos médicos eletivos."
+    : "Não possui custos adicionais para realização de consultas, exames, procedimentos ou internações corporativas.";
   const isCopartOpen = openAccordions.copart;
 
   return (

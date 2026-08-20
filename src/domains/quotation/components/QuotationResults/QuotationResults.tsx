@@ -13,8 +13,8 @@ import { QuotationHospitalsModal } from "./components/QuotationHospitalsModal";
 import { QuotationResultsSidebar } from "./components/QuotationResultsSidebar";
 
 const MOCK_HOSPITALS = [
-  { region: "SÃƒÆ’Ã‚Â£o Paulo - Centro", items: [{ name: "Hospital BP", sub: "Bela Vista", type: "H, PS" }, { name: "Leforte", sub: "Liberdade", type: "H, PS" }] },
-  { region: "SÃƒÆ’Ã‚Â£o Paulo - Zona Sul", items: [{ name: "Hospital Santa Joana", sub: "ParaÃƒÆ’Ã‚Â­so", type: "M, H" }] },
+  { region: "São Paulo - Centro", items: [{ name: "Hospital BP", sub: "Bela Vista", type: "H, PS" }, { name: "Leforte", sub: "Liberdade", type: "H, PS" }] },
+  { region: "São Paulo - Zona Sul", items: [{ name: "Hospital Santa Joana", sub: "Paraíso", type: "M, H" }] },
 ];
 
 interface ResultsProps {
@@ -46,7 +46,7 @@ export function QuotationResults({
   if (hasNoResults) {
     return (
       <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs text-sm">
-        Nenhum resultado de cÃƒÆ’Ã‚Â¡lculo disponÃƒÆ’Ã‚Â­vel.
+        Nenhum resultado de cálculo disponível.
       </div>
     );
   }
@@ -114,14 +114,14 @@ export function QuotationResults({
   }
 
   const creationDate = new Date(quotation.createdAt).toLocaleDateString("pt-BR");
-  const defaultTitle = "CotaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o de Plano de SaÃƒÆ’Ã‚Âºde";
+  const defaultTitle = "Cotação de Plano de Saúde";
   const title = quotation.title || defaultTitle;
   const defaultPlanName = displayedResults[0]?.operatorName ?? "";
 
   return (
     <div className="w-full relative z-10 animate-fadeIn text-left">
       <nav className="flex items-center gap-2 text-xs text-slate-400 mb-6 no-print font-medium">
-        <a href="/cotacoes" className="hover:text-slate-600 transition-colors">CotaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Âµes</a>
+        <a href="/cotacoes" className="hover:text-slate-600 transition-colors">Cotações</a>
         <span>/</span>
         <span className="text-slate-700 font-semibold">{title}</span>
       </nav>
@@ -132,14 +132,14 @@ export function QuotationResults({
           <div><strong>Cliente:</strong> {quotation.clientName}</div>
           <div><strong>Corretor:</strong> {quotation.brokerName}</div>
           <div><strong>Modalidade:</strong> {quotation.mode}</div>
-          <div><strong>Data de EmissÃƒÆ’Ã‚Â£o:</strong> {creationDate}</div>
+          <div><strong>Data de Emissão:</strong> {creationDate}</div>
         </div>
       </div>
 
       <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4">
         <div>
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Comparativo de planos de saÃƒÆ’Ã‚Âºde</h2>
-          <p className="text-slate-400 text-sm mt-1">Gerado em {creationDate} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ {quotation.title}</p>
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Comparativo de planos de saúde</h2>
+          <p className="text-slate-400 text-sm mt-1">Gerado em {creationDate} • {quotation.title}</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="secondary" onClick={() => window.print()}><FiPrinter className="mr-1" /> Imprimir Comparativo</Button>
@@ -147,7 +147,7 @@ export function QuotationResults({
           <Button onClick={() => setIsShareOpen(true)} className="flex items-center gap-1.5"><FiSend /> Enviar</Button>
 
           <div className="relative">
-            <IconButton type="button" onClick={() => setIsMenuOpen(!isMenuOpen)} className={`border-slate-200 transition-colors ${isMenuOpen ? "bg-slate-50 border-slate-300" : ""}`} title="Mais OpÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Âµes">
+            <IconButton type="button" onClick={() => setIsMenuOpen(!isMenuOpen)} className={`border-slate-200 transition-colors ${isMenuOpen ? "bg-slate-50 border-slate-300" : ""}`} title="Mais Opções">
               <FiMoreVertical />
             </IconButton>
 
@@ -162,10 +162,10 @@ export function QuotationResults({
                     <FiPrinter className="text-sm text-slate-400" /> Imprimir
                   </button>
                   <button onClick={() => { setIsMenuOpen(false); alert("Filtros do cotador ativados."); }} className="w-full px-4 py-2 text-left text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2 border-none bg-transparent cursor-pointer">
-                    <FiSliders className="text-sm text-slate-400" /> OpÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Âµes
+                    <FiSliders className="text-sm text-slate-400" /> Opções
                   </button>
                   <div className="border-t border-slate-100 my-1" />
-                  <button onClick={() => { setIsMenuOpen(false); alert("CotaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o duplicada com sucesso!"); }} className="w-full px-4 py-2 text-left text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2 border-none bg-transparent cursor-pointer">
+                  <button onClick={() => { setIsMenuOpen(false); alert("Cotação duplicada com sucesso!"); }} className="w-full px-4 py-2 text-left text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2 border-none bg-transparent cursor-pointer">
                     <FiCopy className="text-sm text-slate-400" /> Duplicar
                   </button>
                   <button onClick={() => { setIsMenuOpen(false); if (onDelete) onDelete(); }} className="w-full px-4 py-2 text-left text-xs text-red-600 hover:bg-red-50 flex items-center gap-2 border-none bg-transparent cursor-pointer">

@@ -38,7 +38,7 @@ export function QuotationPricingSidebar({
         <div className="mt-2 mb-4 no-print space-y-2">
           <input
             type="text"
-            placeholder="Adicione um comentÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡rio..."
+            placeholder="Adicione um comentário..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             className="w-full p-2 text-sm border border-slate-200 rounded-md focus:outline-hidden focus:border-teal-500 bg-slate-50/50"
@@ -57,7 +57,7 @@ export function QuotationPricingSidebar({
 
         {hasCommentText && (
           <div className="hidden print:block bg-slate-50 p-3 rounded-lg border border-slate-100 mb-4 text-xs text-slate-600">
-            <strong>ObservaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o:</strong> {comment}
+            <strong>Observação:</strong> {comment}
           </div>
         )}
 
@@ -104,8 +104,8 @@ export function QuotationPricingSidebar({
 
       <div className="bg-white border border-slate-100 rounded-lg p-5 shadow-xs flex justify-between items-center print:hidden">
         <div>
-          <h4 className="font-bold text-slate-900 text-sm">6 LaboratÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³rios</h4>
-          <p className="text-xs text-slate-400 mt-0.5">Confira os laboratÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³rios credenciados.</p>
+          <h4 className="font-bold text-slate-900 text-sm">6 Laboratórios</h4>
+          <p className="text-xs text-slate-400 mt-0.5">Confira os laboratórios credenciados.</p>
         </div>
         <div className="h-8 w-8 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
           <FiActivity />

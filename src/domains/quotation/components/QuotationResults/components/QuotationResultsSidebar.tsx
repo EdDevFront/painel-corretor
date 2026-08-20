@@ -13,7 +13,7 @@ export function QuotationResultsSidebar({ quotation, totalLives }: QuotationResu
   return (
     <div className="flex-1 min-w-[280px] bg-slate-50 border border-slate-200/60 rounded-xl p-6 shadow-xs space-y-4 print:w-full print:border-none print:shadow-none print:p-0">
       <div>
-        <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">DistribuiÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o</span>
+        <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">Distribuição</span>
         <div className="text-lg font-bold text-slate-800 mt-1">Geral</div>
         <div className="text-sm text-slate-500 mt-0.5">
           {totalLives} {hasMultipleLives ? "vidas" : "vida"} cadastrada(s)
@@ -23,7 +23,7 @@ export function QuotationResultsSidebar({ quotation, totalLives }: QuotationResu
       <div className="border-t border-slate-200/60 pt-4 print:border-none">
         <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">CNPJ / CPF</span>
         <div className="text-base font-semibold text-slate-800 mt-1">
-          {isPME ? "Informado (PME)" : "NÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o informado"}
+          {isPME ? "Informado (PME)" : "Não informado"}
         </div>
       </div>
       
@@ -31,7 +31,7 @@ export function QuotationResultsSidebar({ quotation, totalLives }: QuotationResu
         <span className="h-2 w-2 rounded-full bg-emerald-500" />
         <div>
           <span>Criada por <strong className="font-semibold text-slate-700">{quotation.brokerName}</strong></span>
-          <p className="text-[10px] text-slate-400 mt-0.5">hÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡ alguns instantes</p>
+          <p className="text-[10px] text-slate-400 mt-0.5">há alguns instantes</p>
         </div>
       </div>
     </div>

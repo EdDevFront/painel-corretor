@@ -52,7 +52,7 @@ export function QuotationWizardSteps({
 
   const handleDelete = async () => {
     if (!quotation) return;
-    const confirmDelete = window.confirm("Tem certeza que deseja excluir esta cotaÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£o?");
+    const confirmDelete = window.confirm("Tem certeza que deseja excluir esta cotaÒ§Ò£o?");
     if (confirmDelete) {
       await deleteQuotation(quotation.id);
       handleBackToDashboard();
