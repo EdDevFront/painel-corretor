@@ -11,6 +11,7 @@ import { QuotationProfile } from "../../../domains/quotation/components/Quotatio
 import { QuotationLives } from "../../../domains/quotation/components/QuotationLives";
 import { QuotationPreferences } from "../../../domains/quotation/components/QuotationPreferences";
 import { QuotationResults } from "../../../domains/quotation/components/QuotationResults";
+import { QuotationSuccessScreen } from "../../../domains/quotation/components/QuotationSuccessScreen";
 import { Skeleton } from "../../../components/ui/Skeleton";
 import { IconButton } from "../../../components/ui/IconButton";
 import { FiArrowLeft } from "react-icons/fi";
@@ -175,35 +176,11 @@ function CriarCotacaoContent() {
 
             {/* Success screen shown right after finalization */}
             {showSuccess && quotation && (
-              <div className="flex flex-col items-center justify-center py-16 text-center animate-fadeIn">
-                <div className="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mb-6">
-                  <svg className="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Cotação criada com sucesso!</h2>
-                <p className="text-slate-400 text-sm max-w-[400px] mb-2">
-                  A cotação <strong className="text-slate-700">{quotation.title}</strong> foi gerada para{" "}
-                  <strong className="text-slate-700">{quotation.clientName}</strong>.
-                </p>
-                <p className="text-slate-400 text-xs mb-8">
-                  {quotation.lives?.length ?? 0} vidas incluídas • Gerada em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}
-                </p>
-                <div className="flex gap-3">
-                  <button
-                    onClick={handleBackToDashboard}
-                    className="px-5 py-2.5 text-sm font-semibold border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer bg-white"
-                  >
-                    Ir para Cotações
-                  </button>
-                  <button
-                    onClick={() => router.push(`/cotacoes/${quotation.id}`)}
-                    className="px-5 py-2.5 text-sm font-bold bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
-                  >
-                    Ver cotação →
-                  </button>
-                </div>
-              </div>
+              <QuotationSuccessScreen
+                quotation={quotation}
+                onGoToList={handleBackToDashboard}
+                onViewQuotation={() => router.push(`/cotacoes/${quotation.id}`)}
+              />
             )}
 
             {currentStep === 5 && !showSuccess && quotation && (

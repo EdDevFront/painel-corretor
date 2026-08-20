@@ -48,21 +48,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
 }
 
-@utility pulse-dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background-color: var(--color-emerald-500);
-  position: relative;
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background-color: var(--color-emerald-500);
-    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
-  }
-}
 
 @utility glow-blue {
   position: absolute;
@@ -111,18 +96,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     color: black !important;
   }
 
-  /* Make print-target span the entire print sheet */
-  #print-target {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-  }
 
   /* Keep table borders visible during print */
   .border, .border-b, .border-slate-100 {
