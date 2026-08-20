@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { Quotation, OperatorResult } from "../types";
 import { Button } from "../../../components/ui/Button";
 import { IconButton } from "../../../components/ui/IconButton";
@@ -10,19 +10,11 @@ import { QuotationPlanCard } from "./QuotationPlanCard";
 import { QuotationPlanDetail } from "./QuotationPlanDetail";
 import { QuotationShareModal } from "./QuotationShareModal";
 import { QuotationHospitalsModal } from "./QuotationHospitalsModal";
+import { QuotationResultsSidebar } from "./QuotationResultsSidebar";
 
 const MOCK_HOSPITALS = [
-  {
-    region: "São Paulo - Centro",
-    items: [
-      { name: "Hospital BP", sub: "Bela Vista", type: "H, PS" },
-      { name: "Leforte", sub: "Liberdade", type: "H, PS" },
-    ],
-  },
-  {
-    region: "São Paulo - Zona Sul",
-    items: [{ name: "Hospital Santa Joana", sub: "Paraíso", type: "M, H" }],
-  },
+  { region: "São Paulo - Centro", items: [{ name: "Hospital BP", sub: "Bela Vista", type: "H, PS" }, { name: "Leforte", sub: "Liberdade", type: "H, PS" }] },
+  { region: "São Paulo - Zona Sul", items: [{ name: "Hospital Santa Joana", sub: "Paraíso", type: "M, H" }] },
 ];
 
 interface ResultsProps {
@@ -42,13 +34,32 @@ export function QuotationResults({
   selectedPlanName,
   onSelectPlanName,
 }: ResultsProps) {
-  const results = quotation.results;
-  const preferredOp = quotation.preferences.operatorId;
-
-  // Plan selection (lifted or local)
   const [localSelectedPlan, setLocalSelectedPlan] = useState<OperatorResult | null>(null);
-  const selectedPlan = selectedPlanName !== undefined
-    ? results?.operatorResults.find((r) => r.operatorName === selectedPlanName) || null
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isHospitalsOpen, setIsHospitalsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hospitalsSearch, setHospitalsSearch] = useState("");
+
+  const results = quotation.results;
+  const hasNoResults = !results;
+
+  if (hasNoResults) {
+    return (
+      <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs text-sm">
+        Nenhum resultado de cálculo disponível.
+      </div>
+    );
+  }
+
+  const preferredOp = quotation.preferences.operatorId;
+  const hasPreferredOperator = !!preferredOp;
+  const displayedResults = hasPreferredOperator
+    ? results.operatorResults.filter((r) => r.operatorId === preferredOp)
+    : [...results.operatorResults].sort((a, b) => a.totalPrice - b.totalPrice);
+
+  const isLiftedSelection = selectedPlanName !== undefined;
+  const selectedPlan = isLiftedSelection
+    ? results.operatorResults.find((r) => r.operatorName === selectedPlanName) || null
     : localSelectedPlan;
 
   const setSelectedPlan = (plan: OperatorResult | null) => {
@@ -59,25 +70,6 @@ export function QuotationResults({
     }
   };
 
-  // UI state
-  const [isShareOpen, setIsShareOpen] = useState(false);
-  const [isHospitalsOpen, setIsHospitalsOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hospitalsSearch, setHospitalsSearch] = useState("");
-
-  if (!results) {
-    return (
-      <div className="bg-white border border-slate-100 rounded-lg p-6 shadow-xs text-sm">
-        Nenhum resultado de cálculo disponível.
-      </div>
-    );
-  }
-
-  const displayedResults = preferredOp
-    ? results.operatorResults.filter((r) => r.operatorId === preferredOp)
-    : [...results.operatorResults].sort((a, b) => a.totalPrice - b.totalPrice);
-
-  // Age bracket helpers
   const getAgeBracket = (age: number) => {
     if (age <= 18) return "0 a 18 anos";
     if (age <= 23) return "19 a 23 anos";
@@ -109,21 +101,8 @@ export function QuotationResults({
     }));
   };
 
-  // Print header (shared)
-  const renderPrintHeader = () => (
-    <div className="hidden print:block border-b border-slate-300 pb-4 mb-6 text-left">
-      <h1 className="text-2xl font-black text-slate-900">{quotation.title || "Cotação de Plano de Saúde"}</h1>
-      <div className="grid grid-cols-2 gap-x-8 gap-y-1.5 mt-3 text-sm text-slate-700">
-        <div><strong>Cliente:</strong> {quotation.clientName}</div>
-        <div><strong>Corretor:</strong> {quotation.brokerName}</div>
-        <div><strong>Modalidade:</strong> {quotation.mode}</div>
-        <div><strong>Data de Emissão:</strong> {new Date(quotation.createdAt).toLocaleDateString("pt-BR")}</div>
-      </div>
-    </div>
-  );
-
-  // --- Plan Detail Sub-view ---
-  if (selectedPlan) {
+  const isPlanSelected = !!selectedPlan;
+  if (isPlanSelected) {
     return (
       <QuotationPlanDetail
         quotation={quotation}
@@ -134,44 +113,41 @@ export function QuotationResults({
     );
   }
 
-  // --- Main Comparative Grid ---
+  const creationDate = new Date(quotation.createdAt).toLocaleDateString("pt-BR");
+  const defaultTitle = "Cotação de Plano de Saúde";
+  const title = quotation.title || defaultTitle;
+  const defaultPlanName = displayedResults[0]?.operatorName ?? "";
+
   return (
     <div className="w-full relative z-10 animate-fadeIn text-left">
-      {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-xs text-slate-400 mb-6 no-print font-medium">
         <a href="/cotacoes" className="hover:text-slate-600 transition-colors">Cotações</a>
         <span>/</span>
-        <span className="text-slate-700 font-semibold">{quotation.title || "Comparativo"}</span>
+        <span className="text-slate-700 font-semibold">{title}</span>
       </nav>
 
-      {renderPrintHeader()}
+      <div className="hidden print:block border-b border-slate-300 pb-4 mb-6 text-left">
+        <h1 className="text-2xl font-black text-slate-900">{title}</h1>
+        <div className="grid grid-cols-2 gap-x-8 gap-y-1.5 mt-3 text-sm text-slate-700">
+          <div><strong>Cliente:</strong> {quotation.clientName}</div>
+          <div><strong>Corretor:</strong> {quotation.brokerName}</div>
+          <div><strong>Modalidade:</strong> {quotation.mode}</div>
+          <div><strong>Data de Emissão:</strong> {creationDate}</div>
+        </div>
+      </div>
 
-      {/* Actions bar */}
       <div className="flex justify-between items-center mb-6 no-print flex-wrap gap-4">
         <div>
           <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Comparativo de planos de saúde</h2>
-          <p className="text-slate-400 text-sm mt-1">
-            Gerado em {new Date(quotation.createdAt).toLocaleDateString("pt-BR")} • {quotation.title}
-          </p>
+          <p className="text-slate-400 text-sm mt-1">Gerado em {creationDate} • {quotation.title}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary" onClick={() => window.print()}>
-            <FiPrinter className="mr-1" /> Imprimir Comparativo
-          </Button>
-          <Button variant="secondary" onClick={() => setIsHospitalsOpen(true)}>
-            Ver hospitais
-          </Button>
-          <Button onClick={() => setIsShareOpen(true)} className="flex items-center gap-1.5">
-            <FiSend /> Enviar
-          </Button>
+          <Button variant="secondary" onClick={() => window.print()}><FiPrinter className="mr-1" /> Imprimir Comparativo</Button>
+          <Button variant="secondary" onClick={() => setIsHospitalsOpen(true)}>Ver hospitais</Button>
+          <Button onClick={() => setIsShareOpen(true)} className="flex items-center gap-1.5"><FiSend /> Enviar</Button>
 
           <div className="relative">
-            <IconButton
-              type="button"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`border-slate-200 transition-colors ${isMenuOpen ? "bg-slate-50 border-slate-300" : ""}`}
-              title="Mais Opções"
-            >
+            <IconButton type="button" onClick={() => setIsMenuOpen(!isMenuOpen)} className={`border-slate-200 transition-colors ${isMenuOpen ? "bg-slate-50 border-slate-300" : ""}`} title="Mais Opções">
               <FiMoreVertical />
             </IconButton>
 
@@ -202,58 +178,17 @@ export function QuotationResults({
         </div>
       </div>
 
-      {/* Grid: Plan cards + Sidebar */}
       <div className="flex gap-6 items-start flex-wrap print:flex-col print:w-full print:gap-6">
         <div className="flex-[3] min-w-[300px] grid grid-cols-1 md:grid-cols-2 gap-5 print:w-full print:grid-cols-1">
           {displayedResults.map((opResult) => (
-            <QuotationPlanCard
-              key={opResult.operatorId}
-              opResult={opResult}
-              quotation={quotation}
-              onSelect={setSelectedPlan}
-            />
+            <QuotationPlanCard key={opResult.operatorId} opResult={opResult} quotation={quotation} onSelect={setSelectedPlan} />
           ))}
         </div>
-
-        {/* Sidebar */}
-        <div className="flex-1 min-w-[280px] bg-slate-50 border border-slate-200/60 rounded-xl p-6 shadow-xs space-y-4 print:w-full print:border-none print:shadow-none print:p-0">
-          <div>
-            <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">Distribuição</span>
-            <div className="text-lg font-bold text-slate-800 mt-1">Geral</div>
-            <div className="text-sm text-slate-500 mt-0.5">
-              {results.totalLives} {results.totalLives === 1 ? "vida" : "vidas"} cadastrada(s)
-            </div>
-          </div>
-          <div className="border-t border-slate-200/60 pt-4 print:border-none">
-            <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 block">CNPJ / CPF</span>
-            <div className="text-base font-semibold text-slate-800 mt-1">
-              {quotation.mode === "PME" ? "Informado (PME)" : "Não informado"}
-            </div>
-          </div>
-          <div className="border-t border-slate-200/60 pt-4 flex items-center gap-2.5 text-sm text-slate-500 print:hidden">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            <div>
-              <span>Criada por <strong className="font-semibold text-slate-700">{quotation.brokerName}</strong></span>
-              <p className="text-[10px] text-slate-400 mt-0.5">há alguns instantes</p>
-            </div>
-          </div>
-        </div>
+        <QuotationResultsSidebar quotation={quotation} totalLives={results.totalLives} />
       </div>
 
-      <QuotationShareModal
-        isOpen={isShareOpen}
-        onClose={() => setIsShareOpen(false)}
-        quotationId={quotation.id}
-      />
-
-      <QuotationHospitalsModal
-        isOpen={isHospitalsOpen}
-        onClose={() => setIsHospitalsOpen(false)}
-        planName={selectedPlan ? (selectedPlan as OperatorResult).operatorName : (displayedResults[0]?.operatorName ?? "")}
-        groups={MOCK_HOSPITALS}
-        search={hospitalsSearch}
-        onSearchChange={setHospitalsSearch}
-      />
+      <QuotationShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} quotationId={quotation.id} />
+      <QuotationHospitalsModal isOpen={isHospitalsOpen} onClose={() => setIsHospitalsOpen(false)} planName={defaultPlanName} groups={MOCK_HOSPITALS} search={hospitalsSearch} onSearchChange={setHospitalsSearch} />
     </div>
   );
 }
